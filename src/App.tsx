@@ -6,11 +6,24 @@ import { ThemeProvider } from "@mui/material/styles";
 import darkTheme from "./theme/darkTheme";
 import lightTheme from "./theme/lightTheme";
 import MaterialUISwitch from "./components/ui/MaterialUISwitch";
+import { useAppDispatch } from "./hooks/redux";
+import { selectUser, selectAccessToken } from "./services/redux/auth/authSlice";
+import { store } from "./services/redux/store";
+import { userDataAction } from "./services/redux/auth/authActions";
 
 /**
  * Main application component that handles routing and theme switching.
  */
 function App() {
+  const dispatch = useAppDispatch();
+  const user = selectUser(store.getState());
+  const accessToken = selectAccessToken(store.getState());
+  useEffect(() => {
+    if (!user && accessToken) {
+      dispatch(userDataAction());
+    }
+  }, [user, accessToken, dispatch]);
+
   // Retrieve dark mode state from local storage or set to default.
   const darkState =
     localStorage.getItem("dark") !== null
