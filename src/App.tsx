@@ -10,15 +10,30 @@ import { useAppDispatch } from "./hooks/redux";
 import { selectUser, selectAccessToken } from "./store/auth/authSlice";
 import { store } from "./store";
 import { userDataAction } from "./store/auth/authActions";
-
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
 import Home from "./pages/Home";
 import Cart from "./components/Cart";
+import ProductDetail from "./components/ProductDetail";
 
 /**
  * Main application component that handles routing and theme switching.
  */
 function App() {
+  const [quant, setQuant] = useState(0);
+  const [orderedQuant, setOrderedQuant] = useState(0);
+
+  const addQuant = () => {
+    setQuant(quant + 1);
+  };
+
+  const removeQuant = () => {
+    setQuant(quant - 1);
+  };
+
+  const resetQuant = () => {
+    setQuant(0);
+    setOrderedQuant(0);
+  };
   const dispatch = useAppDispatch();
   const user = selectUser(store.getState());
   const accessToken = selectAccessToken(store.getState());
@@ -58,7 +73,8 @@ function App() {
           {/* Routing configuration */}
           <Routes>
             <Route path="/" element={<Home/>} />
-            <Route path="/cart" element={<Cart/>} />
+            <Route path="/cart" element={<Cart/>} /> 
+            <Route path="/productDetails" element={<ProductDetail/>} />
           </Routes>
 
           {/* Dark mode switch */}
