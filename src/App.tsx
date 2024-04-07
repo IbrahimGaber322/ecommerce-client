@@ -13,6 +13,8 @@ import { userDataAction } from "./store/auth/authActions";
 
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
 import Home from "./pages/Home";
+import Cart from "./components/Cart";
+
 /**
  * Main application component that handles routing and theme switching.
  */
@@ -56,6 +58,7 @@ function App() {
           {/* Routing configuration */}
           <Routes>
             <Route path="/" element={<Home/>} />
+            <Route path="/cart" element={<Cart/>} />
           </Routes>
 
           {/* Dark mode switch */}
