@@ -13,6 +13,7 @@ import { userDataAction } from "./store/auth/authActions";
 import HomePage from "./pages/HomePage";
 
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
+import Register from "./pages/Register";
 /**
  * Main application component that handles routing and theme switching.
  */
@@ -55,7 +56,8 @@ function App() {
           <ResponsiveAppBar />
           {/* Routing configuration */}
           <Routes>
-            <Route path="/" element={<HomePage/>} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
 
           {/* Dark mode switch */}

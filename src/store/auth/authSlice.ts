@@ -8,6 +8,7 @@ interface AuthState {
     loading: boolean;
     error: boolean;
     user: User | null;
+    errorData: any;
   };
 }
 
@@ -17,6 +18,7 @@ const initialState = {
   loading: false,
   error: false,
   user: null,
+  errorData: null,
 };
 
 const authSlice = createSlice({
@@ -69,6 +71,8 @@ const authSlice = createSlice({
         localStorage.setItem("refreshToken", action.payload.refresh);
       })
       .addCase(registerAction.rejected, (state, action) => {
+        console.log(action.payload);
+        state.errorData = action.payload;
         state.loading = false;
         state.error = true;
       })
@@ -97,3 +101,4 @@ export const selectRefreshToken = (state: AuthState) => state.auth.refreshToken;
 export const selectAuthLoading = (state: AuthState) => state.auth.loading;
 export const selectAuthError = (state: AuthState) => state.auth.error;
 export const selectUser = (state: AuthState) => state.auth.user;
+export const selectAuthErrData = (state: AuthState) => state.auth.errorData;
