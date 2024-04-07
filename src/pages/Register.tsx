@@ -32,7 +32,7 @@ const initialState = {
   password: "",
   confirmPassword: "",
   name: "",
-  profile_img: {} as File,
+  profile_image: {} as File,
   username: "",
 };
 
@@ -108,9 +108,9 @@ export default function Register() {
       formDataCopy.append("email", formData.email);
       formDataCopy.append("password", formData.password);
       formDataCopy.append("username", formData.username);
-      formDataCopy.append("profile_img", formData.profile_img);
+      formDataCopy.append("profile_image", formData.profile_image);
 
-      console.log(formDataCopy.get("profile_img"));
+      console.log(formDataCopy.get("profile_image"));
 
       // Dispatches sign-up action if form data is valid
       dispatch(registerAction(formDataCopy));
@@ -120,8 +120,9 @@ export default function Register() {
 
   const addImage = async (e: any) => {
     const file = e.target.files[0];
-    setImage(URL.createObjectURL(e.target.files[0]));
-    setFormData({ ...formData, profile_img: file });
+    if(!file) return setImage(undefined);
+    setImage(URL.createObjectURL(e?.target?.files[0]));
+    setFormData({ ...formData, profile_image: file });
   };
   // JSX code for rendering the sign-up form
   return (
