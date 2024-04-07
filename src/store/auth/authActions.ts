@@ -1,9 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { login, register, refreshToken, getUserData } from "../../api/authApi";
-import User from "../../../interfaces/user";
+import { login, register, refreshToken, getUserData } from "./authApi";
+import {
+  LOGIN,
+  REGISTER,
+  REFRESHTOKEN,
+  USERDATA,
+} from "../../constants/actionTypes";
+import User from "../../interfaces/user";
 
 export const loginAction = createAsyncThunk(
-  "auth/login",
+  LOGIN,
   async (payload: { username: string; password: string }) => {
     const response = await login(payload);
     return response.data;
@@ -11,7 +17,7 @@ export const loginAction = createAsyncThunk(
 );
 
 export const registerAction = createAsyncThunk(
-  "auth/register",
+  REGISTER,
   async (payload: User) => {
     const response = await register(payload);
     return response.data;
@@ -19,14 +25,14 @@ export const registerAction = createAsyncThunk(
 );
 
 export const refreshTokenAction = createAsyncThunk(
-  "auth/refreshToken",
+  REFRESHTOKEN,
   async (payload: string) => {
     const response = await refreshToken(payload);
     return response.data;
   }
 );
 
-export const userDataAction = createAsyncThunk("auth/userData", async () => {
+export const userDataAction = createAsyncThunk(USERDATA, async () => {
   const response = await getUserData();
   return response.data;
 });

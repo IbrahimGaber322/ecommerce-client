@@ -1,4 +1,4 @@
-import api from ".";
+import api from "../../api";
 
 export const login = (loginData:{username:string; password:string;}) => api.post("users/login/", loginData);
 export const register = (registerData:{username:string; email:string; password:string;}) => api.post("users/", registerData);

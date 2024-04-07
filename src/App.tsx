@@ -7,9 +7,9 @@ import darkTheme from "./theme/darkTheme";
 import lightTheme from "./theme/lightTheme";
 import MaterialUISwitch from "./components/ui/MaterialUISwitch";
 import { useAppDispatch } from "./hooks/redux";
-import { selectUser, selectAccessToken } from "./services/redux/auth/authSlice";
-import { store } from "./services/redux/store";
-import { userDataAction } from "./services/redux/auth/authActions";
+import { selectUser, selectAccessToken } from "./store/auth/authSlice";
+import { store } from "./store";
+import { userDataAction } from "./store/auth/authActions";
 
 /**
  * Main application component that handles routing and theme switching.

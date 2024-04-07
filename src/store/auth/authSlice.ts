@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loginAction, registerAction, userDataAction } from "./authActions";
-import User from "../../../interfaces/user";
+import User from "../../interfaces/user";
 interface AuthState {
   auth: {
     accessToken: string;
