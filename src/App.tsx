@@ -11,6 +11,7 @@ import { selectUser, selectAccessToken } from "./store/auth/authSlice";
 import { store } from "./store";
 import { userDataAction } from "./store/auth/authActions";
 
+import ResponsiveAppBar from "./components/ResponsiveAppBar";
 /**
  * Main application component that handles routing and theme switching.
  */
@@ -50,6 +51,7 @@ function App() {
           maxWidth={false}
           disableGutters
         >
+          <ResponsiveAppBar />
           {/* Routing configuration */}
           <Routes></Routes>
 
