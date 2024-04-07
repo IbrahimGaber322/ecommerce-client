@@ -1,6 +1,6 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Container, CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import darkTheme from "./theme/darkTheme";
@@ -13,6 +13,7 @@ import { userDataAction } from "./store/auth/authActions";
 
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
 import Home from "./pages/Home";
+import Register from "./pages/Register";
 /**
  * Main application component that handles routing and theme switching.
  */
@@ -55,7 +56,8 @@ function App() {
           <ResponsiveAppBar />
           {/* Routing configuration */}
           <Routes>
-            <Route path="/" element={<Home/>} />
+            <Route path="/" element={<Home />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
 
           {/* Dark mode switch */}
