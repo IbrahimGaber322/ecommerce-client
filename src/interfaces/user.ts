@@ -10,7 +10,7 @@ export default interface User {
   is_staff: boolean;
   is_active: boolean;
   date_joined: string;
-  profile_image: string | null;
+  profile_image: string | undefined;
   cover_image: string | null;
   is_verified: boolean;
 }
