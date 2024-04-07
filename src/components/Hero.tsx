@@ -1,12 +1,13 @@
-import { Box, Container } from '@mui/material'
+import { Box, Button, Container } from '@mui/material'
 import React from 'react'
-import heroImg from '../assets/images/design-ecommerce-website-hero.jpg'
+import heroImg from '../assets/images/paper-made-shopping-bags_23-2147652055.avif'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 export default function Hero() {
   return (
     <Box sx={{
         position: "relative", 
         height: "80vh",
-        width: "70vw",
+        width: "80vw",
         margin:"auto",
         }}>
         <img src={heroImg} alt='' 
@@ -18,14 +19,38 @@ export default function Hero() {
         <div style={{
             position: 'relative',
             zIndex: '1',
-            fontSize: '1.5rem',
-            textAlign: 'center',
-            top: '30%',
+            textAlign: 'left',
+            top: '10%',
             fontWeight: 'bold',
-            color: 'black'
+            color: 'black',
+            width: '90%',
+            margin: 'auto',
         }}>
-            <h2>Welcome to <span style={{}}>BAZAAR</span></h2>
-            <h3>Where every purchase tells a story.</h3>
+            <h1 style={{
+                backgroundColor:'white',
+                fontSize: '3rem',
+                width: 'fit-content',
+                paddingRight: '50px'
+            }}>Discover</h1>
+            <h1 style={{
+                fontSize: '3rem'
+            }}>Shop</h1>
+            <h1 style={{
+                backgroundColor:'#fffd8d',
+                fontSize: '3rem',
+                width: 'fit-content',
+                paddingRight: '50px'
+            }}>Enjoy.</h1>
+            <p>Every purchase tells a story.</p>
+            <Button sx={{backgroundColor: 'black', color:'white'}}
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<ShoppingCartIcon/>}
+                >
+                Shop Now
+            </Button>
         </div>
     </Box>
   )
