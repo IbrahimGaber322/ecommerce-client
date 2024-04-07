@@ -20,6 +20,7 @@ import capitalizeFirst from "../util/capitalizeFirst";
 import { useAppDispatch } from "../hooks/redux";
 import { logOut } from "../store/auth/authSlice";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const pages = ["electronics", "fashion", "books", "toys"];
 const settings = ["profile", "account", "orders", "addresses"];
@@ -27,8 +28,8 @@ const settings = ["profile", "account", "orders", "addresses"];
 function ResponsiveAppBar() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const user = selectUser(store.getState());
-
+  const user = useSelector(selectUser);
+  console.log("User: ", user);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
