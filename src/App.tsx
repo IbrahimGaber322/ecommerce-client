@@ -10,6 +10,7 @@ import { useAppDispatch } from "./hooks/redux";
 import { selectUser, selectAccessToken } from "./store/auth/authSlice";
 import { store } from "./store";
 import { userDataAction } from "./store/auth/authActions";
+import HomePage from "./pages/HomePage";
 
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
 /**
@@ -53,7 +54,9 @@ function App() {
         >
           <ResponsiveAppBar />
           {/* Routing configuration */}
-          <Routes></Routes>
+          <Routes>
+            <Route path="/" element={<HomePage/>} />
+          </Routes>
 
           {/* Dark mode switch */}
           <MaterialUISwitch
