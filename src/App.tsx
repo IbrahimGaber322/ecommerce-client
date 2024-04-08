@@ -1,6 +1,6 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Container, CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import darkTheme from "./theme/darkTheme";
@@ -12,6 +12,10 @@ import { store } from "./store";
 import { userDataAction } from "./store/auth/authActions";
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
 import Home from "./pages/Home";
+import Register from "./pages/Register";
+import api from "./api";
+import { useSelector } from "react-redux";
+import Login from "./pages/Login";
 import Cart from "./components/Cart";
 import ProductDetail from "./components/ProductDetail";
 
@@ -20,13 +24,25 @@ import ProductDetail from "./components/ProductDetail";
  */
 function App() {
   const dispatch = useAppDispatch();
-  const user = selectUser(store.getState());
-  const accessToken = selectAccessToken(store.getState());
+  const user = useSelector(selectUser);
+  const accessToken = useSelector(selectAccessToken);
   useEffect(() => {
     if (!user && accessToken) {
       dispatch(userDataAction());
     }
   }, [user, accessToken, dispatch]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await api.get("/product/");
+        console.log("Data: ", data);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    }
+    fetchData();
+  });
 
   // Retrieve dark mode state from local storage or set to default.
   const darkState =
@@ -57,7 +73,9 @@ function App() {
           <ResponsiveAppBar />
           {/* Routing configuration */}
           <Routes>
-            <Route path="/" element={<Home/>} />
+            <Route path="/" element={<Home />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/cart" element={<Cart/>} /> 
             <Route path="/productDetails" element={<ProductDetail/>} />
           </Routes>
