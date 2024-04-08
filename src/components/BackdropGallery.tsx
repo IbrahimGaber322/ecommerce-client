@@ -4,65 +4,46 @@ import CloseIcon from "./Icons/CloseIcon";
 import PreviousIcon from "./Icons/PreviousIcon";
 import NextIcon from "./Icons/NextIcon";
 
-import prod1 from "../Pictures/image-product-1.jpg";
-import prod2 from "../Pictures/image-product-2.jpg";
-import prod3 from "../Pictures/image-product-3.jpg";
-import prod4 from "../Pictures/image-product-4.jpg";
-
-import thumb1 from "../Pictures/image-product-1-thumbnail.jpg";
-import thumb2 from "../Pictures/image-product-2-thumbnail.jpg";
-import thumb3 from "../Pictures/image-product-3-thumbnail.jpg";
-import thumb4 from "../Pictures/image-product-4-thumbnail.jpg";
-
-const IMAGES = [prod1, prod2, prod3, prod4];
-const THUMBS = [thumb1, thumb2, thumb3, thumb4];
-
 interface BackdropGalleryProps {
   open: boolean;
   handleClose: () => void;
   currentPassedImage: string;
+  images: string[];
 }
 
 const BackdropGallery: React.FC<BackdropGalleryProps> = ({
   open,
   handleClose,
   currentPassedImage,
+  images,
 }) => {
   const [backdropImage, setBackdropImage] = useState<string>(currentPassedImage);
   const [currentPassedImageIndex, setCurrentPassedImageIndex] = useState<number>(1);
 
   useEffect(() => {
     setBackdropImage(currentPassedImage);
-    IMAGES.forEach((imgg, index) => {
-      if (imgg === currentPassedImage) setCurrentPassedImageIndex(index);
+    images.forEach((img, index) => {
+      if (img === currentPassedImage) setCurrentPassedImageIndex(index);
     });
-  }, [currentPassedImage]);
+  }, [currentPassedImage, images]);
 
   const handleClick = (index: number | null) => {
     if (index !== null) {
-      setBackdropImage(IMAGES[index]);
+      setBackdropImage(images[index]);
       setCurrentPassedImageIndex(index);
     }
   };
 
   const handleIncrement = () => {
-    if (currentPassedImageIndex === IMAGES.length - 1) {
-      setBackdropImage(IMAGES[0]);
-      setCurrentPassedImageIndex(0);
-    } else {
-      setBackdropImage(IMAGES[currentPassedImageIndex + 1]);
-      setCurrentPassedImageIndex(currentPassedImageIndex + 1);
-    }
+    const nextIndex = (currentPassedImageIndex + 1) % images.length;
+    setBackdropImage(images[nextIndex]);
+    setCurrentPassedImageIndex(nextIndex);
   };
 
   const handleDecrement = () => {
-    if (currentPassedImageIndex === 0) {
-      setBackdropImage(IMAGES[IMAGES.length - 1]);
-      setCurrentPassedImageIndex(IMAGES.length - 1);
-    } else {
-      setBackdropImage(IMAGES[currentPassedImageIndex - 1]);
-      setCurrentPassedImageIndex(currentPassedImageIndex - 1);
-    }
+    const prevIndex = (currentPassedImageIndex - 1 + images.length) % images.length;
+    setBackdropImage(images[prevIndex]);
+    setCurrentPassedImageIndex(prevIndex);
   };
 
   const removeActivatedClass = (parent: Element | null) => {
@@ -131,7 +112,7 @@ const BackdropGallery: React.FC<BackdropGalleryProps> = ({
           />
         </div>
         <div className="thumbnails">
-          {THUMBS.map((th, index) => (
+          {images.map((image, index) => (
             <div
               className="img-holder-backd"
               key={index}
@@ -146,7 +127,7 @@ const BackdropGallery: React.FC<BackdropGalleryProps> = ({
                   index === currentPassedImageIndex ? "activated" : ""
                 }`}
               ></div>
-              <img src={th} alt={`product-${index + 1}`} />
+              <img src={image} alt={`product-${index + 1}`} />
             </div>
           ))}
         </div>

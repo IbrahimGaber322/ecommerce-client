@@ -7,6 +7,7 @@ interface Product {
     price: number;
     stock: number;
     category: number; 
+    categoryName:string;
     images: Image[];
     reviews?: Review[];
     average_rate: number;

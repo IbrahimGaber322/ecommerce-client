@@ -32,17 +32,17 @@ function App() {
     }
   }, [user, accessToken, dispatch]);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await api.get("/product/");
-        console.log("Data: ", data);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    }
-    fetchData();
-  });
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       const data = await api.get("/product/");
+  //       console.log("Data: ", data);
+  //     } catch (error) {
+  //       console.error("Error fetching data: ", error);
+  //     }
+  //   }
+  //   fetchData();
+  // });
 
   // Retrieve dark mode state from local storage or set to default.
   const darkState =

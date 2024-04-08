@@ -988,3 +988,127 @@ footer a {
     font-size: 16px;
   }
 }
+
+/* Adjusting Wishlist Button */
+.wishlist-btn i {
+	padding-right: 10px;
+}
+
+/* Styling for social sharing links */
+.product-social-sharing > ul > li {
+	display: inline-block;
+	border-radius: 2px;
+	transition: all 0.3s ease-in-out;
+	width: 115px; 
+	height: 30px;
+	line-height: 25px;
+	text-align: center;
+  margin-top:30px;
+	margin-right: 10px; /* Adds separation between icons */
+}
+
+/* Responsive adjustments */
+@media only screen and (max-width: 479px) {
+	.product-social-sharing > ul > li {
+		line-height: 18px;
+		margin-bottom: 15px;
+	}
+}
+
+/* Hover effect for social links */
+.product-social-sharing > ul > li:hover {
+	background: #fed700;
+}
+
+/* Styling for the text inside social links */
+.product-social-sharing > ul > li > a {
+	color: #fff; /* Makes text white */
+	font-size: 15px;
+	font-weight: bold; /* Makes font bold */
+	display: block;
+}
+
+/* Styling for icons inside social links */
+.product-social-sharing > ul > li > a > i {
+	margin-right: 5px;
+	color: inherit; /* Ensures icons inherit the text color, making it easier to change */
+}
+
+/* Specific background colors for social icons */
+.facebook {
+	background: #3c5b9b;
+  text-decoration: none; /* Removes underline */
+}
+
+.twitter {
+	background: #40c1df;
+  text-decoration: none; /* Removes underline */
+}
+
+.google-plus {
+	background: #ed3c32;
+  text-decoration: none; /* Removes underline */
+}
+
+.instagram {
+	background: #c619b8;
+}
+
+/* Ensure icons have a uniform appearance */
+.social-link > li > a > i {
+	font-size: 18px;
+	color: #fff;
+}
+
+.instagram a, .instagram a:visited, .instagram a:hover, .instagram a:active {
+  text-decoration: none; /* Removes underline */
+  text-shadow: none !important; /* Attempts to remove any text shadow */
+  color: #fff; /* Ensures text color is white */
+  font-weight: bold; /* Keeps the font bold */
+}
+
+.instagram {
+  background: #c619b8; /* Specific background for Instagram */
+}
+
+.no-underline {
+  text-decoration: none;
+}
+
+#icon-space:focus, a:hover {
+  color: #fed700;
+  text-decoration: none;
+}
+#icon-space:hover {
+  color: #fed700;
+  text-decoration: none;
+}
+#icon-space:hover {
+  color:#fed700;
+  text-decoration: none;
+}
+#icon-space{
+  margin-top:15px;
+  text-decoration: none;
+  font-size: 25px;
+  color:rgb(250 12 124);
+}
+
+.stock-circle {
+  width: 80px; 
+  height: 80px; 
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.category-and-stock {
+  display: flex;
+  flex-direction: column;
+}
+
+.category-and-stock .pre {
+  margin-bottom: 10px; 
+}

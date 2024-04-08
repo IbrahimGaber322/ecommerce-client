@@ -1,25 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, } from "@reduxjs/toolkit";
+import { fetchUserCart, createCartForUser, addItemToCart, removeItemFromCart } from "./cartActions";
 import { toast } from "react-toastify";
+import CartItem from '../../interfaces/CartItem';
+import Product from '../../interfaces/Product';
+interface CartState {
+  cartItems: CartItem[];
+  cartTotalQuantity: number;
+  cartTotalAmount: number;
+}
 
-const initialState = {
-  cartItems:[
-    {
-      id: 1,
-      name: "Dummy Product 1",
-      desc: "This is a dummy product description 1.",
-      image: "dummy_image_1.jpg",
-      price: 9.99,
-      cartQuantity: 2,
-    },
-    {
-      id: 2,
-      name: "Dummy Product 2",
-      desc: "This is a dummy product description 2.",
-      image: "dummy_image_2.jpg",
-      price: 19.99,
-      cartQuantity: 1,
-    },
-  ],
+const initialState: CartState = {
+  cartItems: [],
   cartTotalQuantity: 0,
   cartTotalAmount: 0,
 };
@@ -37,13 +28,13 @@ const cartSlice = createSlice({
       if (existingIndex >= 0) {
         state.cartItems[existingIndex] = {
           ...state.cartItems[existingIndex],
-          cartQuantity: state.cartItems[existingIndex].cartQuantity + 1,
+          quantity: state.cartItems[existingIndex].quantity + 1,
         };
         toast.info("Increased product quantity", {
           position: "bottom-left",
         });
       } else {
-        let tempProductItem = { ...action.payload, cartQuantity: 1 };
+        let tempProductItem = { ...action.payload, quantity: 1 };
         state.cartItems.push(tempProductItem);
         toast.success("Product added to cart", {
           position: "bottom-left",
@@ -57,13 +48,13 @@ const cartSlice = createSlice({
         (item) => item.id === action.payload.id
       );
 
-      if (state.cartItems[itemIndex].cartQuantity > 1) {
-        state.cartItems[itemIndex].cartQuantity -= 1;
+      if (state.cartItems[itemIndex].quantity > 1) {
+        state.cartItems[itemIndex].quantity -= 1;
 
         toast.info("Decreased product quantity", {
           position: "bottom-left",
         });
-      } else if (state.cartItems[itemIndex].cartQuantity === 1) {
+      } else if (state.cartItems[itemIndex].quantity === 1) {
         const nextCartItems = state.cartItems.filter(
           (item) => item.id !== action.payload.id
         );
@@ -97,11 +88,11 @@ const cartSlice = createSlice({
     getTotals(state, action) {
       let { total, quantity } = state.cartItems.reduce(
         (cartTotal, cartItem) => {
-          const { price, cartQuantity } = cartItem;
-          const itemTotal = price * cartQuantity;
+          const { product, quantity } = cartItem;
+          const itemTotal = product.price * quantity;
 
           cartTotal.total += itemTotal;
-          cartTotal.quantity += cartQuantity;
+          cartTotal.quantity += quantity;
 
           return cartTotal;
         },
@@ -120,9 +111,34 @@ const cartSlice = createSlice({
       toast.error("Cart cleared", { position: "bottom-left" });
     },
   },
+//   extraReducers: (builder) => {
+//     builder
+//       // Update state when fetching user's cart succeeds
+//       .addCase(fetchUserCart.fulfilled, (state, action) => {
+//         state.cartItems = action.payload; // Assuming payload is the cart items
+//       })
+//       // Update state when creating cart for user succeeds
+//       .addCase(createCartForUser.fulfilled, (state, action) => {
+//         // Do something if needed
+//       })
+//       // Update state when adding item to cart succeeds
+//       .addCase(addItemToCart.fulfilled, (state, action) => {
+//         // Do something if needed
+//       })
+//       // Update state when removing item from cart succeeds
+//       .addCase(removeItemFromCart.fulfilled, (state, action) => {
+//         // Do something if needed
+//       })
+//       // Handle rejected actions
+//       .addMatcher(
+//         (action) =>
+//           action.type.endsWith("/rejected") &&
+//           action.error.message === "Request failed with status code 400", // Adjust error message as needed
+//         (state, action) => {
+//           //
+//         }
+//       );
+//   },
 });
-
-export const { addToCart, decreaseCart, removeFromCart, getTotals, clearCart } =
-  cartSlice.actions;
-
+export const { addToCart, decreaseCart, removeFromCart, getTotals, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;
