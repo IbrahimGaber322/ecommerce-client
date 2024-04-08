@@ -49,14 +49,15 @@ const authSlice = createSlice({
       .addCase(loginAction.fulfilled, (state, action) => {
         state.loading = false;
         state.error = false;
-        state.access_token = action.payload.access_token;
-        state.refresh_token = action.payload.refresh_token;
-        localStorage.setItem("access_token", action.payload.access_token);
-        localStorage.setItem("refresh_token", action.payload.refresh_token);
+        state.access_token = action.payload.access;
+        state.refresh_token = action.payload.refresh;
+        localStorage.setItem("access_token", action.payload.access);
+        localStorage.setItem("refresh_token", action.payload.refresh);
       })
       .addCase(loginAction.rejected, (state, action) => {
         state.loading = false;
         state.error = true;
+        state.errorData = action.payload;
       })
       .addCase(registerAction.pending, (state, action) => {
         state.loading = true;
@@ -66,14 +67,12 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = false;
         state.errorData = null;
-        console.log("register full",action.payload);
         state.access_token = action.payload.access_token;
         state.refresh_token = action.payload.refresh_token;
         localStorage.setItem("access_token", action.payload.access_token);
         localStorage.setItem("refresh_token", action.payload.refresh_token);
       })
       .addCase(registerAction.rejected, (state, action) => {
-        console.log(action.payload);
         state.errorData = action.payload;
         state.loading = false;
         state.error = true;
@@ -99,7 +98,8 @@ export const { setCredentials, logOut } = authSlice.actions;
 export default authSlice.reducer;
 
 export const selectAccessToken = (state: AuthState) => state.auth.access_token;
-export const selectRefreshToken = (state: AuthState) => state.auth.refresh_token;
+export const selectRefreshToken = (state: AuthState) =>
+  state.auth.refresh_token;
 export const selectAuthLoading = (state: AuthState) => state.auth.loading;
 export const selectAuthError = (state: AuthState) => state.auth.error;
 export const selectUser = (state: AuthState) => state.auth.user;

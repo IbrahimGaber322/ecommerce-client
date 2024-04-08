@@ -19,9 +19,13 @@ const api = axios.create({
 
 // Function to decode token and check if it is expired
 const isTokenExpired = (token: string) => {
-  const decodedToken = jwtDecode(token);
-  const expiryTime = decodedToken.exp || 0;
-  return expiryTime < moment().unix();
+  try {
+    const decodedToken = jwtDecode(token);
+    const expiryTime = decodedToken.exp || 0;
+    return expiryTime < moment().unix();
+  } catch (error) {
+    return true;
+  }
 };
 
 // Function to refresh access token
