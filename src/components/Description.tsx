@@ -2,7 +2,19 @@ import React from "react";
 import CartIcon from "./Icons/CartIcon";
 import QuantityButton from "./QuantityButton";
 
-const Description = ({ onQuant, onAdd, onRemove, onSetOrderedQuant }) => {
+interface DescriptionProps {
+  quant: number;
+  addQuant: () => void;
+  removeQuant: () => void;
+  setOrderedQuant: (quant: number) => void;
+}
+
+const Description: React.FC<DescriptionProps> = ({
+  quant,
+  addQuant,
+  removeQuant,
+  setOrderedQuant,
+}) => {
   return (
     <section className="description">
       <p className="pre">sneaker company</p>
@@ -20,11 +32,11 @@ const Description = ({ onQuant, onAdd, onRemove, onSetOrderedQuant }) => {
         <s>$250.00</s>
       </div>
       <div className="buttons">
-        <QuantityButton onQuant={onQuant} onRemove={onRemove} onAdd={onAdd} />
+        <QuantityButton onQuant={quant} onRemove={removeQuant} onAdd={addQuant} />
         <button
           className="add-to-cart"
           onClick={() => {
-            onSetOrderedQuant(onQuant);
+            setOrderedQuant(quant);
           }}
         >
           <CartIcon />

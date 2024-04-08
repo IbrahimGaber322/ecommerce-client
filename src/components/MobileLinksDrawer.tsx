@@ -2,7 +2,12 @@ import { Drawer, IconButton } from "@mui/material";
 import React from "react";
 import CloseIcon from "./Icons/CloseIcon";
 
-const MobileLinksDrawer = ({ onOpen, onHandleOpen }) => {
+interface MobileLinksDrawerProps {
+  onOpen: boolean;
+  onHandleOpen: (open: boolean) => void;
+}
+
+const MobileLinksDrawer: React.FC<MobileLinksDrawerProps> = ({ onOpen, onHandleOpen }) => {
   return (
     <Drawer
       className="mobile-drawer hide-in-desktop"

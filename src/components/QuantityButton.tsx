@@ -1,8 +1,14 @@
-import React from "react";
+import React, { FC } from "react";
 import plus from "../Pictures/icon-plus.svg";
 import minus from "../Pictures/icon-minus.svg";
 
-const QuantityButton = ({ onQuant, onRemove, onAdd }) => {
+interface QuantityButtonProps {
+  onQuant: number;
+  onRemove: () => void;
+  onAdd: () => void;
+}
+
+const QuantityButton: FC<QuantityButtonProps> = ({ onQuant, onRemove, onAdd }) => {
   return (
     <div className="amount">
       <button className="minus" onClick={onRemove} disabled={onQuant === 0}>

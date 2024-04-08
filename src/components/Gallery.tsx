@@ -11,29 +11,38 @@ import thumb2 from "../Pictures/image-product-2-thumbnail.jpg";
 import thumb3 from "../Pictures/image-product-3-thumbnail.jpg";
 import thumb4 from "../Pictures/image-product-4-thumbnail.jpg";
 
-const IMAGES = [prod1, prod2, prod3, prod4];
-const THUMBS = [thumb1, thumb2, thumb3, thumb4];
+const IMAGES: string[] = [prod1, prod2, prod3, prod4];
+const THUMBS: string[] = [thumb1, thumb2, thumb3, thumb4];
 
-const Gallery = () => {
-  const [currentImage, setCurrentImage] = useState(prod1);
-  const [currentPassedImage, setCurrentPassedImage] = useState(prod1);
+const Gallery: React.FC = () => {
+  const [currentImage, setCurrentImage] = useState<string>(prod1);
+  const [currentPassedImage, setCurrentPassedImage] = useState<string>(prod1);
 
-  const [open, setOpen] = useState(false);
-  const handleClick = (index) => {
+  const [open, setOpen] = useState<boolean>(false);
+  
+  const handleClick = (index: number) => {
     setCurrentImage(IMAGES[index]);
   };
+
   const handleToggle = () => {
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
-  const removeActivatedClass = (parent) => {
-    parent.childNodes.forEach((node) => {
-      node.childNodes[0].classList.contains("activated") &&
-        node.childNodes[0].classList.remove("activated");
-    });
+
+  const removeActivatedClass = (parent: Element | null) => {
+    if (parent) {
+      Array.from(parent.children).forEach((childNode) => {
+        const element = childNode as HTMLElement;
+        if (element.classList.contains("activated")) {
+          element.classList.remove("activated");
+        }
+      });
+    }
   };
+
   useEffect(() => {
     setCurrentPassedImage(currentImage);
   }, [currentImage]);
@@ -50,22 +59,20 @@ const Gallery = () => {
           currentPassedImage={currentPassedImage}
         />
         <div className="thumbnails">
-          {THUMBS.map((th, index) => {
-            return (
-              <div
-                className="img-holder"
-                key={index}
-                onClick={(e) => {
-                  handleClick(index);
-                  removeActivatedClass(e.currentTarget.parentNode);
-                  e.currentTarget.childNodes[0].classList.toggle("activated");
-                }}
-              >
-                <div className={`outlay ${index === 0 && "activated"}`}></div>
-                <img src={th} alt={`product-${index + 1}`} />
-              </div>
-            );
-          })}
+          {THUMBS.map((th, index) => (
+            <div
+              className="img-holder"
+              key={index}
+              onClick={(e) => {
+                handleClick(index);
+                removeActivatedClass(e.currentTarget.parentNode as Element);
+                (e.currentTarget.childNodes[0] as HTMLElement).classList.toggle("activated");
+              }}
+            >
+              <div className={`outlay ${index === 0 ? "activated" : ""}`}></div>
+              <img src={th} alt={`product-${index + 1}`} />
+            </div>
+          ))}
         </div>
       </section>
     </section>

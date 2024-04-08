@@ -8,11 +8,11 @@ import prod4 from "../Pictures/image-product-4.jpg";
 import NextIcon from "./Icons/NextIcon";
 import PreviousIcon from "./Icons/PreviousIcon";
 
-const IMAGES = [prod1, prod2, prod3, prod4];
+const IMAGES: string[] = [prod1, prod2, prod3, prod4];
 
-const MobileGallery = () => {
-  const [currentMobileImage, setCurrentMobileImage] = useState(prod1);
-  const [mobileImageIndex, setMobileImageIndex] = useState(1);
+const MobileGallery: React.FC = () => {
+  const [currentMobileImage, setCurrentMobileImage] = useState<string>(prod1);
+  const [mobileImageIndex, setMobileImageIndex] = useState<number>(1);
 
   const handleIncrement = () => {
     if (mobileImageIndex === IMAGES.length - 1) {

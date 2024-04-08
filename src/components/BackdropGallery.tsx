@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Backdrop, IconButton } from "@mui/material";
+import CloseIcon from "./Icons/CloseIcon";
+import PreviousIcon from "./Icons/PreviousIcon";
+import NextIcon from "./Icons/NextIcon";
+
 import prod1 from "../Pictures/image-product-1.jpg";
 import prod2 from "../Pictures/image-product-2.jpg";
 import prod3 from "../Pictures/image-product-3.jpg";
@@ -10,26 +14,35 @@ import thumb2 from "../Pictures/image-product-2-thumbnail.jpg";
 import thumb3 from "../Pictures/image-product-3-thumbnail.jpg";
 import thumb4 from "../Pictures/image-product-4-thumbnail.jpg";
 
-import CloseIcon from "./Icons/CloseIcon";
-import PreviousIcon from "./Icons/PreviousIcon";
-import NextIcon from "./Icons/NextIcon";
-
 const IMAGES = [prod1, prod2, prod3, prod4];
 const THUMBS = [thumb1, thumb2, thumb3, thumb4];
-const BackdropGallery = ({ open, handleClose, currentPassedImage }) => {
-  const [backdropImage, setBackdropImage] = useState(currentPassedImage);
-  const [currentPassedImageIndex, setCurrentPassedImageIndex] = useState(1);
+
+interface BackdropGalleryProps {
+  open: boolean;
+  handleClose: () => void;
+  currentPassedImage: string;
+}
+
+const BackdropGallery: React.FC<BackdropGalleryProps> = ({
+  open,
+  handleClose,
+  currentPassedImage,
+}) => {
+  const [backdropImage, setBackdropImage] = useState<string>(currentPassedImage);
+  const [currentPassedImageIndex, setCurrentPassedImageIndex] = useState<number>(1);
 
   useEffect(() => {
     setBackdropImage(currentPassedImage);
     IMAGES.forEach((imgg, index) => {
-      imgg === currentPassedImage && setCurrentPassedImageIndex(index);
+      if (imgg === currentPassedImage) setCurrentPassedImageIndex(index);
     });
   }, [currentPassedImage]);
 
-  const handleClick = (index = null) => {
-    setBackdropImage(IMAGES[index]);
-    setCurrentPassedImageIndex(index);
+  const handleClick = (index: number | null) => {
+    if (index !== null) {
+      setBackdropImage(IMAGES[index]);
+      setCurrentPassedImageIndex(index);
+    }
   };
 
   const handleIncrement = () => {
@@ -52,11 +65,15 @@ const BackdropGallery = ({ open, handleClose, currentPassedImage }) => {
     }
   };
 
-  const removeActivatedClass = (parent) => {
-    parent.childNodes.forEach((node) => {
-      node.childNodes[0].classList.contains("activated") &&
-        node.childNodes[0].classList.remove("activated");
-    });
+  const removeActivatedClass = (parent: Element | null) => {
+    if (parent) {
+      Array.from(parent.children).forEach((childNode) => {
+        const element = childNode as HTMLElement;
+        if (element.childNodes[0] instanceof HTMLElement && element.childNodes[0].classList.contains("activated")) {
+          element.childNodes[0].classList.remove("activated");
+        }
+      });
+    }
   };
 
   return (
@@ -114,26 +131,24 @@ const BackdropGallery = ({ open, handleClose, currentPassedImage }) => {
           />
         </div>
         <div className="thumbnails">
-          {THUMBS.map((th, index) => {
-            return (
+          {THUMBS.map((th, index) => (
+            <div
+              className="img-holder-backd"
+              key={index}
+              onClick={(e) => {
+                handleClick(index);
+                removeActivatedClass(e.currentTarget.parentNode as Element);
+                (e.currentTarget.childNodes[0] as HTMLElement).classList.toggle("activated");
+              }}
+            >
               <div
-                className="img-holder-backd"
-                key={index}
-                onClick={(e) => {
-                  handleClick(index);
-                  removeActivatedClass(e.currentTarget.parentNode);
-                  e.currentTarget.childNodes[0].classList.toggle("activated");
-                }}
-              >
-                <div
-                  className={`outlay ${
-                    index === currentPassedImageIndex && "activated"
-                  }`}
-                ></div>
-                <img src={th} alt={`product-${index + 1}`} />
-              </div>
-            );
-          })}
+                className={`outlay ${
+                  index === currentPassedImageIndex ? "activated" : ""
+                }`}
+              ></div>
+              <img src={th} alt={`product-${index + 1}`} />
+            </div>
+          ))}
         </div>
       </section>
     </Backdrop>
