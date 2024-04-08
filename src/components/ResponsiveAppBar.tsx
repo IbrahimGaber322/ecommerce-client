@@ -14,8 +14,8 @@ import MenuItem from "@mui/material/MenuItem";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import { Link } from "react-router-dom";
 import { selectUser } from "../store/auth/authSlice";
-import { store } from "../store";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { Login, Logout } from "@mui/icons-material";
 import capitalizeFirst from "../util/capitalizeFirst";
 import { useAppDispatch } from "../hooks/redux";
 import { logOut } from "../store/auth/authSlice";
@@ -29,7 +29,7 @@ function ResponsiveAppBar() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const user = useSelector(selectUser);
-  console.log("User: ", user);
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -52,9 +52,13 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
-  const handleLogout = () => {
-    dispatch(logOut());
-    navigate("/");
+  const handleAuth = () => {
+    if (user) {
+      dispatch(logOut());
+      navigate("/");
+    } else {
+      navigate("/login");
+    }
   };
 
   return (
@@ -127,8 +131,8 @@ function ResponsiveAppBar() {
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
+            component={Link}
+            to="/"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -195,8 +199,12 @@ function ResponsiveAppBar() {
               ))}
             </Menu>
           </Box>
-          <IconButton onClick={handleLogout} sx={{ mx: 2, color: "white" }}>
-            <LogoutIcon />
+          <IconButton
+            onClick={handleAuth}
+            sx={{ mx: 2, color: "white", fontSize: 14 }}
+          >
+            {user ? "Logout" : "Login"}
+            {user ? <Logout /> : <Login />}
           </IconButton>
         </Toolbar>
       </Container>

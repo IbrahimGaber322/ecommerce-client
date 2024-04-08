@@ -21,8 +21,9 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import { selectAuthErrData } from "../store/auth/authSlice";
+import { selectAuthErrData, selectUser } from "../store/auth/authSlice";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 // Initial state for the form
 const initialState = {
@@ -49,9 +50,10 @@ const initialErrorState = {
 // Component for user registration (sign up)
 export default function Register() {
   // Redux dispatch and navigation hookF
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const errorData = useSelector(selectAuthErrData);
-  console.log(errorData);
+  const user = useSelector(selectUser);
 
   // State management
   const [image, setImage] = React.useState<undefined | string>(undefined);
@@ -64,6 +66,12 @@ export default function Register() {
   const handleMouseDownPassword = (event: any) => {
     event.preventDefault();
   };
+
+  React.useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   // Handles input change in the form fields
   const handleChange = (e: any) => {
@@ -79,7 +87,6 @@ export default function Register() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Validation checks for form fields
-    console.log(formData);
     if (
       formData.first_name.length === 0 ||
       formData.last_name.length === 0 ||
@@ -110,8 +117,6 @@ export default function Register() {
       formDataCopy.append("username", formData.username);
       formDataCopy.append("profile_image", formData.profile_image);
 
-      console.log(formDataCopy.get("profile_image"));
-
       // Dispatches sign-up action if form data is valid
       dispatch(registerAction(formDataCopy));
       /*   navigate("/"); */
@@ -120,7 +125,7 @@ export default function Register() {
 
   const addImage = async (e: any) => {
     const file = e.target.files[0];
-    if(!file) return setImage(undefined);
+    if (!file) return setImage(undefined);
     setImage(URL.createObjectURL(e?.target?.files[0]));
     setFormData({ ...formData, profile_image: file });
   };
