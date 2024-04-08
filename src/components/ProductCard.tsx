@@ -6,7 +6,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 export default function ProductCard() {
   return (
     <Card
-    sx={{height: '60vh', maxWidth: '20vw'}}>
+    sx={{height: '50vh', maxWidth: '20vw'}}>
         <CardMedia 
         sx={{height: '40%', width: '100%'}}
         image={productImage}></CardMedia>
@@ -20,7 +20,10 @@ export default function ProductCard() {
         <Typography>
             $500.99
         </Typography>
-        <Rating name="read-only" value={3} readOnly />
+        <div>
+          <Rating name="read-only" value={3} readOnly />
+        
+        </div>
       </CardContent>
       <CardActions>
       <Button size='medium' sx={{backgroundColor: 'black', color:'white'}}
