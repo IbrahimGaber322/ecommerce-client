@@ -1113,3 +1113,86 @@ footer a {
 .category-and-stock .pre {
   margin-bottom: 10px; 
 }
+
+/* 6.3 Li's Wishlist Page
+/*----------------------------------------*/
+.table-content table {
+	background: #fff none repeat scroll 0 0;
+	border-color: #ebebeb;
+	border-radius: 0;
+	border-style: solid;
+	border-width: 1px 0 0 1px;
+	text-align: center;
+	width: 100%;
+	margin-bottom: 0;
+}
+.table-content table th,
+.table-content table td {
+	border-bottom: 1px solid #ebebeb;
+	border-right: 1px solid #ebebeb;
+}
+.table-content table th {
+	border-top: medium none;
+	font-size: 15px;
+	text-transform: capitalize;
+	padding: 20px 10px;
+	text-align: center;
+	font-weight: 500;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+.table-content table td {
+	border-top: medium none;
+	padding: 20px 10px;
+	vertical-align: middle;
+	font-size: 13px;
+}
+.table-content table td.li-product-remove {
+	font-size: 20px;
+}
+.li-product-remove > a > i {
+	font-size: 14px;
+	font-weight: normal;
+	color: #242424;
+	transition: all 0.3s ease-in-out;
+}
+.li-product-remove > a:hover i {
+	color: #fed700;
+}
+.table-content table td.li-product-name {
+	font-size: 16px;
+	font-weight: 500;
+	text-transform: capitalize;
+}
+.table-content table td.li-product-price {
+	font-size: 16px;
+	font-weight: 700;
+}
+.table-content table td.li-product-stock-status span.in-stock,
+.table-content table td.li-product-stock-status span.out-stock {
+	color: #fed700;
+	font-size: 12px;
+	text-transform: capitalize;
+}
+.table-content table td.li-product-stock-status span.out-stock {
+	color: #EB3E32;
+}
+.table-content table td.li-product-add-cart a {
+	font-size: 14px;
+	text-transform: uppercase;
+	background: #242424;
+	color: #fff;
+	padding: 10px 20px;
+	font-weight: 700;
+	display: inline-block;
+}
+@media only screen and (max-width: 767px) {
+	.table-content table td.li-product-add-cart a {
+		font-size: 10px;
+		padding: 7px 7px;
+	}
+}
+.table-content table td.li-product-add-cart a:hover {
+	background: #fed700 none repeat scroll 0 0;
+	color: #fff;
+}

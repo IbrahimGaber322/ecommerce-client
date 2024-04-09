@@ -53,26 +53,6 @@ export default function Hero() {
                 >
                 Shop Now
             </Button>
-            <Button sx={{backgroundColor: 'black', color:'white'}}
-                component="label"
-                role={undefined}
-                variant="contained"
-                tabIndex={-1}
-                startIcon={<ShoppingCartIcon/>}
-                onClick={() => navigate('/cart')}product-details
-                >
-               Cart
-            </Button>
-            <Button sx={{backgroundColor: 'black', color:'white'}}
-                component="label"
-                role={undefined}
-                variant="contained"
-                tabIndex={-1}
-                startIcon={<ShoppingCartIcon/>}
-                onClick={() => navigate('/product-details')}
-                >
-              ProductDetail
-            </Button>
         </div>
     </Box>
   )
