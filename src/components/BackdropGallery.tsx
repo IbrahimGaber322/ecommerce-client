@@ -108,11 +108,11 @@ const BackdropGallery: React.FC<BackdropGalleryProps> = ({
           <img
             src={backdropImage}
             alt="selected-product"
-            style={{ cursor: "auto" }}
+            style={{ cursor: "auto" , width:'350px', height:'500px'}}
           />
         </div>
         <div className="thumbnails">
-          {images.map((image, index) => (
+          {images.slice(0,4).map((image, index) => (
             <div
               className="img-holder-backd"
               key={index}
@@ -127,7 +127,7 @@ const BackdropGallery: React.FC<BackdropGalleryProps> = ({
                   index === currentPassedImageIndex ? "activated" : ""
                 }`}
               ></div>
-              <img src={image} alt={`product-${index + 1}`} />
+              <img src={image} alt={`product-${index + 1}`} style={{ width:'100%'}} />
             </div>
           ))}
         </div>

@@ -1,30 +1,49 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "@reduxjs/toolkit";
 import {
   addToCart,
   clearCart,
   decreaseCart,
   getTotals,
   removeFromCart,
+  increaseCart,
+  selectCart,
 } from "../store/cart/cartSlice";
+import {removeItemFromCart} from "../store/cart/cartActions";
+import { RootState } from "../store/index";
+import {fetchUserCart} from "../store/cart/cartActions";
 import { Link } from "react-router-dom";
 
 const Cart: React.FC = () => {
- const cart = useSelector((state: any) => state.cart);
-  const dispatch = useDispatch();
+
+const cart = useSelector((state: RootState) => state.cart.cart);
+// const cart = useSelector(selectCart);
+const dispatch: Dispatch<any> = useDispatch();
+//   useEffect(() => {
+//    dispatch(getTotals(''));
+//   }, [cart, dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchUserCart());
+    
+  // }, []);
   useEffect(() => {
-   dispatch(getTotals(''));
-  }, [cart, dispatch]);
+    console.log(cart.cartItems.length)
+    
+  }, [cart]);
 
   const handleAddToCart = (product: any) => {
-    console.log(product)
     dispatch(addToCart(product));
+  };
+  const handleIncreaseCart = (product: any) => {
+    dispatch(increaseCart(product));
   };
   const handleDecreaseCart = (product: any) => {
     dispatch(decreaseCart(product));
   };
   const handleRemoveFromCart = (product: any) => {
     dispatch(removeFromCart(product));
+    // dispatch(removeItemFromCart(product.id))
   };
   const handleClearCart = () => {
     dispatch(clearCart(''));
@@ -69,7 +88,7 @@ const Cart: React.FC = () => {
               cart.cartItems.map((cartItem: any) => (
                 <div className="cart-item" key={cartItem.id}>
                   <div className="cart-product">
-                    <img src={cartItem.image} alt={cartItem.name} />
+                    <img src={cartItem.image?.image_url} alt={cartItem.name} />
                     <div>
                       <h3>{cartItem.name}</h3>
                       <p>{cartItem.desc}</p>
@@ -78,16 +97,16 @@ const Cart: React.FC = () => {
                       </button>
                     </div>
                   </div>
-                  <div className="cart-product-price">${cartItem.price}</div>
+                  <div className="cart-product-price">${cartItem.product.price}</div>
                   <div className="cart-product-quantity">
                     <button onClick={() => handleDecreaseCart(cartItem)}>
                       -
                     </button>
-                    <div className="count">{cartItem.cartQuantity}</div>
-                    <button onClick={() => handleAddToCart(cartItem)}>+</button>
+                    <div className="count">{cartItem.quantity}</div>
+                    <button onClick={() =>  handleIncreaseCart(cartItem)}>+</button>
                   </div>
                   <div className="cart-product-total-price">
-                    ${cartItem.price * cartItem.cartQuantity}
+                    ${cartItem.product.price * cartItem.quantity}
                   </div>
                 </div>
               ))}

@@ -40,6 +40,7 @@ export const addItemToCart = createAsyncThunk(
   ADD_ITEM_TO_CART,
   async (data: any, { rejectWithValue }) => {
     try {
+      console.log(data)
       const response = await addItemToCartApi(data);
       return response.data;
     } catch (error: any) { 
@@ -47,11 +48,13 @@ export const addItemToCart = createAsyncThunk(
     }
   }
 );
-
 export const removeItemFromCart = createAsyncThunk(
   REMOVE_ITEM_FROM_CART,
   async (itemId: number, { rejectWithValue }) => {
     try {
+      console.log(`heeeeeeeeeeeeeee `)
+      console.log(itemId)
+      console.log(`heeeeeeeeeeeeeee `)
       await removeCartItemApi(itemId);
       return itemId;
     } catch (error: any) { 
@@ -59,3 +62,5 @@ export const removeItemFromCart = createAsyncThunk(
     }
   }
 );
+
+

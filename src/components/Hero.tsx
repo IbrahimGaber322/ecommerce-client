@@ -2,7 +2,9 @@ import { Box, Button, Container } from '@mui/material'
 import React from 'react'
 import heroImg from '../assets/images/paper-made-shopping-bags_23-2147652055.avif'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { useNavigate } from 'react-router-dom';
 export default function Hero() {
+    const navigate = useNavigate();
   return (
     <Box sx={{
         position: "relative", 
@@ -50,6 +52,26 @@ export default function Hero() {
                 startIcon={<ShoppingCartIcon/>}
                 >
                 Shop Now
+            </Button>
+            <Button sx={{backgroundColor: 'black', color:'white'}}
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<ShoppingCartIcon/>}
+                onClick={() => navigate('/cart')}product-details
+                >
+               Cart
+            </Button>
+            <Button sx={{backgroundColor: 'black', color:'white'}}
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<ShoppingCartIcon/>}
+                onClick={() => navigate('/product-details')}
+                >
+              ProductDetail
             </Button>
         </div>
     </Box>

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { Dispatch, useCallback,useEffect  } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import CartIcon from "./Icons/CartIcon";
 import QuantityButton from "./QuantityButton";
 import Product from "../interfaces/Product";
@@ -11,7 +12,10 @@ import {
 } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
-
+import {addToCart} from "../store/cart/cartSlice";
+import {addItemToCart} from "../store/cart/cartActions";
+import {fetchUserCart} from "../store/cart/cartActions";
+import { RootState } from "../store/index";
 interface DescriptionProps {
   quant: number;
   addQuant: () => void;
@@ -27,15 +31,35 @@ const Description: React.FC<DescriptionProps> = ({
   setOrderedQuant,
   product,
 }) => {
+  const cart = useSelector((state: RootState) => state.cart.cart);
+  const dispatch: Dispatch<any> = useDispatch();
+  useEffect(() => {
+    dispatch(fetchUserCart());
+    
+  }, []);
+
+  useEffect(() => {
+    console.log(cart)
+    
+  }, [cart]);
+  
   const addToWishlist = () => {
     alert("addToWishlist");
   };
-  const addToHeart = () => {
-    alert("addToHeart");
+
+  const memoizedAddToCart = useCallback(
+    (product: Product | null) => {
+      if (product) {
+        dispatch(addToCart(product));
+      }
+    },
+    [dispatch]
+  );
+
+  const handleAddToCart = () => {
+    memoizedAddToCart(product);
   };
-  const buyNow = () => {
-    alert("buyNow");
-  };
+  
   return (
     <section className="description">
       <div className="product-name">
@@ -55,9 +79,7 @@ const Description: React.FC<DescriptionProps> = ({
         />
         <button
           className="add-to-cart"
-          onClick={() => {
-            setOrderedQuant(quant);
-          }}
+          onClick={handleAddToCart}
         >
           <CartIcon />
           add to cart
@@ -68,34 +90,6 @@ const Description: React.FC<DescriptionProps> = ({
           <FontAwesomeIcon icon={farHeart} className="icon-space" /> Add to
           wishlist
         </a>
-        <div className="product-social-sharing pt-25">
-          <ul>
-            <li className="facebook">
-              <a href="#" className="no-underline">
-                <FaFacebook style={{ marginRight: "8px" }} />
-                Facebook
-              </a>
-            </li>
-            <li className="instagram">
-              <a href="#" className="no-underline">
-                <FaInstagram style={{ marginRight: "8px" }} />
-                Instagram
-              </a>
-            </li>
-            <li className="twitter">
-              <a href="#" className="no-underline">
-                <FaTwitter style={{ marginRight: "8px" }} />
-                Twitter
-              </a>
-            </li>
-            <li className="google-plus">
-              <a href="#" className="no-underline">
-                <FaGooglePlus style={{ marginRight: "8px" }} />
-                Google
-              </a>
-            </li>
-          </ul>
-        </div>
       </div>
     </section>
   );
