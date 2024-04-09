@@ -18,6 +18,7 @@ import { useSelector } from "react-redux";
 import Login from "./pages/Login";
 import Cart from "./components/Cart";
 import ProductDetail from "./components/ProductDetail";
+import WishList from "./components/WishList";
 
 /**
  * Main application component that handles routing and theme switching.
@@ -78,6 +79,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/cart" element={<Cart/>} /> 
             <Route path="/product-details" element={<ProductDetail/>} />
+            <Route path="/wishList" element={<WishList/>} />
           </Routes>
 
           {/* Dark mode switch */}
