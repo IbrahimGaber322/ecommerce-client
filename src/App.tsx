@@ -10,13 +10,15 @@ import { useAppDispatch } from "./hooks/redux";
 import { selectUser, selectAccessToken } from "./store/auth/authSlice";
 import { store } from "./store";
 import { userDataAction } from "./store/auth/authActions";
-
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import api from "./api";
 import { useSelector } from "react-redux";
 import Login from "./pages/Login";
+import Cart from "./components/Cart";
+import ProductDetail from "./components/ProductDetail";
+
 import Products from "./pages/Products";
 /**
  * Main application component that handles routing and theme switching.
@@ -31,17 +33,17 @@ function App() {
     }
   }, [user, accessToken, dispatch]);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await api.get("/product/");
-        console.log("Data: ", data);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    }
-    fetchData();
-  });
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       const data = await api.get("/product/");
+  //       console.log("Data: ", data);
+  //     } catch (error) {
+  //       console.error("Error fetching data: ", error);
+  //     }
+  //   }
+  //   fetchData();
+  // });
 
   // Retrieve dark mode state from local storage or set to default.
   const darkState =
@@ -75,6 +77,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/cart" element={<Cart/>} /> 
+            <Route path="/product-details" element={<ProductDetail/>} />
             <Route path="/products" element={<Products/>}></Route>
           </Routes>
 
