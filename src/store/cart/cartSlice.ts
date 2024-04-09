@@ -113,8 +113,7 @@ const cartSlice = createSlice({
         removeCartItem(action.payload.id)
         localStorage.setItem("cartItems", JSON.stringify(state.cart.cartItems));
         console.log(`the is item id : ${cartItem.id}`)
-      
-       
+        
         return state;
       });
     },
