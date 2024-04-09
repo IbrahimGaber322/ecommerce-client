@@ -17,6 +17,7 @@ import Register from "./pages/Register";
 import api from "./api";
 import { useSelector } from "react-redux";
 import Login from "./pages/Login";
+import Products from "./pages/Products";
 /**
  * Main application component that handles routing and theme switching.
  */
@@ -74,6 +75,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/products" element={<Products/>}></Route>
           </Routes>
 
           {/* Dark mode switch */}

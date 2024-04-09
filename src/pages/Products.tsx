@@ -1,19 +1,15 @@
 import React from 'react'
-import ProductCard from './ProductCard'
+import ProductCard from '../components/ProductCard'
 import { Grid } from '@mui/material'
 
-export default function TopRated() {
+export default function Products() {
   return (
-    <div>
-        <h1 style={{
-            textDecorationLine: 'underline',
-            fontWeight: 'bold',
+    <div style={{
+        display: 'flex',
+        
+    }}>
 
-        }}>Top Rated</h1>
-        <Grid container spacing={3} sx={{
-            width: '90vw',
-            margin: 'auto',
-        }}>
+        <Grid container spacing={2} sx={{marginTop: '50px'}}>
             <Grid item xs={3}>
                 <ProductCard></ProductCard>
             </Grid>
@@ -27,8 +23,7 @@ export default function TopRated() {
                 <ProductCard></ProductCard>
             </Grid>
         </Grid>
-        
-        
     </div>
+    
   )
 }

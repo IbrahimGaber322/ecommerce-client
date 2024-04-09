@@ -6,25 +6,28 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 export default function ProductCard() {
   return (
     <Card
-    sx={{height: '50vh', maxWidth: '20vw'}}>
+    sx={{height: '400px', width: '80%'}}>
         <CardMedia 
         sx={{height: '40%', width: '100%'}}
-        image={productImage}></CardMedia>
+        image={productImage}>
+
+        </CardMedia>
+
         <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          Product
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Product Description is a lot of product description here because where
-        </Typography>
-        <Typography>
-            $500.99
-        </Typography>
-        <div>
-          <Rating name="read-only" value={3} readOnly />
-        
-        </div>
-      </CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            Product
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Product Description is a lot of product description here because where
+          </Typography>
+          <Typography>
+              $500.99
+          </Typography>
+          <div>
+            <Rating name="read-only" value={3} readOnly />
+          
+          </div>
+        </CardContent>
       <CardActions>
       <Button size='medium' sx={{backgroundColor: 'black', color:'white'}}
                 component="label"
