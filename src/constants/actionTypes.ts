@@ -12,3 +12,6 @@ export const FETCH_USER_CART = 'cart/';
 export const CREATE_CART_FOR_USER = 'cart/';
 export const ADD_ITEM_TO_CART = '/cart/item/cartitem/';
 export const REMOVE_ITEM_FROM_CART = '/cart/item/cartitem/';
+export const FETCH_CATEGORIES= "/category";
+export const FETCH_CATEGORY_BY_ID= "/category/:id";
+export const SEARCH_CATEGORIES= "/category/search";
