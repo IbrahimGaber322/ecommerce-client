@@ -77,7 +77,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/cart" element={<Cart/>} /> 
-            <Route path="/productDetails" element={<ProductDetail/>} />
+            <Route path="/product-details" element={<ProductDetail/>} />
           </Routes>
 
           {/* Dark mode switch */}

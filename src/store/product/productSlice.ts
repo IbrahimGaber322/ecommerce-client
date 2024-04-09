@@ -1,12 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { 
+import { createSlice } from "@reduxjs/toolkit";
+import {
   fetchProducts,
   fetchPopularProducts,
   fetchProductById,
   searchProductsAction,
-  addReviewToProductAction
-} from './productActions';
-import Product from '../../interfaces/Product';
+  addReviewToProductAction,
+} from "./productActions";
+import Product from "../../interfaces/Product";
 
 interface ProductState {
   products: Product[];
@@ -14,6 +14,9 @@ interface ProductState {
   selectedProduct: Product | null;
   loading: boolean;
   error: string | null;
+}
+interface State {
+  product: ProductState;
 }
 
 const initialState: ProductState = {
@@ -25,7 +28,7 @@ const initialState: ProductState = {
 };
 
 const productSlice = createSlice({
-  name: 'product',
+  name: "product",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -40,7 +43,7 @@ const productSlice = createSlice({
     });
     builder.addCase(fetchProducts.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message || 'Failed to fetch products';
+      state.error = action.error.message || "Failed to fetch products";
     });
 
     // Fetch popular products
@@ -54,7 +57,7 @@ const productSlice = createSlice({
     });
     builder.addCase(fetchPopularProducts.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message || 'Failed to fetch popular products';
+      state.error = action.error.message || "Failed to fetch popular products";
     });
 
     // Fetch product by ID
@@ -68,9 +71,9 @@ const productSlice = createSlice({
       // console.log(`the product ${JSON.stringify(action.payload)}`)
     });
     builder.addCase(fetchProductById.rejected, (state, action) => {
-      console.log("fejected")
+      console.log("fejected");
       state.loading = false;
-      state.error = action.error.message || 'Failed to fetch product by ID';
+      state.error = action.error.message || "Failed to fetch product by ID";
     });
 
     // Search products
@@ -84,7 +87,7 @@ const productSlice = createSlice({
     });
     builder.addCase(searchProductsAction.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message || 'Failed to search products';
+      state.error = action.error.message || "Failed to search products";
     });
 
     // Add review to product
@@ -101,7 +104,7 @@ const productSlice = createSlice({
     });
     builder.addCase(addReviewToProductAction.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message || 'Failed to add review to product';
+      state.error = action.error.message || "Failed to add review to product";
     });
   },
 });
@@ -109,8 +112,9 @@ const productSlice = createSlice({
 export default productSlice.reducer;
 
 // Selectors
-export const selectProducts = (state: ProductState) => state.products;
-export const selectPopularProducts = (state: ProductState) => state.popularProducts;
-export const selectSelectedProduct = (state: ProductState) => state.selectedProduct;
-export const selectLoading = (state: ProductState) => state.loading;
-export const selectError = (state: ProductState) => state.error;
+export const selectProducts = (state: State) => state.product.products;
+export const selectPopularProducts = (state: State) =>
+  state.product.popularProducts;
+export const selectProduct = (state: State) => state.product.selectedProduct;
+export const selectProductLoading = (state: State) => state.product.loading;
+export const selectProductError = (state: State) => state.product.error;

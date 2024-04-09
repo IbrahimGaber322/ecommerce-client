@@ -1,19 +1,24 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
 import Gallery from "../components/Gallery";
 import Description from "../components/Description";
 import { Container } from "@mui/material";
-import { RootState } from '../store';
 // import { selectSelectedProduct, selectLoading, selectError } from '../store/product/productSlice';
-import  { fetchProductById }  from '../store/product/productActions';
+import { fetchProductById } from "../store/product/productActions";
+import {
+  selectProduct,
+  selectProductLoading,
+} from "../store/product/productSlice";
+import MobileGallery from "../components/MobileGallery";
 
-const ProductDetailItem: React.FC<{ productId : number }> = ({ productId }) => {
+const ProductDetailItem: React.FC<{ productId: number }> = ({ productId }) => {
+  const loading = useSelector(selectProductLoading);
   const dispatch: Dispatch<any> = useDispatch();
-  const selectedProduct = useSelector((state: RootState) => state.product.selectedProduct);
+  const selectedProduct = useSelector(selectProduct);
   useEffect(() => {
     dispatch(fetchProductById(productId));
-  }, []);
+  }, [dispatch, productId]);
 
   const [quant, setQuant] = useState<number>(0);
   const [orderedQuant, setOrderedQuant] = useState<number>(0);
@@ -29,20 +34,20 @@ const ProductDetailItem: React.FC<{ productId : number }> = ({ productId }) => {
     setQuant(0);
     setOrderedQuant(0);
   };
-
+  if (loading) return <h2>Loading...</h2>;
   return (
     <Container component="section" maxWidth={"lg"}>
-      <section className="core">
-       <Gallery product={selectedProduct}/>
-        {/* <MobileGallery /> */}
-        <Description 
+      <div className="core">
+        <Gallery product={selectedProduct} />
+        <MobileGallery product={selectedProduct} />
+        <Description
           quant={quant}
           addQuant={addQuant}
           removeQuant={removeQuant}
           setOrderedQuant={setOrderedQuant}
           product={selectedProduct}
         />
-      </section>
+      </div>
     </Container>
   );
 };

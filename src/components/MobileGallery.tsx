@@ -1,4 +1,4 @@
-import { IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import React, { useState } from "react";
 
 import prod1 from "../Pictures/image-product-1.jpg";
@@ -7,12 +7,15 @@ import prod3 from "../Pictures/image-product-3.jpg";
 import prod4 from "../Pictures/image-product-4.jpg";
 import NextIcon from "./Icons/NextIcon";
 import PreviousIcon from "./Icons/PreviousIcon";
+import Product from "../interfaces/Product";
+import RenderStockStatus from "./RenderStock";
 
-const IMAGES: string[] = [prod1, prod2, prod3, prod4];
-
-const MobileGallery: React.FC = () => {
-  const [currentMobileImage, setCurrentMobileImage] = useState<string>(prod1);
-  const [mobileImageIndex, setMobileImageIndex] = useState<number>(1);
+const MobileGallery = ({ product }: { product: Product | null }) => {
+  const IMAGES = product?.images?.map((image) => image.image_url) || [];
+  const [currentMobileImage, setCurrentMobileImage] = useState<string>(
+    IMAGES[0]
+  );
+  const [mobileImageIndex, setMobileImageIndex] = useState<number>(0);
 
   const handleIncrement = () => {
     if (mobileImageIndex === IMAGES.length - 1) {
@@ -44,11 +47,17 @@ const MobileGallery: React.FC = () => {
           height: "42px",
           width: "42px",
           bgcolor: "#fff",
+          zIndex: 1,
         }}
       >
         <PreviousIcon />
       </IconButton>
-      <img src={currentMobileImage} alt="featured-product" />
+      <Box sx={{position:"relative", width:400, mx:"auto"}}>
+        <img src={currentMobileImage} alt="featured-product" />
+        <div style={{ position: "absolute", top: 0, right: 0 }}>
+          <RenderStockStatus product={product} />
+        </div>
+      </Box>
       <IconButton
         className="icon-button-next"
         disableRipple
@@ -57,6 +66,7 @@ const MobileGallery: React.FC = () => {
           height: "42px",
           width: "42px",
           bgcolor: "#fff",
+          zIndex: 1,
         }}
       >
         <NextIcon />

@@ -646,6 +646,7 @@ header nav .right .cart button.checkout:hover {
     margin: unset;
     flex-direction: column;
     gap: unset;
+    padding-top: 3rem;
     margin-bottom: 100px;
   }
 }
