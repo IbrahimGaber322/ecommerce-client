@@ -1117,8 +1117,8 @@ footer a {
 /* 6.3 Li's Wishlist Page
 /*----------------------------------------*/
 .table-content table {
-	background: #fff none repeat scroll 0 0;
-	border-color: #ebebeb;
+	background: #eceaea none repeat scroll 0 0;
+	border-color: #565555;
 	border-radius: 0;
 	border-style: solid;
 	border-width: 1px 0 0 1px;
@@ -1128,8 +1128,8 @@ footer a {
 }
 .table-content table th,
 .table-content table td {
-	border-bottom: 1px solid #ebebeb;
-	border-right: 1px solid #ebebeb;
+	border-bottom: 1px solid #565555;
+	border-right: 1px solid #565555;
 }
 .table-content table th {
 	border-top: medium none;
@@ -1157,7 +1157,7 @@ footer a {
 	transition: all 0.3s ease-in-out;
 }
 .li-product-remove > a:hover i {
-	color: #fed700;
+	color:#1d49c1;
 }
 .table-content table td.li-product-name {
 	font-size: 16px;
@@ -1170,8 +1170,8 @@ footer a {
 }
 .table-content table td.li-product-stock-status span.in-stock,
 .table-content table td.li-product-stock-status span.out-stock {
-	color: #fed700;
-	font-size: 12px;
+	color:#1d49c1;
+	font-size: 20px;
 	text-transform: capitalize;
 }
 .table-content table td.li-product-stock-status span.out-stock {
@@ -1193,6 +1193,6 @@ footer a {
 	}
 }
 .table-content table td.li-product-add-cart a:hover {
-	background: #fed700 none repeat scroll 0 0;
+	background: #1d49c1 none repeat scroll 0 0;
 	color: #fff;
 }

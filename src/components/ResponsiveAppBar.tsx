@@ -22,7 +22,7 @@ import { logOut } from "../store/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const pages = ["electronics", "fashion", "books", "toys","WishList"];
+const pages = ["electronics", "fashion", "books", "toys","WishList","cart","product-details"];
 const settings = ["profile", "account", "orders", "addresses"];
 
 function ResponsiveAppBar() {
