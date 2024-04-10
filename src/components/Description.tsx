@@ -1,21 +1,15 @@
-import React, { Dispatch, useCallback,useEffect  } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { Dispatch, useCallback, useEffect, useMemo } from "react";
+import { useAppDispatch } from "../hooks/redux";
+import { useSelector } from "react-redux";
 import CartIcon from "./Icons/CartIcon";
 import QuantityButton from "./QuantityButton";
 import Product from "../interfaces/Product";
-import {
-  FaHeart,
-  FaFacebook,
-  FaTwitter,
-  FaGooglePlus,
-  FaInstagram,
-} from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
-import {addToCart} from "../store/cart/cartSlice";
-import {addItemToCart} from "../store/cart/cartActions";
-import {fetchUserCart} from "../store/cart/cartActions";
-import { RootState } from "../store/index";
+import { incrementCartItem, selectCartItems } from "../store/cart/cartSlice";
+import { addToCartAction } from "../store/cart/cartActions";
+import { getCartAction } from "../store/cart/cartActions";
+
 interface DescriptionProps {
   quant: number;
   addQuant: () => void;
@@ -31,35 +25,27 @@ const Description: React.FC<DescriptionProps> = ({
   setOrderedQuant,
   product,
 }) => {
-  const cart = useSelector((state: RootState) => state.cart.cart);
-  const dispatch: Dispatch<any> = useDispatch();
-  useEffect(() => {
-    dispatch(fetchUserCart());
-    
-  }, []);
+  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    console.log(cart)
-    
-  }, [cart]);
-  
+  const cartItems = useSelector(selectCartItems);
+
   const addToWishlist = () => {
     alert("addToWishlist");
   };
 
-  const memoizedAddToCart = useCallback(
-    (product: Product | null) => {
-      if (product) {
-        dispatch(addToCart(product));
-      }
-    },
-    [dispatch]
-  );
+  const handleIncrementCartItem = () => {
+    dispatch(incrementCartItem(product?.id));
+  };
 
   const handleAddToCart = () => {
-    memoizedAddToCart(product);
+    dispatch(addToCartAction(product?.id));
   };
-  
+
+  const productInCart = useMemo(
+    () => cartItems.find((item) => item.product.id === product?.id),
+    [cartItems, product?.id]
+  );
+
   return (
     <section className="description">
       <div className="product-name">
@@ -72,18 +58,19 @@ const Description: React.FC<DescriptionProps> = ({
         </div>
       </div>
       <div className="buttons">
-        <QuantityButton
-          onQuant={quant}
-          onRemove={removeQuant}
-          onAdd={addQuant}
-        />
-        <button
-          className="add-to-cart"
-          onClick={handleAddToCart}
-        >
-          <CartIcon />
-          add to cart
-        </button>
+        {productInCart && (
+          <QuantityButton
+            onQuant={quant}
+            onRemove={removeQuant}
+            onAdd={addQuant}
+          />
+        )}
+        {!productInCart && (
+          <button className="add-to-cart" onClick={handleAddToCart}>
+            <CartIcon />
+            add to cart
+          </button>
+        )}
       </div>
       <div className="product-additional-info pt-25">
         <a className="wishlist-btn" href="" id="icon-space">

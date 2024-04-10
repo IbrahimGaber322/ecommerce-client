@@ -3,7 +3,7 @@ import "react-rater/lib/react-rater.css";
 import ProductDetailItem from "../pages/ProductDetailItem";
 
 const ProductDetail: FC = () => {
-  const productId = 4;
+  const productId = 2;
   return (
       <ProductDetailItem productId ={productId}/>
   );

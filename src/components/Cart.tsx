@@ -1,59 +1,44 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Dispatch } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "../hooks/redux";
 import {
-  addToCart,
-  clearCart,
-  decreaseCart,
-  getTotals,
-  removeFromCart,
-  increaseCart,
-  selectCart,
+  incrementCartItem,
+  selectCartItems,
+  selectCartTotalAmount,
 } from "../store/cart/cartSlice";
-import {removeItemFromCart} from "../store/cart/cartActions";
+import {removeCartItemAction} from "../store/cart/cartActions";
 import { RootState } from "../store/index";
-import {fetchUserCart} from "../store/cart/cartActions";
+import {getCartAction} from "../store/cart/cartActions";
 import { Link } from "react-router-dom";
 
 const Cart: React.FC = () => {
 
-const cart = useSelector((state: RootState) => state.cart.cart);
-// const cart = useSelector(selectCart);
-const dispatch: Dispatch<any> = useDispatch();
-//   useEffect(() => {
-//    dispatch(getTotals(''));
-//   }, [cart, dispatch]);
-  // useEffect(() => {
-  //   dispatch(fetchUserCart());
-    
-  // }, []);
-  useEffect(() => {
-    console.log(cart.cartItems.length)
-    
-  }, [cart]);
+const cartItems = useSelector(selectCartItems);
+const cartTotalAmount = useSelector(selectCartTotalAmount);
+
+const dispatch = useAppDispatch();
+
 
   const handleAddToCart = (product: any) => {
-    dispatch(addToCart(product));
+    dispatch(incrementCartItem(product.id));
   };
-  const handleIncreaseCart = (product: any) => {
-    dispatch(increaseCart(product));
-  };
-  const handleDecreaseCart = (product: any) => {
+
+ /*  const handleDecreaseCart = (product: any) => {
     dispatch(decreaseCart(product));
   };
   const handleRemoveFromCart = (product: any) => {
     dispatch(removeFromCart(product));
-    // dispatch(removeItemFromCart(product.id))
+    // dispatch(removeCartItemAction(product.id))
   };
   const handleClearCart = () => {
-    dispatch(clearCart(''));
-  };
+    dispatch(clearCart(""));
+  }; */
 
   return (
    
     <div className="cart-container">
       <h2>Shopping Cart</h2>
-      {cart.cartItems.length === 0 ? (
+      {cartItems.length === 0 ? (
         <div className="cart-empty">
           <p>Your cart is currently empty</p>
           <div className="start-shopping">
@@ -84,26 +69,26 @@ const dispatch: Dispatch<any> = useDispatch();
             <h3 className="total">Total</h3>
           </div>
           <div className="cart-items">
-            {cart.cartItems &&
-              cart.cartItems.map((cartItem: any) => (
+            {cartItems.length>0 &&
+              cartItems.map((cartItem) => (
                 <div className="cart-item" key={cartItem.id}>
                   <div className="cart-product">
                     <img src={cartItem.image?.image_url} alt={cartItem.name} />
                     <div>
                       <h3>{cartItem.name}</h3>
                       <p>{cartItem.desc}</p>
-                      <button onClick={() => handleRemoveFromCart(cartItem)}>
+                      <button onClick={() => {/* handleRemoveFromCart(cartItem) */}}>
                         Remove
                       </button>
                     </div>
                   </div>
                   <div className="cart-product-price">${cartItem.product.price}</div>
                   <div className="cart-product-quantity">
-                    <button onClick={() => handleDecreaseCart(cartItem)}>
+                    <button onClick={() => {/* handleDecreaseCart(cartItem) */}}>
                       -
                     </button>
                     <div className="count">{cartItem.quantity}</div>
-                    <button onClick={() =>  handleIncreaseCart(cartItem)}>+</button>
+                    <button onClick={() =>  handleAddToCart(cartItem.product)}>+</button>
                   </div>
                   <div className="cart-product-total-price">
                     ${cartItem.product.price * cartItem.quantity}
@@ -112,13 +97,13 @@ const dispatch: Dispatch<any> = useDispatch();
               ))}
           </div>
           <div className="cart-summary">
-            <button className="clear-btn" onClick={() => handleClearCart()}>
+            <button className="clear-btn" onClick={() => {/* handleClearCart() */}}>
               Clear Cart
             </button>
             <div className="cart-checkout">
               <div className="subtotal">
                 <span>Subtotal</span>
-                <span className="amount">${cart.cartTotalAmount}</span>
+                <span className="amount">${cartTotalAmount}</span>
               </div>
               <p>Taxes and shipping calculated at checkout</p>
               <button>Check out</button>
