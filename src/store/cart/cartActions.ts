@@ -1,61 +1,42 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { thunkWrapper } from "../thunkWrapper";
+import { getCart, addToCart, removeCartItem, updateCartItem } from "./cartApi";
 import {
-  getUserCart as getUserCartApi,
-  creatCartForUser as createCartForUserApi,
-  addItemToCart as addItemToCartApi,
-  removeCartItem as removeCartItemApi,
-} from './cartApi'; 
-import {
-  FETCH_USER_CART,
-  CREATE_CART_FOR_USER,
-  ADD_ITEM_TO_CART,
-  REMOVE_ITEM_FROM_CART,
+  GET_CART,
+  ADD_CART_ITEM,
+  DELETE_CART_ITEM,
+  UPDATE_CART_ITEM,
 } from "../../constants/actionTypes";
+import CartItem from "../../interfaces/CartItem";
 
-export const fetchUserCart = createAsyncThunk(
-  FETCH_USER_CART,
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await getUserCartApi();
-      return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
+export const getCartAction = thunkWrapper(
+  GET_CART,
+  async (): Promise<CartItem[]> => {
+    const response = await getCart();
+    return response.data;
   }
 );
 
-export const createCartForUser = createAsyncThunk(
-  CREATE_CART_FOR_USER,
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await createCartForUserApi();
-      return response.data;
-    } catch (error: any) { 
-      return rejectWithValue(error.response.data);
-    }
+export const addToCartAction = thunkWrapper(
+  ADD_CART_ITEM,
+  async (productId: number): Promise<CartItem> => {
+    const response = await addToCart(productId);
+    return response.data;
+  }
+);
+export const removeCartItemAction = thunkWrapper(
+  DELETE_CART_ITEM,
+  async (itemId: number) => {
+    await removeCartItem(itemId);
+    return itemId;
   }
 );
 
-export const addItemToCart = createAsyncThunk(
-  ADD_ITEM_TO_CART,
-  async (data: any, { rejectWithValue }) => {
-    try {
-      const response = await addItemToCartApi(data);
-      return response.data;
-    } catch (error: any) { 
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const removeItemFromCart = createAsyncThunk(
-  REMOVE_ITEM_FROM_CART,
-  async (itemId: number, { rejectWithValue }) => {
-    try {
-      await removeCartItemApi(itemId);
-      return itemId;
-    } catch (error: any) { 
-      return rejectWithValue(error.response.data);
-    }
+export const updateCartItemAction = thunkWrapper(
+  UPDATE_CART_ITEM,
+  async ({cartItemId, quantity}:{cartItemId: number, quantity: number}): Promise<CartItem> => {
+    console.log("CartItemIdAction: ", cartItemId);
+    console.log("QuantityAction: ", quantity);
+    const response = await updateCartItem(cartItemId, quantity);
+    return response.data;
   }
 );

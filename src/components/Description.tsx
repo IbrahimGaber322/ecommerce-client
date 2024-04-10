@@ -1,16 +1,14 @@
-import React from "react";
+import React, { Dispatch, useCallback, useEffect, useMemo } from "react";
+import { useAppDispatch } from "../hooks/redux";
+import { useSelector } from "react-redux";
 import CartIcon from "./Icons/CartIcon";
 import QuantityButton from "./QuantityButton";
 import Product from "../interfaces/Product";
-import {
-  FaHeart,
-  FaFacebook,
-  FaTwitter,
-  FaGooglePlus,
-  FaInstagram,
-} from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
+import { incrementCartItem, selectCartItems } from "../store/cart/cartSlice";
+import { addToCartAction } from "../store/cart/cartActions";
+import { getCartAction } from "../store/cart/cartActions";
 
 interface DescriptionProps {
   quant: number;
@@ -27,15 +25,27 @@ const Description: React.FC<DescriptionProps> = ({
   setOrderedQuant,
   product,
 }) => {
+  const dispatch = useAppDispatch();
+
+  const cartItems = useSelector(selectCartItems);
+
   const addToWishlist = () => {
     alert("addToWishlist");
   };
-  const addToHeart = () => {
-    alert("addToHeart");
+
+  const handleIncrementCartItem = () => {
+    dispatch(incrementCartItem(product?.id));
   };
-  const buyNow = () => {
-    alert("buyNow");
+
+  const handleAddToCart = () => {
+    dispatch(addToCartAction(product?.id));
   };
+
+  const productInCart = useMemo(
+    () => cartItems.find((item) => item.product.id === product?.id),
+    [cartItems, product?.id]
+  );
+
   return (
     <section className="description">
       <div className="product-name">
@@ -48,54 +58,25 @@ const Description: React.FC<DescriptionProps> = ({
         </div>
       </div>
       <div className="buttons">
-        <QuantityButton
-          onQuant={quant}
-          onRemove={removeQuant}
-          onAdd={addQuant}
-        />
-        <button
-          className="add-to-cart"
-          onClick={() => {
-            setOrderedQuant(quant);
-          }}
-        >
-          <CartIcon />
-          add to cart
-        </button>
+        {productInCart && (
+          <QuantityButton
+            onQuant={quant}
+            onRemove={removeQuant}
+            onAdd={addQuant}
+          />
+        )}
+        {!productInCart && (
+          <button className="add-to-cart" onClick={handleAddToCart}>
+            <CartIcon />
+            add to cart
+          </button>
+        )}
       </div>
       <div className="product-additional-info pt-25">
         <a className="wishlist-btn" href="" id="icon-space">
           <FontAwesomeIcon icon={farHeart} className="icon-space" /> Add to
           wishlist
         </a>
-        <div className="product-social-sharing pt-25">
-          <ul>
-            <li className="facebook">
-              <a href="#" className="no-underline">
-                <FaFacebook style={{ marginRight: "8px" }} />
-                Facebook
-              </a>
-            </li>
-            <li className="instagram">
-              <a href="#" className="no-underline">
-                <FaInstagram style={{ marginRight: "8px" }} />
-                Instagram
-              </a>
-            </li>
-            <li className="twitter">
-              <a href="#" className="no-underline">
-                <FaTwitter style={{ marginRight: "8px" }} />
-                Twitter
-              </a>
-            </li>
-            <li className="google-plus">
-              <a href="#" className="no-underline">
-                <FaGooglePlus style={{ marginRight: "8px" }} />
-                Google
-              </a>
-            </li>
-          </ul>
-        </div>
       </div>
     </section>
   );

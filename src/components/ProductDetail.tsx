@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 
 const ProductDetail: FC = () => {
   const productId = parseInt(useParams().id!);
+
   return (
       <ProductDetailItem productId ={productId}/>
   );

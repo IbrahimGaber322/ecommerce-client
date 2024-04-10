@@ -1,6 +1,8 @@
-import CartItem from './CartItem'
+import CartItem from "./CartItem";
 interface Cart {
-   items:CartItem[]
-  }
+  cartItems: CartItem[];
+  cartTotalQuantity: number;
+  cartTotalAmount: number;
+}
 
 export default Cart;
