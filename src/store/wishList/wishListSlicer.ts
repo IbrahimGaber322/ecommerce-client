@@ -34,6 +34,10 @@ const cartSlice = createSlice({
           position: "bottom-left",
         });
       })
+      .addCase(addToWishListAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Failed to add to wishlist is already in wishlist";
+        })
       .addCase(getWishListAction.pending, (state) => {
         state.error = null;
        })
@@ -43,8 +47,8 @@ const cartSlice = createSlice({
         localStorage.setItem("wishlist_items", JSON.stringify(state.wishlistItems));
       })
       .addCase(removeWishListItemAction.fulfilled, (state, action) => {
-        state.wishlistItems = action.payload;
-        state.loading = false;
+        const removedItemId = action.payload;
+        state.wishlistItems = state.wishlistItems.filter(item => item.id !== removedItemId);
         localStorage.setItem("wishlist_items", JSON.stringify(state.wishlistItems));
       })
   },

@@ -9,6 +9,7 @@ import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 import { incrementCartItem, selectCartItems } from "../store/cart/cartSlice";
 import { addToCartAction } from "../store/cart/cartActions";
 import { getCartAction } from "../store/cart/cartActions";
+import { addToWishListAction } from "../store/wishList/wishListAction";
 
 interface DescriptionProps {
   quant: number;
@@ -29,8 +30,8 @@ const Description: React.FC<DescriptionProps> = ({
 
   const cartItems = useSelector(selectCartItems);
 
-  const addToWishlist = () => {
-    alert("addToWishlist");
+  const addToWishlist = (id:number|null) => {
+    dispatch(addToWishListAction(id))
   };
 
   const handleIncrementCartItem = () => {
@@ -73,10 +74,9 @@ const Description: React.FC<DescriptionProps> = ({
         )}
       </div>
       <div className="product-additional-info pt-25">
-        <a className="wishlist-btn" href="" id="icon-space">
-          <FontAwesomeIcon icon={farHeart} className="icon-space" /> Add to
-          wishlist
-        </a>
+      <a className="wishlist-btn" href="" id="icon-space" onClick={() => addToWishlist(product?.id ?? null)}>
+        <FontAwesomeIcon icon={farHeart} className="icon-space" /> Add to wishlist
+      </a>
       </div>
     </section>
   );
