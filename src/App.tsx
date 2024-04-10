@@ -19,6 +19,7 @@ import Login from "./pages/Login";
 import Cart from "./components/Cart";
 import ProductDetail from "./components/ProductDetail";
 
+import Products from "./pages/Products";
 /**
  * Main application component that handles routing and theme switching.
  */
@@ -78,6 +79,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/cart" element={<Cart/>} /> 
             <Route path="/product-details" element={<ProductDetail/>} />
+            <Route path="/products" element={<Products/>}/>
+            <Route path="/products/:id" element={<ProductDetail/>} />
           </Routes>
 
           {/* Dark mode switch */}
