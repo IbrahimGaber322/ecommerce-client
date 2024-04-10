@@ -18,3 +18,9 @@ export const GET_CART = "cart/get";
 export const ADD_CART_ITEM = "/cart/add";
 export const DELETE_CART_ITEM = "/cart/delete";
 export const UPDATE_CART_ITEM = "/cart/update";
+
+/* Category */
+
+export const FETCH_CATEGORIES= "/category";
+export const FETCH_CATEGORY_BY_ID= "/category/:id";
+export const SEARCH_CATEGORIES= "/category/search";
