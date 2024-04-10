@@ -1,8 +1,6 @@
-import CartItem from './CartItem'
-import Product from './Product';
+import WishListItem from './WishListItem';
 interface WishList {
-   user:number;
-   product:Product;
+   wishlistItems:WishListItem[]
   }
 
 export default WishList;

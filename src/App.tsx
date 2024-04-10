@@ -20,9 +20,8 @@ import Cart from "./components/Cart";
 import ProductDetail from "./components/ProductDetail";
 import { addToCart, updateCartItem } from "./store/cart/cartApi";
 import { getCartAction } from "./store/cart/cartActions";
-
-
 import Products from "./pages/Products";
+import WishList from "./components/WishList";
 /**
  * Main application component that handles routing and theme switching.
  */
@@ -120,7 +119,8 @@ function App() {
             <Route path="/cart" element={<Cart/>} /> 
             <Route path="/product-details" element={<ProductDetail/>} />
             <Route path="/products" element={<Products/>}/>
-            <Route path="/products/:id" element={<ProductDetail/>} />
+            <Route path="/products/:id" element={<ProductDetail/>} />wishlist
+            <Route path="/wishlist" element={<WishList/>} />
           </Routes>
 
           {/* Dark mode switch */}
