@@ -23,7 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 
-const pages = ["electronics", "fashion", "books", "toys","cart","product-details","products","wishlist"];
+const pages = ["electronics", "fashion", "books", "toys", "cart", "products", "wishlist"];
 
 const settings = ["profile", "account", "orders", "addresses"];
 

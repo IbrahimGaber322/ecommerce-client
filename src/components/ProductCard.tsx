@@ -1,12 +1,20 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Rating, Typography } from '@mui/material'
-import React from 'react'
-import productImage from '../assets/images/paper-made-shopping-bags_23-2147652055.avif'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addToCartAction } from '../store/cart/cartActions';
+import { addToWishListAction } from '../store/wishList/wishListAction';
 export default function ProductCard(props: any) {
   const product = props.product
-  console.log(product)
+  const dispatch = useDispatch();
+
+  const addProductToCart = (productId: Number) => {
+    dispatch(addToCartAction(productId))
+  }
+  const addProductToWishList = (productId: Number) => {
+    dispatch(addToWishListAction(productId))
+  }
   return (
     <Card sx={{ maxWidth: 300 }}>
       <Link to={{pathname: `${props.product.id}`}}>
@@ -42,8 +50,13 @@ export default function ProductCard(props: any) {
         
       </CardContent>
       <CardActions>
-        <Button size="small" variant={'contained'} startIcon={<ShoppingCartIcon/>}>Add to Cart</Button>
-        <Button size="large" startIcon={<FavoriteBorderIcon/>}></Button>
+        <Button size="small"
+         variant={'contained'} 
+         startIcon={<ShoppingCartIcon/>}
+         onClick={() => addProductToCart(product.id)}>Add to Cart</Button>
+        <Button size="large" 
+        startIcon={<FavoriteBorderIcon/>}
+        onClick={() => addProductToWishList(product.id)}></Button>
       </CardActions>
     </Card>
   )
