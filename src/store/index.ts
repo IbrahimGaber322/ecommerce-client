@@ -3,13 +3,14 @@ import { setupInterceptors } from "../api";
 import authSlice from "./auth/authSlice";
 import cartSlice from "./cart/cartSlice";
 import productSlice from "./product/productSlice";
+import categorySlice from "./category/categorySlice"
 export const store = configureStore({
   reducer: {
     // Directly pass your slices here
     auth: authSlice,
     cart:cartSlice,
     product:productSlice,
-
+    category: categorySlice,
   },
 });
 

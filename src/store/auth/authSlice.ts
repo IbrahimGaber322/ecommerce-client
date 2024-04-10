@@ -1,18 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loginAction, registerAction, userDataAction } from "./authActions";
 import User from "../../interfaces/user";
+import type { RootState } from "../index";
 interface AuthState {
-  auth: {
-    access_token: string;
-    refresh_token: string;
-    loading: boolean;
-    error: boolean;
-    user: User | null;
-    errorData: any;
-  };
+  access_token: string;
+  refresh_token: string;
+  loading: boolean;
+  error: boolean;
+  user: User | null;
+  errorData: any;
 }
 
-const initialState = {
+const initialState: AuthState = {
   access_token: localStorage.getItem("access_token") || "",
   refresh_token: localStorage.getItem("refresh_token") || "",
   loading: false,
@@ -97,10 +96,10 @@ export const { setCredentials, logOut } = authSlice.actions;
 
 export default authSlice.reducer;
 
-export const selectAccessToken = (state: AuthState) => state.auth.access_token;
-export const selectRefreshToken = (state: AuthState) =>
+export const selectAccessToken = (state: RootState) => state.auth.access_token;
+export const selectRefreshToken = (state: RootState) =>
   state.auth.refresh_token;
-export const selectAuthLoading = (state: AuthState) => state.auth.loading;
-export const selectAuthError = (state: AuthState) => state.auth.error;
-export const selectUser = (state: AuthState) => state.auth.user;
-export const selectAuthErrData = (state: AuthState) => state.auth.errorData;
+export const selectAuthLoading = (state: RootState) => state.auth.loading;
+export const selectAuthError = (state: RootState) => state.auth.error;
+export const selectUser = (state: RootState) => state.auth.user;
+export const selectAuthErrData = (state: RootState) => state.auth.errorData;

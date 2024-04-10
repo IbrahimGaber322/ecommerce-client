@@ -18,8 +18,11 @@ import { useSelector } from "react-redux";
 import Login from "./pages/Login";
 import Cart from "./components/Cart";
 import ProductDetail from "./components/ProductDetail";
-import WishList from "./components/WishList";
+import { addToCart, updateCartItem } from "./store/cart/cartApi";
+import { getCartAction } from "./store/cart/cartActions";
 
+
+import Products from "./pages/Products";
 /**
  * Main application component that handles routing and theme switching.
  */
@@ -31,6 +34,10 @@ function App() {
     if (!user && accessToken) {
       dispatch(userDataAction());
     }
+    if(user){
+      dispatch(getCartAction());
+    }
+    console.log("User: ", user);
   }, [user, accessToken, dispatch]);
 
   // useEffect(() => {
@@ -44,6 +51,39 @@ function App() {
   //   }
   //   fetchData();
   // });
+
+  useEffect(() => {
+    const fetchCart= async () => {
+      try {
+        const data = await api.get("/cart/");
+        console.log("Data: ", data);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    }
+    const addTocart = async () => {
+      try {
+        const data = await addToCart(2);
+        console.log("Data: ", data);
+      } catch (error) {
+        console.error("Error adding data: ", error);
+      }
+    }
+    const updateCart = async () => {
+      try {
+        const data = await updateCartItem(2,2);
+        console.log("Data: ", data);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    }
+    /* updateCart(); */
+
+    /* addTocart(); */
+    
+    fetchCart();
+  }
+  , []);
 
   // Retrieve dark mode state from local storage or set to default.
   const darkState =
@@ -79,7 +119,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/cart" element={<Cart/>} /> 
             <Route path="/product-details" element={<ProductDetail/>} />
-            <Route path="/wishList" element={<WishList/>} />
+            <Route path="/products" element={<Products/>}/>
+            <Route path="/products/:id" element={<ProductDetail/>} />
           </Routes>
 
           {/* Dark mode switch */}
