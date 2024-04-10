@@ -1,21 +1,42 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import ProductCard from '../components/ProductCard'
-import { Box, Container, Grid, Typography } from '@mui/material'
+import { Grid } from '@mui/material'
 import {
     selectProducts,
     selectProductLoading,
   } from "../store/product/productSlice";
 import { Dispatch } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts } from '../store/product/productActions';
+import { searchProductsAction } from '../store/product/productActions';
 import ProductsSidebar from '../components/ProductsSidebar';
+import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 
 export default function Products() {
     const loading = useSelector(selectProductLoading);
     const dispatch: Dispatch<any> = useDispatch();
     const selectedProducts = useSelector(selectProducts);
+    // const [searchParams, setSearchParams] = useSearchParams();
+    const location = useLocation()
+    const searchParams = new URLSearchParams(location.search);
+    // const [paramsData, setParamsData] = useState({})
+    const paramsData = {
+        name: searchParams.get('name') || undefined,
+        category: searchParams.get('category') || undefined,
+        minPrice: searchParams.get('minPrice') || undefined,
+        maxPrice: searchParams.get('maxPrice') || undefined,
+        minRating: searchParams.get('minRating') || undefined,
+        maxRating: searchParams.get('maxRating') || undefined,
+    };
+    // setParamsData({
+    //     name: searchParams.get('name'),
+    //     category: searchParams.get('category'),
+    //     minPrice: searchParams.get('minPrice'),
+    //     maxPrice: searchParams.get('maxPrice'),
+    //     minRating: searchParams.get('minRating'),
+    //     maxRating: searchParams.get('maxRating'),
+    // });
     useEffect(() => {
-        dispatch(fetchProducts());
+        dispatch(searchProductsAction(paramsData));
     }, [dispatch]);
 
     if (loading) {

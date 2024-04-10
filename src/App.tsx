@@ -117,7 +117,6 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/cart" element={<Cart/>} /> 
-            <Route path="/product-details" element={<ProductDetail/>} />
             <Route path="/products" element={<Products/>}/>
             <Route path="/products/:id" element={<ProductDetail/>} />wishlist
             <Route path="/wishlist" element={<WishList/>} />
