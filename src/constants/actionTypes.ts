@@ -24,3 +24,8 @@ export const UPDATE_CART_ITEM = "/cart/update";
 export const FETCH_CATEGORIES= "/category";
 export const FETCH_CATEGORY_BY_ID= "/category/:id";
 export const SEARCH_CATEGORIES= "/category/search";
+
+/* WishList */ 
+export const GET_WISHLIST= "/wish_list";
+export const ADD_WISHLIST_ITEM= "/wish_list/add";
+export const DELETE_WISHLIST_ITEM= "/wish_list/delete";
