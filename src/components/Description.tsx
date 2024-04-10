@@ -10,6 +10,7 @@ import { incrementCartItem, selectCartItems } from "../store/cart/cartSlice";
 import { addToCartAction } from "../store/cart/cartActions";
 import { getCartAction } from "../store/cart/cartActions";
 import { addToWishListAction } from "../store/wishList/wishListAction";
+import { Button } from "@mui/material";
 
 interface DescriptionProps {
   quant: number;
@@ -74,9 +75,9 @@ const Description: React.FC<DescriptionProps> = ({
         )}
       </div>
       <div className="product-additional-info pt-25">
-      <a className="wishlist-btn" href="" id="icon-space" onClick={() => addToWishlist(product?.id ?? null)}>
+      <Button className="wishlist-btn" id="icon-space" onClick={() => addToWishlist(product?.id ?? null)}>
         <FontAwesomeIcon icon={farHeart} className="icon-space" /> Add to wishlist
-      </a>
+      </Button>
       </div>
     </section>
   );
