@@ -64,8 +64,12 @@ const ProductDetailItem: React.FC<{ productId: number }> = ({ productId }) => {
   }, [quant, dispatch, cartItemId]);
   if (loading) return <h2>Loading...</h2>;
   return (
-    <Container component="section" maxWidth={"lg"}>
-      <div className="core">
+    <Container
+      sx={{ overflow: "hidden", height: "fit-content" }}
+      component="section"
+      maxWidth={"lg"}
+    >
+      <div className="core" style={{ margin: "3rem" }}>
         <Gallery product={selectedProduct} />
         <MobileGallery product={selectedProduct} />
         <Description
