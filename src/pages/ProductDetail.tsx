@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import "react-rater/lib/react-rater.css";
-import ProductDetailItem from "../pages/ProductDetailItem";
+import ProductDetailItem from "../components/product-detail/ProductDetailItem";
 import { useParams } from "react-router-dom";
 
 const ProductDetail: FC = () => {

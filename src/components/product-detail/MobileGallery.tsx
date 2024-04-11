@@ -5,10 +5,10 @@ import prod1 from "../Pictures/image-product-1.jpg";
 import prod2 from "../Pictures/image-product-2.jpg";
 import prod3 from "../Pictures/image-product-3.jpg";
 import prod4 from "../Pictures/image-product-4.jpg";
-import NextIcon from "./Icons/NextIcon";
-import PreviousIcon from "./Icons/PreviousIcon";
-import Product from "../interfaces/Product";
-import RenderStockStatus from "./RenderStock";
+import NextIcon from "../Icons/NextIcon";
+import PreviousIcon from "../Icons/PreviousIcon";
+import Product from "../../interfaces/Product";
+import RenderStockStatus from "../ui/RenderStock";
 
 const MobileGallery = ({ product }: { product: Product | null }) => {
   const IMAGES = product?.images?.map((image) => image.image_url) || [];

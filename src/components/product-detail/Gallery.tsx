@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import BackdropGallery from "./BackdropGallery";
-import Product from "../interfaces/Product";
-import Image from "../interfaces/Image";
-import { useSelector } from "react-redux";
-import { selectProductLoading } from "../store/product/productSlice";
-import RenderStockStatus from "./RenderStock";
+import Product from "../../interfaces/Product";
+import RenderStockStatus from "../ui/RenderStock";
 interface GalleryProps {
   product: Product | null;
 }

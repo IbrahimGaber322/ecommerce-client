@@ -52,7 +52,6 @@ const categorySlice = createSlice({
       state.selectedCategory = action.payload;
     });
     builder.addCase(fetchCategoryById.rejected, (state, action) => {
-      console.log("fejected");
       state.loading = false;
       state.error = action.error.message || "Failed to fetch category by ID";
     });
@@ -70,7 +69,6 @@ const categorySlice = createSlice({
       state.loading = false;
       state.error = action.error.message || "Failed to search products";
     });
-
   },
 });
 

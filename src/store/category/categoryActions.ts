@@ -1,5 +1,9 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getCategories, getCategoryById, searchCategories } from "./categoryApi";
+import { thunkWrapper } from "../thunkWrapper";
+import {
+  getCategories,
+  getCategoryById,
+  searchCategories,
+} from "./categoryApi";
 import {
   FETCH_CATEGORIES,
   FETCH_CATEGORY_BY_ID,
@@ -8,30 +12,24 @@ import {
 // import Category from "../../interfaces/Category";
 
 // Thunk to fetch all categories
-export const fetchCategories = createAsyncThunk(
-  FETCH_CATEGORIES,
-  async () => {
-    const response = await getCategories();
-    return response.data;
-  }
-);
-
+export const fetchCategories = thunkWrapper(FETCH_CATEGORIES, async () => {
+  const response = await getCategories();
+  return response.data;
+});
 
 // Thunk to fetch category by ID
-export const fetchCategoryById = createAsyncThunk(
+export const fetchCategoryById = thunkWrapper(
   FETCH_CATEGORY_BY_ID, // Using the constant as the first argument
   async (categoryId: number) => {
     const response = await getCategoryById(categoryId);
-    // console.log(response.data)
     return response.data;
   }
 );
 // Thunk to search categories
-export const searchCategoriesAction = createAsyncThunk(
+export const searchCategoriesAction = thunkWrapper(
   SEARCH_CATEGORIES,
   async (searchData: any) => {
     const response = await searchCategories(searchData);
     return response.data;
   }
 );
-

@@ -1,4 +1,4 @@
-import Product from "../interfaces/Product";
+import Product from "../../interfaces/Product";
 
 const RenderStockStatus = ({ product }: { product: Product | null }) => {
   const stock = product?.stock || 0;

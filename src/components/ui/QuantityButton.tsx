@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import plus from "../Pictures/icon-plus.svg";
-import minus from "../Pictures/icon-minus.svg";
+import plus from "../../Pictures/icon-plus.svg";
+import minus from "../..//Pictures/icon-minus.svg";
 
 interface QuantityButtonProps {
   onQuant: number;

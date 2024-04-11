@@ -34,8 +34,6 @@ export const removeCartItemAction = thunkWrapper(
 export const updateCartItemAction = thunkWrapper(
   UPDATE_CART_ITEM,
   async ({cartItemId, quantity}:{cartItemId: number, quantity: number}): Promise<CartItem> => {
-    console.log("CartItemIdAction: ", cartItemId);
-    console.log("QuantityAction: ", quantity);
     const response = await updateCartItem(cartItemId, quantity);
     return response.data;
   }

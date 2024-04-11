@@ -8,20 +8,17 @@ import lightTheme from "./theme/lightTheme";
 import MaterialUISwitch from "./components/ui/MaterialUISwitch";
 import { useAppDispatch } from "./hooks/redux";
 import { selectUser, selectAccessToken } from "./store/auth/authSlice";
-import { store } from "./store";
 import { userDataAction } from "./store/auth/authActions";
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
-import api from "./api";
 import { useSelector } from "react-redux";
 import Login from "./pages/Login";
 import Cart from "./components/Cart";
-import ProductDetail from "./components/ProductDetail";
-import { addToCart, updateCartItem } from "./store/cart/cartApi";
+import ProductDetail from "./pages/ProductDetail";
 import { getCartAction } from "./store/cart/cartActions";
 import Products from "./pages/Products";
-import WishList from "./components/WishList";
+import WishList from "./pages/WishList";
 /**
  * Main application component that handles routing and theme switching.
  */
@@ -33,56 +30,10 @@ function App() {
     if (!user && accessToken) {
       dispatch(userDataAction());
     }
-    if(user){
+    if (user) {
       dispatch(getCartAction());
     }
-    console.log("User: ", user);
   }, [user, accessToken, dispatch]);
-
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       const data = await api.get("/product/");
-  //       console.log("Data: ", data);
-  //     } catch (error) {
-  //       console.error("Error fetching data: ", error);
-  //     }
-  //   }
-  //   fetchData();
-  // });
-
-  useEffect(() => {
-    const fetchCart= async () => {
-      try {
-        const data = await api.get("/cart/");
-        console.log("Data: ", data);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    }
-    const addTocart = async () => {
-      try {
-        const data = await addToCart(2);
-        console.log("Data: ", data);
-      } catch (error) {
-        console.error("Error adding data: ", error);
-      }
-    }
-    const updateCart = async () => {
-      try {
-        const data = await updateCartItem(2,2);
-        console.log("Data: ", data);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    }
-    /* updateCart(); */
-
-    /* addTocart(); */
-    
-    fetchCart();
-  }
-  , []);
 
   // Retrieve dark mode state from local storage or set to default.
   const darkState =
@@ -116,10 +67,11 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/cart" element={<Cart/>} /> 
-            <Route path="/products" element={<Products/>}/>
-            <Route path="/products/:id" element={<ProductDetail/>} />wishlist
-            <Route path="/wishlist" element={<WishList/>} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/products/:id" element={<ProductDetail />} />
+            wishlist
+            <Route path="/wishlist" element={<WishList />} />
           </Routes>
 
           {/* Dark mode switch */}

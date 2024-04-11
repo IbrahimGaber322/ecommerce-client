@@ -4,13 +4,20 @@ import {
   selectAccessToken,
   selectRefreshToken,
   logOut,
-} from "../store/auth/authSlice"; // Update the path as per your project structure
-import { REFRESHTOKEN } from "../constants/actionTypes";
+} from "../store/auth/authSlice"; 
 import moment from "moment";
 import { jwtDecode } from "jwt-decode";
+import { refreshTokenAction } from "../store/auth/authActions";
 
 // Create Axios instance
 const api = axios.create({
+  baseURL: process.env.REACT_APP_SERVER_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+export const refreshApi = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
   headers: {
     "Content-Type": "application/json",
@@ -30,10 +37,7 @@ const isTokenExpired = (token: string) => {
 
 // Function to refresh access token
 const refreshAccessToken = async (store: Store, refreshToken: string) => {
-  await store.dispatch({
-    type: REFRESHTOKEN,
-    payload: { refreshToken },
-  });
+  await store.dispatch(refreshTokenAction(refreshToken));
   return selectAccessToken(store.getState());
 };
 
@@ -43,7 +47,6 @@ export const setupInterceptors = (store: Store) => {
     async (config) => {
       const accessToken = selectAccessToken(store.getState());
       const refreshToken = selectRefreshToken(store.getState());
-
       if (accessToken && !isTokenExpired(accessToken)) {
         config.headers.Authorization = `Bearer ${accessToken}`;
       } else if (refreshToken && !isTokenExpired(refreshToken)) {
