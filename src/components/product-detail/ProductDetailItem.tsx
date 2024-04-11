@@ -17,6 +17,7 @@ import {
 import type { RootState } from "../../store";
 import { updateCartItemAction } from "../../store/cart/cartActions";
 import { debounce } from "lodash";
+import ReviewComponent from "../Review";
 
 const ProductDetailItem: React.FC<{ productId: number }> = ({ productId }) => {
   const loading = useSelector(selectProductLoading);
@@ -70,6 +71,9 @@ const ProductDetailItem: React.FC<{ productId: number }> = ({ productId }) => {
           product={selectedProduct}
         />
       </div>
+      {selectedProduct && selectedProduct.id && (
+     <ReviewComponent productId={selectedProduct.id}></ReviewComponent>
+      )}
     </Container>
   );
 };
