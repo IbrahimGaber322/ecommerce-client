@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginAction, refreshTokenAction, registerAction, userDataAction } from "./authActions";
+import {
+  loginAction,
+  refreshTokenAction,
+  registerAction,
+  userDataAction,
+} from "./authActions";
 import User from "../../interfaces/user";
 import type { RootState } from "../index";
 interface AuthState {
@@ -101,6 +106,10 @@ const authSlice = createSlice({
       .addCase(userDataAction.rejected, (state, action) => {
         state.loading = false;
         state.error = true;
+        state.access_token = "";
+        state.refresh_token = "";
+        state.user = null;
+        localStorage.clear();
       });
   },
 });

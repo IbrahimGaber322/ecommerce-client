@@ -27,7 +27,7 @@ function App() {
   const user = useSelector(selectUser);
   const accessToken = useSelector(selectAccessToken);
   useEffect(() => {
-    if (!user && accessToken) {
+    if (!user) {
       dispatch(userDataAction());
     }
     if (user) {
