@@ -1,6 +1,6 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Container, CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import darkTheme from "./theme/darkTheme";
@@ -8,7 +8,10 @@ import lightTheme from "./theme/lightTheme";
 import MaterialUISwitch from "./components/ui/MaterialUISwitch";
 import { useAppDispatch } from "./hooks/redux";
 import { selectUser, selectAccessToken } from "./store/auth/authSlice";
-import { userDataAction } from "./store/auth/authActions";
+import {
+  sendVerificationEmailAction,
+  userDataAction,
+} from "./store/auth/authActions";
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
@@ -19,6 +22,9 @@ import ProductDetail from "./pages/ProductDetail";
 import { getCartAction } from "./store/cart/cartActions";
 import Products from "./pages/Products";
 import WishList from "./pages/WishList";
+import ResetPassword from "./pages/ResetPassword";
+import ForgotPassword from "./pages/ForgotPassword";
+import VerifyEmail from "./pages/VerifyEmail";
 /**
  * Main application component that handles routing and theme switching.
  */
@@ -26,12 +32,17 @@ function App() {
   const dispatch = useAppDispatch();
   const user = useSelector(selectUser);
   const accessToken = useSelector(selectAccessToken);
+  console.log(user);
   useEffect(() => {
     if (!user) {
       dispatch(userDataAction());
     }
     if (user) {
       dispatch(getCartAction());
+    }
+    if (user && !user.is_verified) {
+      console.log("sending verification email");
+      dispatch(sendVerificationEmailAction());
     }
   }, [user, accessToken, dispatch]);
 
@@ -65,13 +76,39 @@ function App() {
           {/* Routing configuration */}
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/cart" element={<Cart />} />
             <Route path="/products" element={<Products />} />
             <Route path="/products/:id" element={<ProductDetail />} />
-            wishlist
-            <Route path="/wishlist" element={<WishList />} />
+            <Route
+              path="/cart"
+              element={!user ? <Navigate to={"/"} /> : <Cart />}
+            />
+            <Route
+              path="/wishlist"
+              element={!user ? <Navigate to={"/"} /> : <WishList />}
+            />
+
+            <Route
+              path="/register"
+              element={user ? <Navigate to={"/"} /> : <Register />}
+            />
+            <Route
+              path="/login"
+              element={user ? <Navigate to={"/"} /> : <Login />}
+            />
+            <Route
+              path="/forgot-password"
+              element={user ? <Navigate to={"/"} /> : <ForgotPassword />}
+            />
+            <Route
+              path="reset-password/:token"
+              element={user ? <Navigate to={"/"} /> : <ResetPassword />}
+            />
+            <Route
+              path="reset-password"
+              element={user ? <Navigate to={"/"} /> : <ResetPassword />}
+            />
+            <Route path="/verify-email/:token" element={<VerifyEmail />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
           </Routes>
 
           {/* Dark mode switch */}

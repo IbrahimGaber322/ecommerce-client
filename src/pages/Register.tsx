@@ -92,7 +92,7 @@ export default function Register() {
       formData.last_name.length === 0 ||
       !formData.email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i) ||
       !formData.password.match(
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/i
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
       ) ||
       formData.confirmPassword !== formData.password
     ) {
@@ -103,7 +103,7 @@ export default function Register() {
           /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
         ),
         password: !formData.password.match(
-          /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i
+          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
         ),
         confirmPassword: formData.confirmPassword !== formData.password,
         username: formData.username.length === 0,
