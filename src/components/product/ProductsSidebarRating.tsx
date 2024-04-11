@@ -1,58 +1,53 @@
-import { TextField } from "@mui/material";
-import React, { useState } from "react";
-import { NumericFormat, NumericFormatProps } from "react-number-format";
+import * as React from 'react';
+import { NumericFormat, NumericFormatProps } from 'react-number-format';
+import TextField from '@mui/material/TextField';
 
 interface CustomProps {
   onChange: (event: { target: { name: string; value: string } }) => void;
   name: string;
 }
 
-export default function ProductsSidebarRating() {
-  const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
-    function NumericFormatCustom(props, ref) {
-      const { onChange, ...other } = props;
+const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
+  function NumericFormatCustom(props, ref) {
+    const { onChange, ...other } = props;
 
-      return (
-        <NumericFormat
-          {...other}
-          getInputRef={ref}
-          onValueChange={(values) => {
-            onChange({
-              target: {
-                name: props.name,
-                value: values.value,
-              },
-            });
-          }}
-          thousandSeparator
-          valueIsNumericString
-          maxLength={1}
-        />
-      );
-    }
-  );
+    return (
+      <NumericFormat
+        {...other}
+        getInputRef={ref}
+        onValueChange={(values) => {
+          onChange({
+            target: {
+              name: props.name,
+              value: values.value,
+            },
+          });
+        }}
+        thousandSeparator
+        valueIsNumericString
+        maxLength={1}
+      />
+    );
+  },
+);
 
-  const [minRating, setMinRating] = useState({
-    numberformat: "0",
+export default function FormattedInputs() {
+  const [minRate, setMinRate] = React.useState({
+    numberformat: undefined,
   });
-  const [maxRating, setMaxRating] = useState({
-    numberformat: "0",
+  const [maxRate, setMaxRate] = React.useState({
+    numberformat: undefined,
   });
 
-  const handleMinRatingChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setMinRating({
-      ...minRating,
+  const handleMinRateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMinRate({
+      ...minRate,
       [event.target.name]: event.target.value,
     });
   };
-
-  const handleMaxRatingChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setMaxRating({
-      ...maxRating,
+  const handleMaxRateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMaxRate({
+      ...maxRate,
       [event.target.name]: event.target.value,
     });
   };
@@ -60,23 +55,23 @@ export default function ProductsSidebarRating() {
   return (
     <>
       <TextField
-        sx={{ marginTop: "20px" }}
-        label="min-rating"
-        value={minRating.numberformat}
-        onChange={handleMinRatingChange}
+        sx={{marginTop: '20px'}}
+        label="min-rate"
+        value={minRate.numberformat}
+        onChange={handleMinRateChange}
         name="numberformat"
-        id="formatted-numberformat-input"
+        id="minrate"
         InputProps={{
           inputComponent: NumericFormatCustom as any,
         }}
         variant="standard"
       />
       <TextField
-        label="max-rating"
-        value={maxRating.numberformat}
-        onChange={handleMaxRatingChange}
+        label="max-rate"
+        value={maxRate.numberformat}
+        onChange={handleMaxRateChange}
         name="numberformat"
-        id="formatted-numberformat-input"
+        id="maxrate"
         InputProps={{
           inputComponent: NumericFormatCustom as any,
         }}
