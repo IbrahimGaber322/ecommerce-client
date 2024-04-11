@@ -13,8 +13,8 @@ import {
   selectCategories,
   selectCategory,
   selectCategoryLoading,
-} from "../store/category/categorySlice";
-import { fetchCategories } from '../store/category/categoryActions';
+} from "../../store/category/categorySlice";
+import { fetchCategories } from '../../store/category/categoryActions';
 
 
 export default function CustomizedInputsStyled() {
@@ -52,7 +52,7 @@ export default function CustomizedInputsStyled() {
 			</MenuItem>
 			{selectedCategories.map((category, index) => {
 				return(
-					<MenuItem value={index}>{category.name}</MenuItem>
+					<MenuItem key={index} value={index}>{category.name}</MenuItem>
 				)
 			})}
         </Select>

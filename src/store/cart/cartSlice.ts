@@ -5,8 +5,6 @@ import {
   updateCartItemAction,
 } from "./cartActions";
 import { toast } from "react-toastify";
-import CartItem from "../../interfaces/CartItem";
-import Product from "../../interfaces/Product";
 import Cart from "../../interfaces/Cart";
 import type { RootState } from "../index";
 
@@ -21,7 +19,6 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     incrementCartItem: (state, action) => {
-      console.log("Add to cart action", action.payload);
       const productId = action.payload.id;
       const existingIndex = state.cartItems?.findIndex(
         (item) => item.product.id === productId
@@ -34,7 +31,6 @@ const cartSlice = createSlice({
       toast.info("Increased product quantity", {
         position: "bottom-left",
       });
-      console.log(state.cartItems);
       localStorage.setItem("cart_items", JSON.stringify(state.cartItems));
     },
   },
@@ -63,7 +59,6 @@ const cartSlice = createSlice({
         toast.error("Error updating cart item", {
           position: "bottom-left",
         });
-        console.log("Error updating cart item", action.payload);
       }
       );
   },

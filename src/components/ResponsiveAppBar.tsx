@@ -14,16 +14,22 @@ import MenuItem from "@mui/material/MenuItem";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import { Link } from "react-router-dom";
 import { selectUser } from "../store/auth/authSlice";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { Login, Logout } from "@mui/icons-material";
+import { Login } from "@mui/icons-material";
 import capitalizeFirst from "../util/capitalizeFirst";
 import { useAppDispatch } from "../hooks/redux";
 import { logOut } from "../store/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-
-const pages = ["electronics", "fashion", "books", "toys", "cart", "products", "wishlist"];
+const pages = [
+  "electronics",
+  "fashion",
+  "books",
+  "toys",
+  "cart",
+  "products",
+  "wishlist",
+];
 
 const settings = ["profile", "account", "orders", "addresses"];
 
@@ -56,6 +62,7 @@ function ResponsiveAppBar() {
 
   const handleAuth = () => {
     if (user) {
+      handleCloseUserMenu();
       dispatch(logOut());
       navigate("/");
     } else {
@@ -117,8 +124,8 @@ function ResponsiveAppBar() {
             >
               {pages.map((page) => (
                 <MenuItem
-                  LinkComponent={Link}
-                  href={page}
+                  component={Link}
+                  to={page}
                   key={page}
                   onClick={handleCloseNavMenu}
                 >
@@ -161,53 +168,64 @@ function ResponsiveAppBar() {
               </Button>
             ))}
           </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar
-                  alt={user?.first_name.charAt(0)}
-                  src={user?.profile_image}
-                />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+          {user && (
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar
+                    alt={user?.first_name.charAt(0)}
+                    src={user?.profile_image}
+                  />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <Typography
+                      component={Link}
+                      sx={{ textDecoration: "none", color: "inherit" }}
+                      to={setting}
+                      textAlign="center"
+                    >
+                      {capitalizeFirst(setting)}
+                    </Typography>
+                  </MenuItem>
+                ))}
+                <MenuItem onClick={handleAuth}>
                   <Typography
-                    component={Link}
                     sx={{ textDecoration: "none", color: "inherit" }}
-                    to={setting}
                     textAlign="center"
                   >
-                    {capitalizeFirst(setting)}
+                    Logout
                   </Typography>
                 </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          <IconButton
-            onClick={handleAuth}
-            sx={{ mx: 2, color: "white", fontSize: 14 }}
-          >
-            {user ? "Logout" : "Login"}
-            {user ? <Logout /> : <Login />}
-          </IconButton>
+              </Menu>
+            </Box>
+          )}
+          {!user && (
+            <IconButton
+              onClick={handleAuth}
+              sx={{ mx: 2, color: "white", fontSize: 14 }}
+            >
+              Login
+              <Login />
+            </IconButton>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

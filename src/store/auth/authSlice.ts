@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginAction, registerAction, userDataAction } from "./authActions";
+import { loginAction, refreshTokenAction, registerAction, userDataAction } from "./authActions";
 import User from "../../interfaces/user";
 import type { RootState } from "../index";
 interface AuthState {
@@ -35,8 +35,7 @@ const authSlice = createSlice({
       state.access_token = "";
       state.refresh_token = "";
       state.user = null;
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("refresh_token");
+      localStorage.clear();
     },
   },
   extraReducers(builder) {
@@ -73,6 +72,20 @@ const authSlice = createSlice({
       })
       .addCase(registerAction.rejected, (state, action) => {
         state.errorData = action.payload;
+        state.loading = false;
+        state.error = true;
+      })
+      .addCase(refreshTokenAction.pending, (state, action) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(refreshTokenAction.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = false;
+        state.access_token = action.payload.access;
+        localStorage.setItem("access_token", action.payload.access);
+      })
+      .addCase(refreshTokenAction.rejected, (state, action) => {
         state.loading = false;
         state.error = true;
       })

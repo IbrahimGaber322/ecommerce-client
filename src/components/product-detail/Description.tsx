@@ -1,22 +1,20 @@
-import React, { Dispatch, useCallback, useEffect, useMemo } from "react";
-import { useAppDispatch } from "../hooks/redux";
+import React, { useMemo } from "react";
+import { useAppDispatch } from "../../hooks/redux";
 import { useSelector } from "react-redux";
-import CartIcon from "./Icons/CartIcon";
-import QuantityButton from "./QuantityButton";
-import Product from "../interfaces/Product";
+import CartIcon from "../Icons/CartIcon";
+import QuantityButton from "../ui/QuantityButton";
+import Product from "../../interfaces/Product";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
-import { incrementCartItem, selectCartItems } from "../store/cart/cartSlice";
-import { addToCartAction } from "../store/cart/cartActions";
-import { getCartAction } from "../store/cart/cartActions";
-import { addToWishListAction } from "../store/wishList/wishListAction";
+import { selectCartItems } from "../../store/cart/cartSlice";
+import { addToCartAction } from "../../store/cart/cartActions";
+import { addToWishListAction } from "../../store/wishList/wishListAction";
 import { Button } from "@mui/material";
 
 interface DescriptionProps {
   quant: number;
   addQuant: () => void;
   removeQuant: () => void;
-  setOrderedQuant: (quant: number) => void;
   product: Product | null;
 }
 
@@ -24,19 +22,14 @@ const Description: React.FC<DescriptionProps> = ({
   quant,
   addQuant,
   removeQuant,
-  setOrderedQuant,
   product,
 }) => {
   const dispatch = useAppDispatch();
 
   const cartItems = useSelector(selectCartItems);
 
-  const addToWishlist = (id:number|null) => {
-    dispatch(addToWishListAction(id))
-  };
-
-  const handleIncrementCartItem = () => {
-    dispatch(incrementCartItem(product?.id));
+  const addToWishlist = (id: number | null) => {
+    dispatch(addToWishListAction(id));
   };
 
   const handleAddToCart = () => {
@@ -75,9 +68,14 @@ const Description: React.FC<DescriptionProps> = ({
         )}
       </div>
       <div className="product-additional-info pt-25">
-      <Button className="wishlist-btn" id="icon-space" onClick={() => addToWishlist(product?.id ?? null)}>
-        <FontAwesomeIcon icon={farHeart} className="icon-space" /> Add to wishlist
-      </Button>
+        <Button
+          className="wishlist-btn"
+          id="icon-space"
+          onClick={() => addToWishlist(product?.id ?? null)}
+        >
+          <FontAwesomeIcon icon={farHeart} className="icon-space" /> Add to
+          wishlist
+        </Button>
       </div>
     </section>
   );

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Backdrop, IconButton } from "@mui/material";
-import CloseIcon from "./Icons/CloseIcon";
-import PreviousIcon from "./Icons/PreviousIcon";
-import NextIcon from "./Icons/NextIcon";
+import CloseIcon from "../Icons/CloseIcon";
+import PreviousIcon from "../Icons/PreviousIcon";
+import NextIcon from "../Icons/NextIcon";
 
 interface BackdropGalleryProps {
   open: boolean;

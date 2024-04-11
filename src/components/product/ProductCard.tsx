@@ -3,8 +3,8 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { addToCartAction } from '../store/cart/cartActions';
-import { addToWishListAction } from '../store/wishList/wishListAction';
+import { addToCartAction } from '../../store/cart/cartActions';
+import { addToWishListAction } from '../../store/wishList/wishListAction';
 export default function ProductCard(props: any) {
   const product = props.product
   const dispatch = useDispatch();

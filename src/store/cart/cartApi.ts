@@ -24,7 +24,5 @@ export const updateCartItem = (
   cartItemId: number,
   quantity: number
 ): AxiosPromise<CartItem> => {
-    console.log("CartItemId: ", cartItemId);
-    console.log("Quantity: ", quantity);
   return api.patch(`/cart/${cartItemId}/`, { quantity });
 };

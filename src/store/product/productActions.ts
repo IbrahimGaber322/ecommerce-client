@@ -1,5 +1,11 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getProducts, getPopularProducts, getProductById, searchProducts, addReviewToProduct } from "./productApi";
+import { thunkWrapper } from "../thunkWrapper";
+import {
+  getProducts,
+  getPopularProducts,
+  getProductById,
+  searchProducts,
+  addReviewToProduct,
+} from "./productApi";
 import {
   FETCH_PRODUCTS,
   FETCH_POPULAR_PRODUCTS,
@@ -10,16 +16,13 @@ import {
 // import Product from "../../interfaces/Product";
 
 // Thunk to fetch all products
-export const fetchProducts = createAsyncThunk(
-  FETCH_PRODUCTS,
-  async () => {
-    const response = await getProducts();
-    return response.data;
-  }
-);
+export const fetchProducts = thunkWrapper(FETCH_PRODUCTS, async () => {
+  const response = await getProducts();
+  return response.data;
+});
 
 // Thunk to fetch popular products
-export const fetchPopularProducts = createAsyncThunk(
+export const fetchPopularProducts = thunkWrapper(
   FETCH_POPULAR_PRODUCTS,
   async () => {
     const response = await getPopularProducts();
@@ -28,16 +31,15 @@ export const fetchPopularProducts = createAsyncThunk(
 );
 
 // Thunk to fetch product by ID
-export const fetchProductById = createAsyncThunk(
+export const fetchProductById = thunkWrapper(
   FETCH_PRODUCT_BY_ID, // Using the constant as the first argument
   async (productId: number) => {
     const response = await getProductById(productId);
-    // console.log(response.data)
     return response.data;
   }
 );
 // Thunk to search products
-export const searchProductsAction = createAsyncThunk(
+export const searchProductsAction = thunkWrapper(
   SEARCH_PRODUCTS,
   async (searchData: any) => {
     const response = await searchProducts(searchData);
@@ -46,9 +48,9 @@ export const searchProductsAction = createAsyncThunk(
 );
 
 // Thunk to add review to a product
-export const addReviewToProductAction = createAsyncThunk(
+export const addReviewToProductAction = thunkWrapper(
   ADD_REVIEW_TO_PRODUCT,
-  async (payload: { productId: number, reviewData: any }) => {
+  async (payload: { productId: number; reviewData: any }) => {
     const { productId, reviewData } = payload;
     const response = await addReviewToProduct(productId, reviewData);
     return response.data;
