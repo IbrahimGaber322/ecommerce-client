@@ -33,10 +33,7 @@ export default function ProductsSidebarPrice() {
   );
 
   const [minPrice, setMinPrice] = useState({
-    numberformat: "0",
-  });
-  const [maxPrice, setMaxPrice] = useState({
-    numberformat: "0",
+    numberformat: undefined,
   });
 
   const handleMinPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,15 +43,7 @@ export default function ProductsSidebarPrice() {
     });
   };
 
-  const handleMaxPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMaxPrice({
-      ...maxPrice,
-      [event.target.name]: event.target.value,
-    });
-  };
-
   return (
-    <>
       <TextField
         label="min-price"
         value={minPrice.numberformat}
@@ -66,17 +55,5 @@ export default function ProductsSidebarPrice() {
         }}
         variant="standard"
       />
-      <TextField
-        label="max-price"
-        value={maxPrice.numberformat}
-        onChange={handleMaxPriceChange}
-        name="numberformat"
-        id="formatted-numberformat-input"
-        InputProps={{
-          inputComponent: NumericFormatCustom as any,
-        }}
-        variant="standard"
-      />
-    </>
   );
 }
