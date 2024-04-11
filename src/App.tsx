@@ -32,17 +32,12 @@ function App() {
   const dispatch = useAppDispatch();
   const user = useSelector(selectUser);
   const accessToken = useSelector(selectAccessToken);
-  console.log(user);
   useEffect(() => {
     if (!user) {
       dispatch(userDataAction());
     }
     if (user) {
       dispatch(getCartAction());
-    }
-    if (user && !user.is_verified) {
-      console.log("sending verification email");
-      dispatch(sendVerificationEmailAction());
     }
   }, [user, accessToken, dispatch]);
 
