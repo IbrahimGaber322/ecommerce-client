@@ -25,6 +25,8 @@ import WishList from "./pages/WishList";
 import ResetPassword from "./pages/ResetPassword";
 import ForgotPassword from "./pages/ForgotPassword";
 import VerifyEmail from "./pages/VerifyEmail";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 /**
  * Main application component that handles routing and theme switching.
  */
@@ -114,6 +116,7 @@ function App() {
               setDark(e.target.checked);
             }}
           />
+          <ToastContainer />
         </Container>
       </ThemeProvider>
     </BrowserRouter>
