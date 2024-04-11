@@ -4,6 +4,10 @@ export const REGISTER = "auth/register";
 export const REFRESHTOKEN = "auth/refreshToken";
 export const USERDATA = "auth/userData";
 export const LOGOUT = "auth/logout";
+export const RESET_PASSWORD = "auth/resetPassword";
+export const SEND_RESET_PASSWORD = "auth/sendResetPassword";
+export const VERIFY_EMAIL = "auth/verifyEmail";
+export const SEND_VERIFY_EMAIL = "auth/sendVerifyEmail";
 
 /* Product */
 export const FETCH_PRODUCTS = "/product";
