@@ -1,10 +1,5 @@
 import { Box, IconButton } from "@mui/material";
-import React, { useState } from "react";
-
-import prod1 from "../Pictures/image-product-1.jpg";
-import prod2 from "../Pictures/image-product-2.jpg";
-import prod3 from "../Pictures/image-product-3.jpg";
-import prod4 from "../Pictures/image-product-4.jpg";
+import { useState } from "react";
 import NextIcon from "../Icons/NextIcon";
 import PreviousIcon from "../Icons/PreviousIcon";
 import Product from "../../interfaces/Product";
@@ -52,7 +47,7 @@ const MobileGallery = ({ product }: { product: Product | null }) => {
       >
         <PreviousIcon />
       </IconButton>
-      <Box sx={{position:"relative", width:400, mx:"auto"}}>
+      <Box sx={{ position: "relative", width: 400, mx: "auto" }}>
         <img src={currentMobileImage} alt="featured-product" />
         <div style={{ position: "absolute", top: 0, right: 0 }}>
           <RenderStockStatus product={product} />
