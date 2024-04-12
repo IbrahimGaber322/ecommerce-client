@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import StorefrontIcon from "@mui/icons-material/Storefront";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { selectUser } from "../store/auth/authSlice";
 import { Login } from "@mui/icons-material";
 import capitalizeFirst from "../util/capitalizeFirst";
@@ -20,29 +20,84 @@ import { useAppDispatch } from "../hooks/redux";
 import { logOut } from "../store/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { styled, alpha } from "@mui/material/styles";
+import InputBase from "@mui/material/InputBase";
+import SearchIcon from "@mui/icons-material/Search";
+import { Badge } from "@mui/material";
+import ShoppingCart from "@mui/icons-material/ShoppingCart";
+import { selectCartTotalQuantity } from "../store/cart/cartSlice";
+import { selectWishList } from "../store/wishList/wishListSlicer";
 
-const pages = [
-  "electronics",
-  "fashion",
-  "books",
-  "toys",
-  "cart",
-  "products",
-  "wishlist",
-];
+const pages = ["electronics", "fashion", "books", "toys", "products"];
 
-const settings = ["profile", "account", "orders", "addresses"];
+const settings = ["profile", "account", "orders", "addresses", "wishlist"];
+
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginLeft: 0,
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    marginLeft: theme.spacing(1),
+    width: "auto",
+  },
+}));
+const SearchIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: "inherit",
+  width: "100%",
+  "& .MuiInputBase-input": {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create("width"),
+    [theme.breakpoints.up("sm")]: {
+      width: "12ch",
+      "&:focus": {
+        width: "20ch",
+      },
+    },
+  },
+}));
 
 function ResponsiveAppBar() {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const user = useSelector(selectUser);
+  const cartQuantity = useSelector(selectCartTotalQuantity);
+  const wishList = useSelector(selectWishList);
+
+  const [search, setSearch] = React.useState("");
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
+  );
+
+  const currPath = React.useMemo(
+    () => location.pathname.replaceAll("/", ""),
+    [location.pathname]
+  );
+
+  const searchParams = React.useMemo(
+    () => new URLSearchParams(location.search),
+    [location.search]
   );
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -67,6 +122,22 @@ function ResponsiveAppBar() {
       navigate("/");
     } else {
       navigate("/login");
+    }
+  };
+
+  const handleChange = (e: any) => {
+    setSearch(e.target.value);
+  };
+  console.log("currpatch", currPath);
+  console.log("searchparams string", searchParams.toString());
+  const handleSearch = (e: any) => {
+    if (e.keyCode === 13) {
+      searchParams.set("name", search);
+      if (pages.includes(currPath)) {
+        navigate(`${currPath}?${searchParams.toString()}`);
+      } else {
+        navigate(`products?${searchParams.toString()}`);
+      }
     }
   };
 
@@ -135,26 +206,15 @@ function ResponsiveAppBar() {
                 </MenuItem>
               ))}
             </Menu>
+            <MenuItem
+              component={Link}
+              to="/"
+              sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
+            >
+              <StorefrontIcon />
+            </MenuItem>
           </Box>
-          <StorefrontIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component={Link}
-            to="/"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            Bazaar
-          </Typography>
+
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
@@ -168,15 +228,39 @@ function ResponsiveAppBar() {
               </Button>
             ))}
           </Box>
+          <Search
+            onChange={handleChange}
+            onKeyUp={handleSearch}
+            sx={{ mr: 1, flexGrow: 0 }}
+          >
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ "aria-label": "search" }}
+            />
+          </Search>
           {user && (
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar
-                    alt={user?.first_name.charAt(0)}
-                    src={user?.profile_image}
-                  />
+            <Box sx={{  width:"200px" }}>
+              <Badge
+                anchorOrigin={{ horizontal: "left", vertical: "top" }}
+                badgeContent={cartQuantity}
+                color="error"
+              >
+                <IconButton color="inherit" component={Link} to="/cart">
+                  <ShoppingCart />
                 </IconButton>
+              </Badge>
+              <Tooltip title="Open settings">
+                <Badge badgeContent={wishList?.length || 0} color="error">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar
+                      alt={user?.first_name.charAt(0)}
+                      src={user?.profile_image}
+                    />
+                  </IconButton>
+                </Badge>
               </Tooltip>
               <Menu
                 sx={{ mt: "45px" }}

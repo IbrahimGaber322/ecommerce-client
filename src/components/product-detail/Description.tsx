@@ -14,6 +14,7 @@ import { addToWishListAction } from "../../store/wishList/wishListAction";
 import { Box, Button, IconButton } from "@mui/material";
 import { Delete, ShoppingCart } from "@mui/icons-material";
 
+
 interface DescriptionProps {
   quant: number;
   addQuant: () => void;
@@ -102,6 +103,7 @@ const Description: React.FC<DescriptionProps> = ({
           wishlist
         </Button>
       </div>
+     
     </section>
   );
 };

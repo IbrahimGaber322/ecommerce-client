@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ProductCard from "../components/product/ProductCard";
 import { Grid } from "@mui/material";
 import {
@@ -12,32 +12,68 @@ import ProductsSidebar from "../components/product/ProductsSidebar";
 import { useLocation } from "react-router-dom";
 import Loading from "./Loading";
 
+export interface Query {
+  minPrice: string;
+  maxPrice: string;
+  minRating: string;
+  maxRating: string;
+  category: string;
+}
+
 export default function Products() {
-  const loading = useSelector(selectProductLoading);
   const dispatch: Dispatch<any> = useDispatch();
-  const selectedProducts = useSelector(selectProducts);
   const location = useLocation();
-  const categoryParams = ['electronics', 'fashion', 'books', 'toys'];
+
+  const loading = useSelector(selectProductLoading);
+  const selectedProducts = useSelector(selectProducts);
+
+  const categoryParams = useMemo(
+    () => ["electronics", "fashion", "books", "toys"],
+    []
+  );
+
   const searchParams = useMemo(
     () => new URLSearchParams(location.search),
     [location.search]
   );
+  const currPath = useMemo(
+    () => location.pathname.slice(1),
+    [location.pathname]
+  );
+  const category = useMemo(
+    () =>
+      categoryParams.find(
+        (category) =>
+          category === currPath || searchParams.get("category") || undefined
+      ),
+    [currPath, categoryParams, searchParams]
+  );
+
+  console.log("Category", category);
+
+  const [query, setQuery] = useState<Query>({
+    minPrice: searchParams.get("min_price") || "",
+    maxPrice: searchParams.get("max_price") || "",
+    minRating: searchParams.get("min_rating") || "",
+    maxRating: searchParams.get("max_rating") || "",
+    category: searchParams.get("category") || "",
+  });
+
   useEffect(() => {
-    const currPath = location.pathname.slice(1);
+    currPath !== "/products" && setQuery({ ...query, category: "" });
+  }, [currPath]);
+
+  useEffect(() => {
     const paramsData = {
       name: searchParams.get("name") || undefined,
-      category: 
-        categoryParams.find((category) => category === currPath) || 
-        searchParams.get("category") || 
-        undefined,
-
+      category,
       minPrice: searchParams.get("min_price") || undefined,
       maxPrice: searchParams.get("max_price") || undefined,
       minRating: searchParams.get("min_rating") || undefined,
       maxRating: searchParams.get("max_rating") || undefined,
     };
     dispatch(searchProductsAction(paramsData));
-  }, [dispatch, searchParams, location.pathname]);
+  }, [dispatch, searchParams, location.pathname, category]);
 
   if (loading) {
     return <Loading />;
@@ -48,11 +84,11 @@ export default function Products() {
         display: "flex",
       }}
     >
-      <ProductsSidebar />
+      <ProductsSidebar query={query} setQuery={setQuery} />
       <Grid container spacing={3} sx={{ padding: "30px" }}>
         {selectedProducts.map((product, index) => {
           return (
-            <Grid key={product.id} item xs={3}>
+            <Grid key={product.id} item xs={12} sm={6} md={3}>
               <ProductCard key={index} product={product} />
             </Grid>
           );

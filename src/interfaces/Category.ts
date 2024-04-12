@@ -1,6 +1,6 @@
 interface Category {
-    id: Number,
-    name: String
+    id: number,
+    name: string
 }
 
 export default Category

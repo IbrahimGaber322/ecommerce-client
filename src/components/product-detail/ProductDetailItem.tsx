@@ -14,6 +14,7 @@ import { updateCartItemAction } from "../../store/cart/cartActions";
 import { debounce } from "lodash";
 import { useAppDispatch } from "../../hooks/redux";
 import Loading from "../../pages/Loading";
+import ReviewComponent from "../Review";
 
 const ProductDetailItem: React.FC<{ productId: number }> = ({ productId }) => {
   const dispatch = useAppDispatch();
@@ -74,6 +75,9 @@ const ProductDetailItem: React.FC<{ productId: number }> = ({ productId }) => {
           product={selectedProduct}
         />
       </div>
+      {selectedProduct && selectedProduct.reviews && (
+     <ReviewComponent reviews={selectedProduct?.reviews} productId={selectedProduct.id}></ReviewComponent>
+      )}
     </Container>
   );
 };
