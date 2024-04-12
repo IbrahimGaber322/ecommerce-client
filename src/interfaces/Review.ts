@@ -4,5 +4,6 @@ interface Review {
     content: string;
     full_name:string;
     profile_image:string;
+    rate:number;
   }
   export default Review;

@@ -88,16 +88,15 @@ const productSlice = createSlice({
       state.error = action.error.message || "Failed to search products";
     });
 
-    // Add review to product
     builder.addCase(addReviewToProductAction.pending, (state) => {
-      state.loading = true;
+      state.loading = false;
       state.error = null;
     });
     builder.addCase(addReviewToProductAction.fulfilled, (state, action) => {
       state.loading = false;
-      // Update the product with the new review
+
       if (state.selectedProduct) {
-        state.selectedProduct.reviews = action.payload.reviews;
+        state?.selectedProduct?.reviews?.push(action.payload);
       }
     });
     builder.addCase(addReviewToProductAction.rejected, (state, action) => {
