@@ -27,6 +27,8 @@ export const searchProducts = (data: any) => {
 };
 // Add review
 export const addReviewToProduct = (productId: number, reviewData: any) => {
-  const data = { content: reviewData };
-  return api.post(`/product/${productId}/review/`, data);
+  // const data = { content: reviewData };
+  console.log(`/product/${productId}/review/`);
+  console.log( reviewData);
+  return api.post(`/product/${productId}/review/`,  reviewData);
 };

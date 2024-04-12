@@ -71,8 +71,8 @@ const ProductDetailItem: React.FC<{ productId: number }> = ({ productId }) => {
           product={selectedProduct}
         />
       </div>
-      {selectedProduct && selectedProduct.id && (
-     <ReviewComponent productId={selectedProduct.id}></ReviewComponent>
+      {selectedProduct && selectedProduct.reviews && (
+     <ReviewComponent reviews={selectedProduct?.reviews} productId={selectedProduct.id}></ReviewComponent>
       )}
     </Container>
   );

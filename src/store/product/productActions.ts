@@ -52,7 +52,8 @@ export const addReviewToProductAction = thunkWrapper(
   ADD_REVIEW_TO_PRODUCT,
   async (payload: { productId: number; reviewData: any }) => {
     const { productId, reviewData } = payload;
-    const response = await addReviewToProduct(productId, reviewData);
+    console.log(`herrrrrr ${ productId}`)
+    const response = await addReviewToProduct( productId, reviewData);
     return response.data;
   }
 );

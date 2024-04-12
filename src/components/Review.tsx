@@ -1,60 +1,29 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import { Dispatch } from "@reduxjs/toolkit";
 import { Box, Button, Typography, Modal, TextField, Rating, Avatar } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import Review from '../interfaces/Review';
+import { addReviewToProductAction } from '../store/product/productActions';
 
-
-interface Review {
-    id: number;
-    product: number;
-    content: string;
-    full_name: string;
-    profile_image: string;
-    rate:number;
-}
 
 interface Props {
-    productId: number;
+    reviews:Review[];
+    productId:number;
 }
 
-const dummyReviews: Review[] = [
-    {
-        id: 1,
-        product: 101,
-        content: "Great product, really loved it!",
-        full_name: "John Doe",
-        profile_image: "https://res.cloudinary.com/dgd0qz32l/image/upload/v1712772658/d4mjngfixjfs3tmyv1i8.jpg",
-        rate: 5,  // Rating out of 5
-    },
-    {
-        id: 2,
-        product: 101,
-        content: "It was okay, could be better.",
-        full_name: "Jane Smith",
-        profile_image: "https://res.cloudinary.com/dgd0qz32l/image/upload/v1712772658/d4mjngfixjfs3tmyv1i8.jpg",
-        rate: 3,  // Rating out of 5
-    },
-    {
-        id: 3,
-        product: 101,
-        content: "Didn't like it much, had some issues.",
-        full_name: "Foo Bar",
-        profile_image: "https://res.cloudinary.com/dgd0qz32l/image/upload/v1712772658/d4mjngfixjfs3tmyv1i8.jpg",
-        rate: 2,  // Rating out of 5
-    }
-];
-
-
-const ReviewComponent: React.FC<Props> = ({ productId }) => {
-    const [reviews, setReviews] = useState<Review[]>(dummyReviews);
+const ReviewComponent: React.FC<Props> = ({ reviews, productId}) => {
     const [open, setOpen] = useState<boolean>(false);
     const [newReview, setNewReview] = useState<string>('');
     const [rating, setRating] = useState<number>(2);
 
+    const dispatch: Dispatch<any> = useDispatch();
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
+    console.log(productId)
     const submitReview = () => {
-        // Submit logic
+        dispatch(addReviewToProductAction({ productId, reviewData: { content: newReview, rate:rating } }));
     };
 
     const style = {
