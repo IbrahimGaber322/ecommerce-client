@@ -24,14 +24,15 @@ const ReviewComponent: React.FC<Props> = ({ reviews, productId}) => {
     console.log(productId)
     const submitReview = () => {
         dispatch(addReviewToProductAction({ productId, reviewData: { content: newReview, rate:rating } }));
+        setOpen(false);
     };
 
     const style = {
         position: 'absolute',
-        top: '50%',
-        left: '50%',
+        top: '80%',
+        left: '60%',
         transform: 'translate(-50%, -50%)',
-        width: 400,
+        width: 800,
         bgcolor: 'background.paper',
         boxShadow: 24,
         p: 4,
@@ -39,7 +40,7 @@ const ReviewComponent: React.FC<Props> = ({ reviews, productId}) => {
 
     return (
         <div>
-            <Typography variant="h6">Reviews</Typography>
+            <Typography variant="h4">Reviews</Typography>
             {reviews.map((review) => (
                 <Box key={review.id} sx={{ display: 'flex', alignItems: 'center', borderBottom: '1px solid grey', paddingBottom: 2, marginBottom: 2 }}>
                     <Avatar src={review.profile_image} sx={{ marginRight: 2 }}/>
@@ -58,7 +59,7 @@ const ReviewComponent: React.FC<Props> = ({ reviews, productId}) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                    <Typography id="modal-modal-title" variant="h5" component="h2">
                         Write your review
                     </Typography>
                     <TextField
