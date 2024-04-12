@@ -49,6 +49,8 @@ export default function Products() {
     [currPath, categoryParams, searchParams]
   );
 
+  console.log("Category", category);
+
   const [query, setQuery] = useState<Query>({
     minPrice: searchParams.get("min_price") || "",
     maxPrice: searchParams.get("max_price") || "",
@@ -64,7 +66,7 @@ export default function Products() {
   useEffect(() => {
     const paramsData = {
       name: searchParams.get("name") || undefined,
-      category: searchParams.get("category") || undefined,
+      category,
       minPrice: searchParams.get("min_price") || undefined,
       maxPrice: searchParams.get("max_price") || undefined,
       minRating: searchParams.get("min_rating") || undefined,

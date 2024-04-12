@@ -28,7 +28,6 @@ export default function CustomizedInputsStyled({
     const index = selectedCategories.findIndex(
       (selectedCategory) => selectedCategory.name === query.category
     );
-    if (index === -1) return "";
     return String(index);
   }, [query, selectedCategories]);
 
@@ -39,7 +38,7 @@ export default function CustomizedInputsStyled({
     const index = Number(event.target.value);
     setQuery({
       ...query,
-      category: selectedCategories[index].name,
+      category: selectedCategories[index]?.name || "",
     });
   };
 
@@ -62,7 +61,7 @@ export default function CustomizedInputsStyled({
         autoWidth
         label="Category"
       >
-        <MenuItem value="">
+        <MenuItem value="-1">
           <em>None</em>
         </MenuItem>
         {selectedCategories.map((category, index) => {
