@@ -12,6 +12,7 @@ export default function Footer({dark}:{dark:boolean}) {
         height: '200px',
         backgroundColor: `${dark? "background.paper":"primary.main"}`,
         padding: '2rem',
+        marginTop: '24px',
     }}>
         <Grid item xs={4} sx={{
             display: 'flex',
