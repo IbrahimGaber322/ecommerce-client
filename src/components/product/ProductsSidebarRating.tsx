@@ -1,6 +1,7 @@
-import * as React from 'react';
-import { NumericFormat, NumericFormatProps } from 'react-number-format';
-import TextField from '@mui/material/TextField';
+import * as React from "react";
+import { NumericFormat, NumericFormatProps } from "react-number-format";
+import TextField from "@mui/material/TextField";
+import { Query } from "../../pages/Products";
 
 interface CustomProps {
   onChange: (event: { target: { name: string; value: string } }) => void;
@@ -28,36 +29,35 @@ const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
         maxLength={1}
       />
     );
-  },
+  }
 );
 
-export default function FormattedInputs() {
-  const [minRate, setMinRate] = React.useState({
-    numberformat: undefined,
-  });
-  const [maxRate, setMaxRate] = React.useState({
-    numberformat: undefined,
-  });
-
+export default function FormattedInputs({
+  query,
+  setQuery,
+}: {
+  query: Query;
+  setQuery: React.Dispatch<React.SetStateAction<Query>>;
+}) {
   const handleMinRateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMinRate({
-      ...minRate,
-      [event.target.name]: event.target.value,
+    setQuery({
+      ...query,
+      minRating: event.target.value,
     });
   };
   const handleMaxRateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMaxRate({
-      ...maxRate,
-      [event.target.name]: event.target.value,
+    setQuery({
+      ...query,
+      maxRating: event.target.value,
     });
   };
 
   return (
     <>
       <TextField
-        sx={{marginTop: '20px'}}
+        sx={{ marginTop: "20px" }}
         label="min-rate"
-        value={minRate.numberformat}
+        value={query.minRating}
         onChange={handleMinRateChange}
         name="numberformat"
         id="minrate"
@@ -68,7 +68,7 @@ export default function FormattedInputs() {
       />
       <TextField
         label="max-rate"
-        value={maxRate.numberformat}
+        value={query.maxRating}
         onChange={handleMaxRateChange}
         name="numberformat"
         id="maxrate"
