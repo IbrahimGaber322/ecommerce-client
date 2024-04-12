@@ -1,4 +1,5 @@
 import api from "../../api";
+import Address from "../../interfaces/Address";
 import { thunkWrapper } from "../thunkWrapper";
 
 export const getAddresses = thunkWrapper("addresses/get", async () => {
@@ -8,11 +9,7 @@ export const getAddresses = thunkWrapper("addresses/get", async () => {
 
 export const addAddress = thunkWrapper(
   "addresses/post",
-  async (addressData: {
-    address: string;
-    mobile_number: string;
-    desc: string;
-  }) => {
+  async (addressData: Address) => {
     const response = await api.post("address/", addressData);
     return response.data;
   }
