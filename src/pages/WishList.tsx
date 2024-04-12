@@ -20,6 +20,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Loading from "./Loading";
 
 const WishListComponent: React.FC = () => {
   const wishList: WishList = useSelector(selectWishList);
@@ -36,7 +37,7 @@ const WishListComponent: React.FC = () => {
     dispatch(addToCartAction(id));
   };
   if (loading) {
-    return <div>loading</div>;
+    return <Loading />;
   }
 
   return (

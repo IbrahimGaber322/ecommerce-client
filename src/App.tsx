@@ -1,7 +1,7 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { Container, CssBaseline } from "@mui/material";
+import { Box, Container, CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import darkTheme from "./theme/darkTheme";
 import lightTheme from "./theme/lightTheme";
@@ -68,7 +68,7 @@ function App() {
         {/* Main container */}
         <Container
           component="main"
-          sx={{ minHeight: "100vh", position: "relative" }}
+          sx={{ minHeight: "100vh", position: "relative", display: "flex", flexDirection: "column"}}
           maxWidth={false}
           disableGutters
         >
@@ -114,7 +114,10 @@ function App() {
             <Route path="/verify-email/:token" element={<VerifyEmail />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
           </Routes>
-          <Footer/>
+          <Box marginTop={"auto"}>
+          <Footer dark={dark}/>
+          </Box>
+                
           {/* Dark mode switch */}
           <MaterialUISwitch
             sx={{ position: "absolute", bottom: 0, right: 0, m: 1 }}

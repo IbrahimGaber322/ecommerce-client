@@ -7,8 +7,8 @@ export default function Hero() {
     <Box
       sx={{
         position: "relative",
-        height: "80vh",
-        width: "80vw",
+        height: "100%",
+        width: "80%",
         margin: "auto",
       }}
     >

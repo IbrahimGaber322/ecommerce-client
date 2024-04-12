@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Dispatch } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
 import Gallery from "./Gallery";
 import Description from "./Description";
 import { Container } from "@mui/material";
@@ -10,50 +9,54 @@ import {
   selectProductLoading,
 } from "../../store/product/productSlice";
 import MobileGallery from "./MobileGallery";
-import {
-  selectCartItemId,
-  selectCartItemQuantity,
-} from "../../store/cart/cartSlice";
-import type { RootState } from "../../store";
+import { selectCartItems } from "../../store/cart/cartSlice";
 import { updateCartItemAction } from "../../store/cart/cartActions";
 import { debounce } from "lodash";
+import { useAppDispatch } from "../../hooks/redux";
+import Loading from "../../pages/Loading";
 
 const ProductDetailItem: React.FC<{ productId: number }> = ({ productId }) => {
-  const loading = useSelector(selectProductLoading);
-  const cartItemId = useSelector((state: RootState) =>
-    selectCartItemId(state, productId)
-  );
-  const cartItemQuantity = useSelector((state: RootState) =>
-    selectCartItemQuantity(state, productId)
-  );
-  const dispatch: Dispatch<any> = useDispatch();
+  const dispatch = useAppDispatch();
+  const productLoading = useSelector(selectProductLoading);
+  const cartItems = useSelector(selectCartItems);
   const selectedProduct = useSelector(selectProduct);
-  useEffect(() => {
-    dispatch(fetchProductById(productId));
-  }, [dispatch, productId]);
+
+  const cartItem = cartItems[productId];
+  const cartItemId = cartItem?.id || 0;
+  const cartItemQuantity = cartItem?.quantity || 0;
 
   const [quant, setQuant] = useState<number>(cartItemQuantity);
+  const [changed, setChanged] = useState<boolean>(false);
 
   const addQuant = () => {
+    setChanged(true);
     setQuant(quant + 1);
   };
 
   const removeQuant = () => {
-    setQuant(quant - 1);
+    setChanged(true);
+    if (quant > 1) {
+      setQuant(quant - 1);
+    }
   };
 
   useEffect(() => {
+    dispatch(fetchProductById(productId));
+  }, [dispatch, productId]);
+
+  useEffect(() => {
+    if (!changed) return;
     const debouncedUpdateCartItem = debounce(() => {
       dispatch(updateCartItemAction({ cartItemId, quantity: quant }));
     }, 1000);
-
-    debouncedUpdateCartItem();
-
+    if (cartItemId > 0) {
+      debouncedUpdateCartItem();
+    }
     return () => {
       debouncedUpdateCartItem.cancel();
     };
-  }, [quant, dispatch, cartItemId]);
-  if (loading) return <h2>Loading...</h2>;
+  }, [quant, dispatch, cartItemId, changed]);
+  if (productLoading) return <Loading />;
   return (
     <Container
       sx={{ overflow: "hidden", height: "fit-content" }}
@@ -67,6 +70,7 @@ const ProductDetailItem: React.FC<{ productId: number }> = ({ productId }) => {
           quant={quant}
           addQuant={addQuant}
           removeQuant={removeQuant}
+          setQuant={setQuant}
           product={selectedProduct}
         />
       </div>

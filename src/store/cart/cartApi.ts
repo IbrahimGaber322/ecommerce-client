@@ -26,3 +26,7 @@ export const updateCartItem = (
 ): AxiosPromise<CartItem> => {
   return api.patch(`/cart/${cartItemId}/`, { quantity });
 };
+
+export const clearCart = () => {
+  return api.delete("/cart/clear  /");
+};

@@ -3,15 +3,22 @@ import {
   getCartAction,
   addToCartAction,
   updateCartItemAction,
+  removeCartItemAction,
+  clearCartAction,
 } from "./cartActions";
 import { toast } from "react-toastify";
-import Cart from "../../interfaces/Cart";
 import type { RootState } from "../index";
+import CartItem from "../../interfaces/CartItem";
 
+interface Cart {
+  cartItems: { [key: number]: CartItem };
+  loading: boolean;
+  error: boolean;
+}
 const initialState: Cart = {
-  cartItems: JSON.parse(localStorage.getItem("cart_items") || "[]") || [],
-  cartTotalQuantity: 0,
-  cartTotalAmount: 0,
+  cartItems: JSON.parse(localStorage.getItem("cart_items") || "{}") || {},
+  loading: false,
+  error: false,
 };
 
 const cartSlice = createSlice({
@@ -19,14 +26,11 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     incrementCartItem: (state, action) => {
-      const productId = action.payload.id;
-      const existingIndex = state.cartItems?.findIndex(
-        (item) => item.product.id === productId
-      );
-      if (existingIndex === -1) return;
-      state.cartItems[existingIndex] = {
-        ...state.cartItems[existingIndex],
-        quantity: state.cartItems[existingIndex].quantity + 1,
+      const productId = action.payload.product.id;
+      if (!state.cartItems[productId]) return;
+      state.cartItems[productId] = {
+        ...state.cartItems[productId],
+        quantity: state.cartItems[productId].quantity + 1,
       };
       toast.info("Increased product quantity", {
         position: "bottom-left",
@@ -36,50 +40,106 @@ const cartSlice = createSlice({
   },
   extraReducers(builder) {
     builder
+      .addCase(addToCartAction.pending, (state, action) => {
+        state.loading = true;
+        state.error = false;
+      })
       .addCase(addToCartAction.fulfilled, (state, action) => {
-        state.cartItems.push(action.payload);
+        const cartItem = action.payload;
+        const { id: productId } = cartItem.product;
+        if (state.cartItems[productId]) return;
+        state.cartItems[productId] = cartItem;
         localStorage.setItem("cart_items", JSON.stringify(state.cartItems));
         toast.success("Added to cart", {
           position: "bottom-left",
         });
+        state.loading = false;
+        state.error = false;
+      })
+      .addCase(getCartAction.pending, (state, action) => {
+        state.loading = true;
+        state.error = false;
       })
       .addCase(getCartAction.fulfilled, (state, action) => {
-        state.cartItems = action.payload;
+        const cartItems = action.payload;
+        cartItems.forEach((item: CartItem) => {
+          state.cartItems[item.product.id] = item;
+        });
         localStorage.setItem("cart_items", JSON.stringify(state.cartItems));
+        state.loading = false;
+        state.error = false;
+      })
+      .addCase(updateCartItemAction.pending, (state, action) => {
+        state.loading = true;
+        state.error = false;
       })
       .addCase(updateCartItemAction.fulfilled, (state, action) => {
         const updatedCartItem = action.payload;
-        const existingIndex = state.cartItems.findIndex(
-          (item) => item.product.id === updatedCartItem.product.id
-        );
-        if (existingIndex === -1) return;
-        state.cartItems[existingIndex] = updatedCartItem;
+        const { id: productId } = updatedCartItem.product;
+        if (!state.cartItems[productId]) return;
+        toast.info("Updated cart item", {
+          position: "bottom-left",
+        });
+        state.cartItems[productId] = updatedCartItem;
+        console.log("update cartiems redux", state.cartItems);
         localStorage.setItem("cart_items", JSON.stringify(state.cartItems));
-      }).addCase(updateCartItemAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = false;
+      })
+      .addCase(updateCartItemAction.rejected, (state, action) => {
         toast.error("Error updating cart item", {
           position: "bottom-left",
         });
-      }
-      );
+        state.loading = false;
+        state.error = true;
+      })
+      .addCase(removeCartItemAction.pending, (state, action) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(removeCartItemAction.fulfilled, (state, action) => {
+        const productId = action.payload;
+        delete state.cartItems[productId];
+        localStorage.setItem("cart_items", JSON.stringify(state.cartItems));
+        toast.success("Removed from cart", {
+          position: "bottom-left",
+        });
+        state.loading = false;
+        state.error = false;
+      })
+      .addCase(clearCartAction.pending, (state, action) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(clearCartAction.fulfilled, (state, action) => {
+        state.cartItems = {};
+        localStorage.setItem("cart_items", JSON.stringify(state.cartItems));
+        toast.success("Cleared cart", {
+          position: "bottom-left",
+        });
+        state.loading = false;
+        state.error = false;
+      });
   },
 });
 export const { incrementCartItem } = cartSlice.actions;
 export const selectCartItems = (state: RootState) => state.cart.cartItems;
 export const selectCartTotalQuantity = (state: RootState) =>
-  state.cart.cartTotalQuantity;
-export const selectCartTotalAmount = (state: RootState) =>
-  state.cart.cartTotalAmount;
-export const selectCartItemQuantity = (state: RootState, productId: number) => {
-  const item = state.cart.cartItems.find(
-    (item) => item.product.id === productId
+  Object.values(state.cart.cartItems).reduce(
+    (acc, item) => acc + item.quantity,
+    0
   );
-  return item ? item.quantity : 0;
+export const selectCartTotalAmount = (state: RootState) =>
+  Object.values(state.cart.cartItems).reduce(
+    (acc, item) => acc + item.quantity * item.product.price,
+    0
+  ).toFixed(2);
+export const selectCartItemQuantity = (state: RootState, productId: number) => {
+  return state.cart.cartItems[productId]?.quantity || 0;
 };
 export const selectCartItemId = (state: RootState, productId: number) => {
-  const item = state.cart.cartItems.find(
-    (item) => item.product.id === productId
-  );
-  return item ? item.id : 0;
+  return state.cart.cartItems[productId]?.id || 0;
 };
+export const selectCartLoading = (state: RootState) => state.cart.loading;
 
 export default cartSlice.reducer;
