@@ -17,13 +17,19 @@ import Product from "../../interfaces/Product";
 import { useSelector } from "react-redux";
 import { selectCartItems } from "../../store/cart/cartSlice";
 import { useMemo } from "react";
+import { selectWishList } from "../../store/wishList/wishListSlicer";
 export default function ProductCard({ product }: { product: Product }) {
   const dispatch = useAppDispatch();
 
   const cartItems = useSelector(selectCartItems);
+  const wishList = useSelector(selectWishList);
 
+  const productInWishList: boolean = useMemo(
+    () => wishList.some((item) => item.product.id === product.id),
+    []
+  );
   const productIncart: boolean = useMemo(
-    () => (cartItems[product.id] == undefined ? true : false),
+    () => (cartItems[product.id] == undefined ? false : true),
     [cartItems, product]
   );
 
@@ -74,7 +80,7 @@ export default function ProductCard({ product }: { product: Product }) {
         </Typography>
       </CardContent>
       <CardActions>
-        {productIncart && (
+        {!productIncart && (
           <Button
             size="small"
             variant={"contained"}
@@ -84,11 +90,13 @@ export default function ProductCard({ product }: { product: Product }) {
             Add to Cart
           </Button>
         )}
-        <Button
-          size="large"
-          startIcon={<FavoriteBorderIcon />}
-          onClick={() => addProductToWishList(product.id)}
-        ></Button>
+        {!productInWishList && (
+          <Button
+            size="large"
+            startIcon={<FavoriteBorderIcon />}
+            onClick={() => addProductToWishList(product.id)}
+          ></Button>
+        )}
       </CardActions>
     </Card>
   );

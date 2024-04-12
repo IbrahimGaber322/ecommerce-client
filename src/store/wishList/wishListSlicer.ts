@@ -53,6 +53,6 @@ const cartSlice = createSlice({
       })
   },
 });
-export const selectWishList= (state: RootState) => state.wishlist;
+export const selectWishList= (state: RootState) => state.wishlist.wishlistItems;
 export const selectWishListLoading = (state: RootState) => state.wishlist.loading;
 export default cartSlice.reducer;
