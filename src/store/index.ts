@@ -5,6 +5,8 @@ import cartSlice from "./cart/cartSlice";
 import productSlice from "./product/productSlice";
 import addressSlice from "./address/addressSlice";
 
+import categorySlice from "./category/categorySlice";
+import wishListSlicer from "./wishList/wishListSlicer";
 export const store = configureStore({
   reducer: {
     // Directly pass your slices here
@@ -12,6 +14,8 @@ export const store = configureStore({
     cart: cartSlice,
     product: productSlice,
     address: addressSlice,
+    category: categorySlice,
+    wishlist: wishListSlicer,
   },
 });
 

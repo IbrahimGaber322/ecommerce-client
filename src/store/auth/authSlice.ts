@@ -1,18 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginAction, registerAction, userDataAction } from "./authActions";
+import {
+  loginAction,
+  refreshTokenAction,
+  registerAction,
+  userDataAction,
+} from "./authActions";
 import User from "../../interfaces/user";
+import type { RootState } from "../index";
 interface AuthState {
-  auth: {
-    access_token: string;
-    refresh_token: string;
-    loading: boolean;
-    error: boolean;
-    user: User | null;
-    errorData: any;
-  };
+  access_token: string;
+  refresh_token: string;
+  loading: boolean;
+  error: boolean;
+  user: User | null;
+  errorData: any;
 }
 
-const initialState = {
+const initialState: AuthState = {
   access_token: localStorage.getItem("access_token") || "",
   refresh_token: localStorage.getItem("refresh_token") || "",
   loading: false,
@@ -36,8 +40,7 @@ const authSlice = createSlice({
       state.access_token = "";
       state.refresh_token = "";
       state.user = null;
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("refresh_token");
+      localStorage.clear();
     },
   },
   extraReducers(builder) {
@@ -77,6 +80,20 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = true;
       })
+      .addCase(refreshTokenAction.pending, (state, action) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(refreshTokenAction.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = false;
+        state.access_token = action.payload.access;
+        localStorage.setItem("access_token", action.payload.access);
+      })
+      .addCase(refreshTokenAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = true;
+      })
       .addCase(userDataAction.pending, (state, action) => {
         state.loading = true;
         state.error = false;
@@ -89,6 +106,10 @@ const authSlice = createSlice({
       .addCase(userDataAction.rejected, (state, action) => {
         state.loading = false;
         state.error = true;
+        state.access_token = "";
+        state.refresh_token = "";
+        state.user = null;
+        localStorage.clear();
       });
   },
 });
@@ -97,10 +118,10 @@ export const { setCredentials, logOut } = authSlice.actions;
 
 export default authSlice.reducer;
 
-export const selectAccessToken = (state: AuthState) => state.auth.access_token;
-export const selectRefreshToken = (state: AuthState) =>
+export const selectAccessToken = (state: RootState) => state.auth.access_token;
+export const selectRefreshToken = (state: RootState) =>
   state.auth.refresh_token;
-export const selectAuthLoading = (state: AuthState) => state.auth.loading;
-export const selectAuthError = (state: AuthState) => state.auth.error;
-export const selectUser = (state: AuthState) => state.auth.user;
-export const selectAuthErrData = (state: AuthState) => state.auth.errorData;
+export const selectAuthLoading = (state: RootState) => state.auth.loading;
+export const selectAuthError = (state: RootState) => state.auth.error;
+export const selectUser = (state: RootState) => state.auth.user;
+export const selectAuthErrData = (state: RootState) => state.auth.errorData;

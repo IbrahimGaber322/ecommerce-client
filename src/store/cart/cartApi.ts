@@ -1,18 +1,32 @@
+import { AxiosPromise } from "axios";
 import api from "../../api";
+import CartItem from "../../interfaces/CartItem";
 
-// Fetch user's cart
-export const getUserCart = () => {
-    return api.get('/cart/');
-}
-export const creatCartForUser = () => {
-    return api.post('/cart/');
-}
-// Add item to cart
-export const addItemToCart = (data:any) => {
-    return api.post('/cart/item/cartitem/', data);
-}
+export const getCart = (): AxiosPromise<CartItem[]> => {
+  return api.get("/cart/");
+};
 
-// Remove item from cart
-export const removeCartItem = (itemId:number) => {
-    return api.delete(`/cart/item/cartitem/${itemId}/`);
-}
+export const addToCart = (productId: number): AxiosPromise<CartItem> => {
+  return api.post(
+    "/cart/",
+    { product: productId },
+    {
+      headers: { "Content-Type": "application/json" },
+    }
+  );
+};
+
+export const removeCartItem = (cartItemId: number) => {
+  return api.delete(`/cart/${cartItemId}/`);
+};
+
+export const updateCartItem = (
+  cartItemId: number,
+  quantity: number
+): AxiosPromise<CartItem> => {
+  return api.patch(`/cart/${cartItemId}/`, { quantity });
+};
+
+export const clearCart = () => {
+  return api.delete("/cart/clear  /");
+};

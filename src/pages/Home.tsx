@@ -1,12 +1,11 @@
-import { Box, Container, Paper } from "@mui/material";
-import React from "react";
-import Hero from "../components/Hero";
+import { Paper } from "@mui/material";
+import Hero from "../components/home/Hero";
 
 const Home = () => {
   return (
     <>
       <Paper elevation={2}></Paper>
-      <Hero></Hero>
+      <Hero />
     </>
   );
 };

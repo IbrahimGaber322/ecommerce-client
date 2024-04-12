@@ -1,40 +1,82 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useMemo, useState } from "react";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "../hooks/redux";
 import {
-  addToCart,
-  clearCart,
-  decreaseCart,
-  getTotals,
-  removeFromCart,
+  selectCartItems /* , selectCartLoading */,
 } from "../store/cart/cartSlice";
+import {
+  clearCartAction,
+  removeCartItemAction,
+  updateCartItemAction,
+} from "../store/cart/cartActions";
 import { Link } from "react-router-dom";
+import { debounce } from "lodash";
+import CartItem from "../interfaces/CartItem";
 
 const Cart: React.FC = () => {
- const cart = useSelector((state: any) => state.cart);
-  const dispatch = useDispatch();
-  useEffect(() => {
-   dispatch(getTotals(''));
-  }, [cart, dispatch]);
+  const dispatch = useAppDispatch();
+  const cartItemsSelector = useSelector(selectCartItems);
+  /*   const loading = useSelector(selectCartLoading); */
 
-  const handleAddToCart = (product: any) => {
-    console.log(product)
-    dispatch(addToCart(product));
+  const [cartItems, setCartItems] = useState<{ [key: number]: CartItem }>(
+    cartItemsSelector
+  );
+  const [current, setCurrent] = useState(0);
+
+  const productIds = useMemo(() => Object.keys(cartItems), [cartItems]);
+  const cartTotalAmount = useMemo(
+    () =>
+      Object.values(cartItems)
+        .reduce((acc, item) => acc + item.quantity * item.product.price, 0)
+        .toFixed(2),
+    [cartItems]
+  );
+
+  const incrementCartItem = (cartItem: CartItem, inc: number) => {
+    const quantity = cartItem.quantity + inc;
+    setCartItems((prev) => ({
+      ...prev,
+      [cartItem.product.id]: {
+        ...cartItem,
+        quantity,
+      },
+    }));
+    setCurrent(cartItem.product.id);
   };
-  const handleDecreaseCart = (product: any) => {
-    dispatch(decreaseCart(product));
+
+  const removeCartItem = (cartItem: CartItem) => {
+    setCartItems((prev) => {
+      const { [cartItem.product.id]: removed, ...rest } = prev;
+      return rest;
+    });
+    dispatch(removeCartItemAction(cartItem));
   };
-  const handleRemoveFromCart = (product: any) => {
-    dispatch(removeFromCart(product));
+
+  const clearCart = () => {
+    setCartItems({});
+    dispatch(clearCartAction());
   };
-  const handleClearCart = () => {
-    dispatch(clearCart(''));
-  };
+
+  useEffect(() => {
+    if (current === 0) return;
+
+    const debouncedUpdateCartItem = debounce(
+      (cartItemId: number, quantity: number) => {
+        dispatch(updateCartItemAction({ cartItemId, quantity }));
+      },
+      1000
+    );
+    debouncedUpdateCartItem(cartItems[current].id, cartItems[current].quantity);
+
+    return () => {
+      debouncedUpdateCartItem.cancel();
+    };
+  }, [current, dispatch, cartItems]);
 
   return (
-   
     <div className="cart-container">
       <h2>Shopping Cart</h2>
-      {cart.cartItems.length === 0 ? (
+      {productIds.length === 0 ? (
         <div className="cart-empty">
           <p>Your cart is currently empty</p>
           <div className="start-shopping">
@@ -65,41 +107,65 @@ const Cart: React.FC = () => {
             <h3 className="total">Total</h3>
           </div>
           <div className="cart-items">
-            {cart.cartItems &&
-              cart.cartItems.map((cartItem: any) => (
-                <div className="cart-item" key={cartItem.id}>
-                  <div className="cart-product">
-                    <img src={cartItem.image} alt={cartItem.name} />
-                    <div>
-                      <h3>{cartItem.name}</h3>
-                      <p>{cartItem.desc}</p>
-                      <button onClick={() => handleRemoveFromCart(cartItem)}>
-                        Remove
+            {productIds.length > 0 &&
+              productIds.map((productId) => {
+                const cartItem = cartItems[Number(productId)];
+                if (!cartItem) return null;
+                return (
+                  <div className="cart-item" key={productId}>
+                    <div className="cart-product">
+                      <img
+                        src={cartItem?.image?.image_url}
+                        alt={cartItem.name}
+                      />
+                      <div>
+                        <h3>{cartItem.name}</h3>
+                        <p>{cartItem.desc}</p>
+                        <button
+                          onClick={() => {
+                            removeCartItem(cartItem);
+                          }}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                    <div className="cart-product-price">
+                      ${cartItem.product.price}
+                    </div>
+                    <div className="cart-product-quantity">
+                      <button
+                        onClick={() => {
+                          incrementCartItem(cartItem, -1);
+                        }}
+                      >
+                        -
+                      </button>
+                      <div className="count">{cartItem.quantity}</div>
+                      <button onClick={() => incrementCartItem(cartItem, 1)}>
+                        +
                       </button>
                     </div>
+                    <div className="cart-product-total-price">
+                      ${(cartItem.product.price * cartItem.quantity).toFixed(2)}
+                    </div>
                   </div>
-                  <div className="cart-product-price">${cartItem.price}</div>
-                  <div className="cart-product-quantity">
-                    <button onClick={() => handleDecreaseCart(cartItem)}>
-                      -
-                    </button>
-                    <div className="count">{cartItem.cartQuantity}</div>
-                    <button onClick={() => handleAddToCart(cartItem)}>+</button>
-                  </div>
-                  <div className="cart-product-total-price">
-                    ${cartItem.price * cartItem.cartQuantity}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
           </div>
           <div className="cart-summary">
-            <button className="clear-btn" onClick={() => handleClearCart()}>
+            <button
+              className="clear-btn"
+              onClick={() => {
+                clearCart();
+              }}
+            >
               Clear Cart
             </button>
             <div className="cart-checkout">
               <div className="subtotal">
                 <span>Subtotal</span>
-                <span className="amount">${cart.cartTotalAmount}</span>
+                <span className="amount">${cartTotalAmount}</span>
               </div>
               <p>Taxes and shipping calculated at checkout</p>
               <button>Check out</button>

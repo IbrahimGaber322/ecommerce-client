@@ -1,144 +1,145 @@
-import { createSlice, } from "@reduxjs/toolkit";
-import { fetchUserCart, createCartForUser, addItemToCart, removeItemFromCart } from "./cartActions";
+import { createSlice } from "@reduxjs/toolkit";
+import {
+  getCartAction,
+  addToCartAction,
+  updateCartItemAction,
+  removeCartItemAction,
+  clearCartAction,
+} from "./cartActions";
 import { toast } from "react-toastify";
-import CartItem from '../../interfaces/CartItem';
-import Product from '../../interfaces/Product';
-interface CartState {
-  cartItems: CartItem[];
-  cartTotalQuantity: number;
-  cartTotalAmount: number;
-}
+import type { RootState } from "../index";
+import CartItem from "../../interfaces/CartItem";
 
-const initialState: CartState = {
-  cartItems: [],
-  cartTotalQuantity: 0,
-  cartTotalAmount: 0,
+interface Cart {
+  cartItems: { [key: number]: CartItem };
+  loading: boolean;
+  error: boolean;
+}
+const initialState: Cart = {
+  cartItems: JSON.parse(localStorage.getItem("cart_items") || "{}") || {},
+  loading: false,
+  error: false,
 };
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart(state, action) {
-      console.log("activated")
-      const existingIndex = state.cartItems.findIndex(
-        (item) => item.id === action.payload.id
-      );
-
-      if (existingIndex >= 0) {
-        state.cartItems[existingIndex] = {
-          ...state.cartItems[existingIndex],
-          quantity: state.cartItems[existingIndex].quantity + 1,
-        };
-        toast.info("Increased product quantity", {
-          position: "bottom-left",
-        });
-      } else {
-        let tempProductItem = { ...action.payload, quantity: 1 };
-        state.cartItems.push(tempProductItem);
-        toast.success("Product added to cart", {
-          position: "bottom-left",
-        });
-      }
-      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
-    },
-    decreaseCart(state, action) {
-      console.log("activated")
-      const itemIndex = state.cartItems.findIndex(
-        (item) => item.id === action.payload.id
-      );
-
-      if (state.cartItems[itemIndex].quantity > 1) {
-        state.cartItems[itemIndex].quantity -= 1;
-
-        toast.info("Decreased product quantity", {
-          position: "bottom-left",
-        });
-      } else if (state.cartItems[itemIndex].quantity === 1) {
-        const nextCartItems = state.cartItems.filter(
-          (item) => item.id !== action.payload.id
-        );
-
-        state.cartItems = nextCartItems;
-
-        toast.error("Product removed from cart", {
-          position: "bottom-left",
-        });
-      }
-
-      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
-    },
-    removeFromCart(state, action) {
-      state.cartItems.map((cartItem) => {
-        if (cartItem.id === action.payload.id) {
-          const nextCartItems = state.cartItems.filter(
-            (item) => item.id !== cartItem.id
-          );
-
-          state.cartItems = nextCartItems;
-
-          toast.error("Product removed from cart", {
-            position: "bottom-left",
-          });
-        }
-        localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
-        return state;
+    incrementCartItem: (state, action) => {
+      const productId = action.payload.product.id;
+      if (!state.cartItems[productId]) return;
+      state.cartItems[productId] = {
+        ...state.cartItems[productId],
+        quantity: state.cartItems[productId].quantity + 1,
+      };
+      toast.info("Increased product quantity", {
+        position: "bottom-left",
       });
-    },
-    getTotals(state, action) {
-      let { total, quantity } = state.cartItems.reduce(
-        (cartTotal, cartItem) => {
-          const { product, quantity } = cartItem;
-          const itemTotal = product.price * quantity;
-
-          cartTotal.total += itemTotal;
-          cartTotal.quantity += quantity;
-
-          return cartTotal;
-        },
-        {
-          total: 0,
-          quantity: 0,
-        }
-      );
-      total = parseFloat(total.toFixed(2));
-      state.cartTotalQuantity = quantity;
-      state.cartTotalAmount = total;
-    },
-    clearCart(state, action) {
-      state.cartItems = [];
-      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
-      toast.error("Cart cleared", { position: "bottom-left" });
+      localStorage.setItem("cart_items", JSON.stringify(state.cartItems));
     },
   },
-//   extraReducers: (builder) => {
-//     builder
-//       // Update state when fetching user's cart succeeds
-//       .addCase(fetchUserCart.fulfilled, (state, action) => {
-//         state.cartItems = action.payload; // Assuming payload is the cart items
-//       })
-//       // Update state when creating cart for user succeeds
-//       .addCase(createCartForUser.fulfilled, (state, action) => {
-//         // Do something if needed
-//       })
-//       // Update state when adding item to cart succeeds
-//       .addCase(addItemToCart.fulfilled, (state, action) => {
-//         // Do something if needed
-//       })
-//       // Update state when removing item from cart succeeds
-//       .addCase(removeItemFromCart.fulfilled, (state, action) => {
-//         // Do something if needed
-//       })
-//       // Handle rejected actions
-//       .addMatcher(
-//         (action) =>
-//           action.type.endsWith("/rejected") &&
-//           action.error.message === "Request failed with status code 400", // Adjust error message as needed
-//         (state, action) => {
-//           //
-//         }
-//       );
-//   },
+  extraReducers(builder) {
+    builder
+      .addCase(addToCartAction.pending, (state, action) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(addToCartAction.fulfilled, (state, action) => {
+        const cartItem = action.payload;
+        const { id: productId } = cartItem.product;
+        if (state.cartItems[productId]) return;
+        state.cartItems[productId] = cartItem;
+        localStorage.setItem("cart_items", JSON.stringify(state.cartItems));
+        toast.success("Added to cart", {
+          position: "bottom-left",
+        });
+        state.loading = false;
+        state.error = false;
+      })
+      .addCase(getCartAction.pending, (state, action) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(getCartAction.fulfilled, (state, action) => {
+        const cartItems = action.payload;
+        cartItems.forEach((item: CartItem) => {
+          state.cartItems[item.product.id] = item;
+        });
+        localStorage.setItem("cart_items", JSON.stringify(state.cartItems));
+        state.loading = false;
+        state.error = false;
+      })
+      .addCase(updateCartItemAction.pending, (state, action) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(updateCartItemAction.fulfilled, (state, action) => {
+        const updatedCartItem = action.payload;
+        const { id: productId } = updatedCartItem.product;
+        if (!state.cartItems[productId]) return;
+        toast.info("Updated cart item", {
+          position: "bottom-left",
+        });
+        state.cartItems[productId] = updatedCartItem;
+        console.log("update cartiems redux", state.cartItems);
+        localStorage.setItem("cart_items", JSON.stringify(state.cartItems));
+        state.loading = false;
+        state.error = false;
+      })
+      .addCase(updateCartItemAction.rejected, (state, action) => {
+        toast.error("Error updating cart item", {
+          position: "bottom-left",
+        });
+        state.loading = false;
+        state.error = true;
+      })
+      .addCase(removeCartItemAction.pending, (state, action) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(removeCartItemAction.fulfilled, (state, action) => {
+        const productId = action.payload;
+        delete state.cartItems[productId];
+        localStorage.setItem("cart_items", JSON.stringify(state.cartItems));
+        toast.success("Removed from cart", {
+          position: "bottom-left",
+        });
+        state.loading = false;
+        state.error = false;
+      })
+      .addCase(clearCartAction.pending, (state, action) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(clearCartAction.fulfilled, (state, action) => {
+        state.cartItems = {};
+        localStorage.setItem("cart_items", JSON.stringify(state.cartItems));
+        toast.success("Cleared cart", {
+          position: "bottom-left",
+        });
+        state.loading = false;
+        state.error = false;
+      });
+  },
 });
-export const { addToCart, decreaseCart, removeFromCart, getTotals, clearCart } = cartSlice.actions;
+export const { incrementCartItem } = cartSlice.actions;
+export const selectCartItems = (state: RootState) => state.cart.cartItems;
+export const selectCartTotalQuantity = (state: RootState) =>
+  Object.values(state.cart.cartItems).reduce(
+    (acc, item) => acc + item.quantity,
+    0
+  );
+export const selectCartTotalAmount = (state: RootState) =>
+  Object.values(state.cart.cartItems).reduce(
+    (acc, item) => acc + item.quantity * item.product.price,
+    0
+  ).toFixed(2);
+export const selectCartItemQuantity = (state: RootState, productId: number) => {
+  return state.cart.cartItems[productId]?.quantity || 0;
+};
+export const selectCartItemId = (state: RootState, productId: number) => {
+  return state.cart.cartItems[productId]?.id || 0;
+};
+export const selectCartLoading = (state: RootState) => state.cart.loading;
+
 export default cartSlice.reducer;

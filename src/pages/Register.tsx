@@ -33,7 +33,7 @@ const initialState = {
   password: "",
   confirmPassword: "",
   name: "",
-  profile_image: {} as File,
+  profile_image: null,
   username: "",
 };
 
@@ -92,7 +92,7 @@ export default function Register() {
       formData.last_name.length === 0 ||
       !formData.email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i) ||
       !formData.password.match(
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/i
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
       ) ||
       formData.confirmPassword !== formData.password
     ) {
@@ -103,7 +103,7 @@ export default function Register() {
           /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
         ),
         password: !formData.password.match(
-          /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i
+          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
         ),
         confirmPassword: formData.confirmPassword !== formData.password,
         username: formData.username.length === 0,
@@ -115,8 +115,10 @@ export default function Register() {
       formDataCopy.append("email", formData.email);
       formDataCopy.append("password", formData.password);
       formDataCopy.append("username", formData.username);
-      formDataCopy.append("profile_image", formData.profile_image);
-
+      if (formData.profile_image) {
+        formDataCopy.append("profile_image", formData.profile_image);
+      }
+      console.log(formData.profile_image);
       // Dispatches sign-up action if form data is valid
       dispatch(registerAction(formDataCopy));
       /*   navigate("/"); */
@@ -277,7 +279,7 @@ export default function Register() {
                 />
                 <FormHelperText>
                   {error.password
-                    ? "Password must be at least 8 chars long and contain a number."
+                    ? "Password must be at least 8 chars long, contain 1 number and 1 special char."
                     : false}
                 </FormHelperText>
               </FormControl>

@@ -1,25 +1,41 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Container, CssBaseline } from "@mui/material";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
+import { Box, Container, CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import darkTheme from "./theme/darkTheme";
 import lightTheme from "./theme/lightTheme";
 import MaterialUISwitch from "./components/ui/MaterialUISwitch";
 import { useAppDispatch } from "./hooks/redux";
 import { selectUser, selectAccessToken } from "./store/auth/authSlice";
-import { store } from "./store";
-import { userDataAction } from "./store/auth/authActions";
+import {
+  sendVerificationEmailAction,
+  userDataAction,
+} from "./store/auth/authActions";
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
-import api from "./api";
 import { useSelector } from "react-redux";
 import Login from "./pages/Login";
 import Cart from "./components/Cart";
-import ProductDetail from "./components/ProductDetail";
+import ProductDetail from "./pages/ProductDetail";
+import { getCartAction } from "./store/cart/cartActions";
+import Products from "./pages/Products";
+import WishList from "./pages/WishList";
+import ResetPassword from "./pages/ResetPassword";
+import ForgotPassword from "./pages/ForgotPassword";
+import VerifyEmail from "./pages/VerifyEmail";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Footer from "./components/Footer";
+import NotFound from "./pages/NotFound";
 import Checkout from "./pages/Checkout";
-
 /**
  * Main application component that handles routing and theme switching.
  */
@@ -28,22 +44,13 @@ function App() {
   const user = useSelector(selectUser);
   const accessToken = useSelector(selectAccessToken);
   useEffect(() => {
-    if (!user && accessToken) {
+    if (!user) {
       dispatch(userDataAction());
     }
+    if (user) {
+      dispatch(getCartAction());
+    }
   }, [user, accessToken, dispatch]);
-
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       const data = await api.get("/product/");
-  //       console.log("Data: ", data);
-  //     } catch (error) {
-  //       console.error("Error fetching data: ", error);
-  //     }
-  //   }
-  //   fetchData();
-  // });
 
   // Retrieve dark mode state from local storage or set to default.
   const darkState =
@@ -59,6 +66,14 @@ function App() {
     localStorage.setItem("dark", JSON.stringify(dark));
   }, [dark]);
 
+  const productsRoutes = [
+    "products",
+    "electronics",
+    "fashion",
+    "books",
+    "toys",
+  ];
+
   return (
     <BrowserRouter>
       <ThemeProvider theme={dark ? darkTheme : lightTheme}>
@@ -67,7 +82,12 @@ function App() {
         {/* Main container */}
         <Container
           component="main"
-          sx={{ minHeight: "100vh", position: "relative" }}
+          sx={{
+            minHeight: "100vh",
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+          }}
           maxWidth={false}
           disableGutters
         >
@@ -75,12 +95,53 @@ function App() {
           {/* Routing configuration */}
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/product-details" element={<ProductDetail />} />
             <Route path="/checkout" element={<Checkout />} />
+            {productsRoutes.map((routePath, index) => {
+              return (
+                <Route
+                  path={routePath}
+                  element={<Products />}
+                  key={`page-${index}`}
+                />
+              );
+            })}
+            <Route path="/products/:id" element={<ProductDetail />} />
+            <Route
+              path="/cart"
+              element={!user ? <Navigate to={"/"} /> : <Cart />}
+            />
+            <Route
+              path="/wishlist"
+              element={!user ? <Navigate to={"/"} /> : <WishList />}
+            />
+
+            <Route
+              path="/register"
+              element={user ? <Navigate to={"/"} /> : <Register />}
+            />
+            <Route
+              path="/login"
+              element={user ? <Navigate to={"/"} /> : <Login />}
+            />
+            <Route
+              path="/forgot-password"
+              element={user ? <Navigate to={"/"} /> : <ForgotPassword />}
+            />
+            <Route
+              path="reset-password/:token"
+              element={user ? <Navigate to={"/"} /> : <ResetPassword />}
+            />
+            <Route
+              path="reset-password"
+              element={user ? <Navigate to={"/"} /> : <ResetPassword />}
+            />
+            <Route path="/verify-email/:token" element={<VerifyEmail />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
+          <Box marginTop={"auto"}>
+            <Footer dark={dark} />
+          </Box>
 
           {/* Dark mode switch */}
           <MaterialUISwitch
@@ -90,6 +151,7 @@ function App() {
               setDark(e.target.checked);
             }}
           />
+          <ToastContainer />
         </Container>
       </ThemeProvider>
     </BrowserRouter>

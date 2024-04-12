@@ -68,10 +68,8 @@ const productSlice = createSlice({
     builder.addCase(fetchProductById.fulfilled, (state, action) => {
       state.loading = false;
       state.selectedProduct = action.payload;
-      // console.log(`the product ${JSON.stringify(action.payload)}`)
     });
     builder.addCase(fetchProductById.rejected, (state, action) => {
-      console.log("fejected");
       state.loading = false;
       state.error = action.error.message || "Failed to fetch product by ID";
     });

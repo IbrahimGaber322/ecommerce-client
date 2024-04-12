@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import BackdropGallery from "./BackdropGallery";
-import Product from "../interfaces/Product";
-import Image from "../interfaces/Image";
-import { useSelector } from "react-redux";
-import { selectProductLoading } from "../store/product/productSlice";
-import RenderStockStatus from "./RenderStock";
+import Product from "../../interfaces/Product";
+import RenderStockStatus from "../ui/RenderStock";
 interface GalleryProps {
   product: Product | null;
 }
@@ -52,7 +49,7 @@ const Gallery: React.FC<GalleryProps> = ({ product }) => {
     <div className="gallery-holder hide-in-mobile">
       <div className="gallery">
         <div className="image" style={{ position: "relative" }}>
-          <img src={currentImage} alt={"product"} onClick={handleToggle} />
+          <img src={currentImage} alt={"product"} onClick={handleToggle} style={{ width:'500px', height:'500px'}} />
           <div style={{ position: "absolute", top: 0, right: 0 }}>
             <RenderStockStatus product={product} />
           </div>
@@ -64,7 +61,7 @@ const Gallery: React.FC<GalleryProps> = ({ product }) => {
           images={images}
         />
         <div className="thumbnails">
-          {images?.map((image, index) => (
+          {images?.slice(0, 4).map((image, index) => (
             <div
               className={`img-holder ${
                 currentImage === image ? "activated" : ""
@@ -79,7 +76,7 @@ const Gallery: React.FC<GalleryProps> = ({ product }) => {
               }}
             >
               <div className="outlay"></div>
-              <img src={image} alt={`product-${index + 1}`} />
+              <img src={image} alt={`product-${index + 1}`} style={{ width:'100%'}}/>
             </div>
           ))}
         </div>
