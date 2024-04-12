@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
 import { Box, Button, Typography, Modal, TextField, Rating, Avatar } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -28,11 +28,9 @@ const ReviewComponent: React.FC<Props> = ({ reviews, productId}) => {
     };
 
     const style = {
-        position: 'absolute',
-        top: '80%',
-        left: '60%',
-        transform: 'translate(-50%, -50%)',
-        width: 800,
+        position: 'sticky',
+        margin: 'auto',
+        width: '50%',
         bgcolor: 'background.paper',
         boxShadow: 24,
         p: 4,
@@ -53,6 +51,7 @@ const ReviewComponent: React.FC<Props> = ({ reviews, productId}) => {
             ))}
             <Button startIcon={<AddIcon />} onClick={handleOpen}>Add Review</Button>
             <Modal
+                sx={{display: 'flex', justifyContent: 'center', alignItems:'center'}}
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
@@ -71,16 +70,18 @@ const ReviewComponent: React.FC<Props> = ({ reviews, productId}) => {
                         value={newReview}
                         onChange={(e) => setNewReview(e.target.value)}
                     />
-                    <Rating
-                        name="simple-controlled"
-                        value={rating}
-                        onChange={(event, newValue) => {
-                            if (newValue !== null) {
-                                setRating(newValue);
-                            }
-                        }}
-                    />
-                    <Button onClick={submitReview} sx={{ mt: 2 }}>Submit</Button>
+                    <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
+                        <Rating
+                            name="simple-controlled"
+                            value={rating}
+                            onChange={(event, newValue) => {
+                                if (newValue !== null) {
+                                    setRating(newValue);
+                                }
+                            }}
+                        />
+                        <Button onClick={submitReview}>Submit</Button>
+                    </Box>
                 </Box>
             </Modal>
         </div>
