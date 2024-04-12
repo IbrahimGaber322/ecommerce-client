@@ -9,17 +9,17 @@ import { Link } from "react-router-dom";
 export default function Footer({dark}:{dark:boolean}) {
   return (
     <Grid container spacing={2} sx={{
-        height: '200px',
+        height: {xs:'250px', md: '150px'},
         backgroundColor: `${dark? "background.paper":"primary.main"}`,
         padding: '2rem',
-        marginTop: '24px',
+        marginTop: '0.1rem',
     }}>
-        <Grid item xs={4} sx={{
+        <Grid item xs={12} md={4} sx={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center'
         }}>
-            <StorefrontIcon fontSize='large' sx={{ display: { xs: "none", md: "flex" }, mr: 1 , color: 'white'}} />
+            <StorefrontIcon fontSize='large' sx={{ display: "flex", mr: 1 , color: 'white'}} />
             <Typography
             variant="h6"
             noWrap
@@ -27,19 +27,18 @@ export default function Footer({dark}:{dark:boolean}) {
             to="/"
             sx={{
               mr: 2,
-              display: { xs: "none", md: "flex" },
+              display: "flex",
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
               color: "white",
               textDecoration: "none",
-
             }}
           >
             Bazaar
           </Typography>
         </Grid>
-        <Grid item xs={4} sx={{
+        <Grid item xs={12} md={4} sx={{
             color: 'white',
             display: 'flex',
             justifyContent: 'center',
@@ -47,9 +46,9 @@ export default function Footer({dark}:{dark:boolean}) {
         }}>
             <h1>Contact Us</h1>
         </Grid>
-        <Grid item xs={4} sx={{
+        <Grid item xs={12} md={4} sx={{
             display: 'flex',
-            justifyContent: 'end',
+            justifyContent: {xs: 'center', md: 'end'},
             alignItems: 'center'
         }}>
             <span style={{width: '50%', display: 'flex', justifyContent: 'space-evenly'}}>
