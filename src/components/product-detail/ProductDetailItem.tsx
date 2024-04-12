@@ -13,6 +13,7 @@ import { selectCartItems } from "../../store/cart/cartSlice";
 import { updateCartItemAction } from "../../store/cart/cartActions";
 import { debounce } from "lodash";
 import { useAppDispatch } from "../../hooks/redux";
+import Loading from "../../pages/Loading";
 
 const ProductDetailItem: React.FC<{ productId: number }> = ({ productId }) => {
   const dispatch = useAppDispatch();
@@ -55,7 +56,7 @@ const ProductDetailItem: React.FC<{ productId: number }> = ({ productId }) => {
       debouncedUpdateCartItem.cancel();
     };
   }, [quant, dispatch, cartItemId, changed]);
-  if (productLoading) return <h2>Loading...</h2>;
+  if (productLoading) return <Loading />;
   return (
     <Container
       sx={{ overflow: "hidden", height: "fit-content" }}

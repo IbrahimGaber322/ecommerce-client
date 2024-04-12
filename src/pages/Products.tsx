@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { searchProductsAction } from "../store/product/productActions";
 import ProductsSidebar from "../components/product/ProductsSidebar";
 import { useLocation } from "react-router-dom";
+import Loading from "./Loading";
 
 export default function Products() {
   const loading = useSelector(selectProductLoading);
@@ -33,7 +34,7 @@ export default function Products() {
   }, [dispatch, searchParams]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
   return (
     <div
