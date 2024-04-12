@@ -6,15 +6,12 @@ import StorefrontIcon from "@mui/icons-material/Storefront";
 import XIcon from '@mui/icons-material/X';
 import { Link } from "react-router-dom";
 
-export default function Footer() {
+export default function Footer({dark}:{dark:boolean}) {
   return (
     <Grid container spacing={2} sx={{
         height: '200px',
-        width: '100vw',
-        bottom: '0',
-        backgroundColor: 'black',
+        backgroundColor: `${dark? "background.paper":"primary.main"}`,
         padding: '2rem',
-        marginTop: '3rem'
     }}>
         <Grid item xs={4} sx={{
             display: 'flex',
