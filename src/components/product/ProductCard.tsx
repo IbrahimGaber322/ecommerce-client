@@ -5,6 +5,7 @@ import {
   CardContent,
   CardMedia,
   Rating,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -51,8 +52,11 @@ export default function ProductCard({ product }: { product: Product }) {
       </Link>
 
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {product.name}
+        
+        <Typography gutterBottom variant="h5" component="div" noWrap>
+          <Tooltip title={product.name}>
+            <span>{product.name}</span>
+          </Tooltip>
         </Typography>
         <Typography variant="body2" color="text.secondary" noWrap>
           {product.description}
