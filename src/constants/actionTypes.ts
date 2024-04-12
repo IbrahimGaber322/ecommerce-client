@@ -21,6 +21,7 @@ export const GET_CART = "cart/get";
 export const ADD_CART_ITEM = "/cart/add";
 export const DELETE_CART_ITEM = "/cart/delete";
 export const UPDATE_CART_ITEM = "/cart/update";
+export const CLEAR_CART = "/cart/clear";
 
 /* Category */
 export const FETCH_CATEGORIES = "/category";

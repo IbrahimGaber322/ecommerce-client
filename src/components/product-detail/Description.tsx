@@ -1,20 +1,24 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { useAppDispatch } from "../../hooks/redux";
 import { useSelector } from "react-redux";
-import CartIcon from "../Icons/CartIcon";
 import QuantityButton from "../ui/QuantityButton";
 import Product from "../../interfaces/Product";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 import { selectCartItems } from "../../store/cart/cartSlice";
-import { addToCartAction } from "../../store/cart/cartActions";
+import {
+  addToCartAction,
+  removeCartItemAction,
+} from "../../store/cart/cartActions";
 import { addToWishListAction } from "../../store/wishList/wishListAction";
-import { Button } from "@mui/material";
+import { Box, Button, IconButton } from "@mui/material";
+import { Delete, ShoppingCart } from "@mui/icons-material";
 
 interface DescriptionProps {
   quant: number;
   addQuant: () => void;
   removeQuant: () => void;
+  setQuant: React.Dispatch<React.SetStateAction<number>>;
   product: Product | null;
 }
 
@@ -22,11 +26,13 @@ const Description: React.FC<DescriptionProps> = ({
   quant,
   addQuant,
   removeQuant,
+  setQuant,
   product,
 }) => {
   const dispatch = useAppDispatch();
 
   const cartItems = useSelector(selectCartItems);
+  const cartItem = cartItems[product?.id || 0];
 
   const addToWishlist = (id: number | null) => {
     dispatch(addToWishListAction(id));
@@ -34,12 +40,12 @@ const Description: React.FC<DescriptionProps> = ({
 
   const handleAddToCart = () => {
     dispatch(addToCartAction(product?.id));
+    setQuant(1);
   };
 
-  const productInCart = useMemo(
-    () => cartItems.find((item) => item.product.id === product?.id),
-    [cartItems, product?.id]
-  );
+  const handleDelete = () => {
+    dispatch(removeCartItemAction(cartItem));
+  };
 
   return (
     <section className="description">
@@ -47,26 +53,45 @@ const Description: React.FC<DescriptionProps> = ({
         <h1>{product?.name}</h1>
       </div>
       <p className="desc">{product?.description}</p>
-      <div className="price">
+      <div
+        className="price"
+        style={{ display: "flex", justifyContent: "center" }}
+      >
         <div className="main-tag">
           <p>{product?.price} $</p>
         </div>
       </div>
-      <div className="buttons">
-        {productInCart && (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 4,
+          alignItems: "center",
+        }}
+      >
+        {cartItems[product?.id || 0] && (
           <QuantityButton
             onQuant={quant}
             onRemove={removeQuant}
             onAdd={addQuant}
           />
         )}
-        {!productInCart && (
-          <button className="add-to-cart" onClick={handleAddToCart}>
-            <CartIcon />
+        {!cartItems[product?.id || 0] && (
+          <IconButton color="primary" onClick={handleAddToCart}>
+            <ShoppingCart />
             add to cart
-          </button>
+          </IconButton>
         )}
-      </div>
+        {cartItems[product?.id || 0] && (
+          <IconButton
+            sx={{ color: "red", borderRadius: 0 }}
+            onClick={handleDelete}
+          >
+            Delete from cart
+            <Delete />
+          </IconButton>
+        )}
+      </Box>
       <div className="product-additional-info pt-25">
         <Button
           className="wishlist-btn"

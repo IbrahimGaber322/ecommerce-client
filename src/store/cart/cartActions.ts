@@ -1,10 +1,17 @@
 import { thunkWrapper } from "../thunkWrapper";
-import { getCart, addToCart, removeCartItem, updateCartItem } from "./cartApi";
+import {
+  getCart,
+  addToCart,
+  removeCartItem,
+  updateCartItem,
+  clearCart,
+} from "./cartApi";
 import {
   GET_CART,
   ADD_CART_ITEM,
   DELETE_CART_ITEM,
   UPDATE_CART_ITEM,
+  CLEAR_CART,
 } from "../../constants/actionTypes";
 import CartItem from "../../interfaces/CartItem";
 
@@ -25,16 +32,27 @@ export const addToCartAction = thunkWrapper(
 );
 export const removeCartItemAction = thunkWrapper(
   DELETE_CART_ITEM,
-  async (itemId: number) => {
-    await removeCartItem(itemId);
-    return itemId;
+  async (cartItem: CartItem) => {
+    await removeCartItem(cartItem.id);
+    return cartItem.product.id;
   }
 );
 
 export const updateCartItemAction = thunkWrapper(
   UPDATE_CART_ITEM,
-  async ({cartItemId, quantity}:{cartItemId: number, quantity: number}): Promise<CartItem> => {
+  async ({
+    cartItemId,
+    quantity,
+  }: {
+    cartItemId: number;
+    quantity: number;
+  }): Promise<CartItem> => {
     const response = await updateCartItem(cartItemId, quantity);
     return response.data;
   }
 );
+
+export const clearCartAction = thunkWrapper(CLEAR_CART, async () => {
+  await clearCart();
+  return [];
+});

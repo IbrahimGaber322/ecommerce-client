@@ -655,7 +655,7 @@ header nav .right .cart button.checkout:hover {
   flex-basis: 50%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   text-align: left;
   gap: 25px;
 }
