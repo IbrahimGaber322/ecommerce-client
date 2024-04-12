@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import plus from "../../Pictures/icon-plus.svg";
 import minus from "../..//Pictures/icon-minus.svg";
+import { Box, IconButton } from "@mui/material";
 
 interface QuantityButtonProps {
   onQuant: number;
@@ -8,17 +9,21 @@ interface QuantityButtonProps {
   onAdd: () => void;
 }
 
-const QuantityButton: FC<QuantityButtonProps> = ({ onQuant, onRemove, onAdd }) => {
+const QuantityButton: FC<QuantityButtonProps> = ({
+  onQuant,
+  onRemove,
+  onAdd,
+}) => {
   return (
-    <div className="amount">
-      <button className="minus" onClick={onRemove} disabled={onQuant === 0}>
+    <Box sx={{ display: "flex", gap: 3 }}>
+      <IconButton className="minus" onClick={onRemove} disabled={onQuant === 0}>
         <img src={minus} alt="icon-minus" />
-      </button>
+      </IconButton>
       <p>{onQuant}</p>
-      <button className="plus" onClick={onAdd} disabled={onQuant === 100}>
+      <IconButton className="plus" onClick={onAdd} disabled={onQuant === 100}>
         <img src={plus} alt="icon-plus" />
-      </button>
-    </div>
+      </IconButton>
+    </Box>
   );
 };
 
