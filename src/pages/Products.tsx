@@ -36,7 +36,6 @@ export default function Products() {
       minRating: searchParams.get("min_rating") || undefined,
       maxRating: searchParams.get("max_rating") || undefined,
     };
-    console.log(paramsData)
     dispatch(searchProductsAction(paramsData));
   }, [dispatch, searchParams, location.pathname]);
 
