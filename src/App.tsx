@@ -28,6 +28,7 @@ import VerifyEmail from "./pages/VerifyEmail";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "./components/Footer";
+import NotFound from "./pages/NotFound";
 /**
  * Main application component that handles routing and theme switching.
  */
@@ -113,6 +114,7 @@ function App() {
             />
             <Route path="/verify-email/:token" element={<VerifyEmail />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
           <Box marginTop={"auto"}>
           <Footer dark={dark}/>
