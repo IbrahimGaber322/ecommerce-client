@@ -58,6 +58,8 @@ function App() {
     localStorage.setItem("dark", JSON.stringify(dark));
   }, [dark]);
 
+  const productsRoutes = ['products', 'electronics', 'fashion', 'books', 'toys']
+
   return (
     <BrowserRouter>
       <ThemeProvider theme={dark ? darkTheme : lightTheme}>
@@ -74,7 +76,11 @@ function App() {
           {/* Routing configuration */}
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/products" element={<Products />} />
+            {productsRoutes.map((routePath, index) => {
+              return(
+                <Route path={routePath} element={<Products/>} key={`page-${index}`}/>
+              );
+            })}
             <Route path="/products/:id" element={<ProductDetail />} />
             <Route
               path="/cart"
