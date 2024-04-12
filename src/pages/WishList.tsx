@@ -23,7 +23,7 @@ import Paper from "@mui/material/Paper";
 import Loading from "./Loading";
 
 const WishListComponent: React.FC = () => {
-  const wishList: WishList = useSelector(selectWishList);
+  const wishList = useSelector(selectWishList);
   const loading: boolean = useSelector(selectWishListLoading);
   const dispatch: Dispatch<any> = useDispatch();
 
@@ -43,7 +43,7 @@ const WishListComponent: React.FC = () => {
   return (
     <div className="cart-container">
       <h2>Shopping WishList</h2>
-      {wishList?.wishlistItems?.length === 0 ? (
+      {wishList?.length === 0 ? (
         <div className="cart-empty">
           <p>Your WishList is currently empty</p>
           <div className="start-shopping">
@@ -97,7 +97,7 @@ const WishListComponent: React.FC = () => {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {wishList?.wishlistItems?.map((wishlistItem, index) => {
+                        {wishList?.map((wishlistItem, index) => {
                           return (
                             <WishListItemComponent
                               key={index}

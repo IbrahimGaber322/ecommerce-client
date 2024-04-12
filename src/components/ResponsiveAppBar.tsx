@@ -23,10 +23,14 @@ import { useSelector } from "react-redux";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
+import { Badge } from "@mui/material";
+import ShoppingCart from "@mui/icons-material/ShoppingCart";
+import { selectCartTotalQuantity } from "../store/cart/cartSlice";
+import { selectWishList } from "../store/wishList/wishListSlicer";
 
 const pages = ["electronics", "fashion", "books", "toys", "products"];
 
-const settings = ["profile", "account", "orders", "addresses"];
+const settings = ["profile", "account", "orders", "addresses", "wishlist"];
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -72,9 +76,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 function ResponsiveAppBar() {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
   const dispatch = useAppDispatch();
   const user = useSelector(selectUser);
+  const cartQuantity = useSelector(selectCartTotalQuantity);
+  const wishList = useSelector(selectWishList);
 
   const [search, setSearch] = React.useState("");
 
@@ -237,14 +242,25 @@ function ResponsiveAppBar() {
             />
           </Search>
           {user && (
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar
-                    alt={user?.first_name.charAt(0)}
-                    src={user?.profile_image}
-                  />
+            <Box sx={{  width:"200px" }}>
+              <Badge
+                anchorOrigin={{ horizontal: "left", vertical: "top" }}
+                badgeContent={cartQuantity}
+                color="error"
+              >
+                <IconButton color="inherit" component={Link} to="/cart">
+                  <ShoppingCart />
                 </IconButton>
+              </Badge>
+              <Tooltip title="Open settings">
+                <Badge badgeContent={wishList?.length || 0} color="error">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar
+                      alt={user?.first_name.charAt(0)}
+                      src={user?.profile_image}
+                    />
+                  </IconButton>
+                </Badge>
               </Tooltip>
               <Menu
                 sx={{ mt: "45px" }}
