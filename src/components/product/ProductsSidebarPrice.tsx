@@ -1,6 +1,7 @@
-import * as React from 'react';
-import { NumericFormat, NumericFormatProps } from 'react-number-format';
-import TextField from '@mui/material/TextField';
+import * as React from "react";
+import { NumericFormat, NumericFormatProps } from "react-number-format";
+import TextField from "@mui/material/TextField";
+import { Query } from "../../pages/Products";
 
 interface CustomProps {
   onChange: (event: { target: { name: string; value: string } }) => void;
@@ -28,27 +29,26 @@ const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
         prefix="$"
       />
     );
-  },
+  }
 );
 
-export default function FormattedInputs() {
-  const [minPrice, setMinPrice] = React.useState({
-    numberformat: undefined,
-  });
-  const [maxPrice, setMaxPrice] = React.useState({
-    numberformat: undefined,
-  });
-
+export default function FormattedInputs({
+  query,
+  setQuery,
+}: {
+  query: Query;
+  setQuery: React.Dispatch<React.SetStateAction<Query>>;
+}) {
   const handleMinPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMinPrice({
-      ...minPrice,
-      [event.target.name]: event.target.value,
+    setQuery({
+      ...query,
+      minPrice: event.target.value,
     });
   };
   const handleMaxPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMaxPrice({
-      ...maxPrice,
-      [event.target.name]: event.target.value,
+    setQuery({
+      ...query,
+      maxPrice: event.target.value,
     });
   };
 
@@ -56,7 +56,7 @@ export default function FormattedInputs() {
     <>
       <TextField
         label="min-price"
-        value={minPrice.numberformat}
+        value={query.minPrice}
         onChange={handleMinPriceChange}
         name="numberformat"
         id="minprice"
@@ -67,7 +67,7 @@ export default function FormattedInputs() {
       />
       <TextField
         label="max-price"
-        value={maxPrice.numberformat}
+        value={query.maxPrice}
         onChange={handleMaxPriceChange}
         name="numberformat"
         id="maxprice"
