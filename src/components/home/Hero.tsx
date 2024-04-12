@@ -1,6 +1,7 @@
 import { Box, Button } from "@mui/material";
 import heroImg from "../../assets/images/paper-made-shopping-bags_23-2147652055.avif";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { Link } from "react-router-dom";
 export default function Hero() {
   return (
     <Box
@@ -62,7 +63,8 @@ export default function Hero() {
         <p>Every purchase tells a story.</p>
         <Button
           sx={{ backgroundColor: "black", color: "white" }}
-          component="label"
+          component={Link}
+          to="/products"
           role={undefined}
           variant="contained"
           tabIndex={-1}

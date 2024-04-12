@@ -1,7 +1,7 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Container, CssBaseline } from "@mui/material";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Box, Container, CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import darkTheme from "./theme/darkTheme";
 import lightTheme from "./theme/lightTheme";
@@ -27,6 +27,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import VerifyEmail from "./pages/VerifyEmail";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Footer from "./components/Footer";
+import NotFound from "./pages/NotFound";
 /**
  * Main application component that handles routing and theme switching.
  */
@@ -57,6 +59,8 @@ function App() {
     localStorage.setItem("dark", JSON.stringify(dark));
   }, [dark]);
 
+  const productsRoutes = ['products', 'electronics', 'fashion', 'books', 'toys']
+
   return (
     <BrowserRouter>
       <ThemeProvider theme={dark ? darkTheme : lightTheme}>
@@ -65,7 +69,7 @@ function App() {
         {/* Main container */}
         <Container
           component="main"
-          sx={{ minHeight: "100vh", position: "relative" }}
+          sx={{ minHeight: "100vh", position: "relative", display: "flex", flexDirection: "column"}}
           maxWidth={false}
           disableGutters
         >
@@ -73,7 +77,11 @@ function App() {
           {/* Routing configuration */}
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/products" element={<Products />} />
+            {productsRoutes.map((routePath, index) => {
+              return(
+                <Route path={routePath} element={<Products/>} key={`page-${index}`}/>
+              );
+            })}
             <Route path="/products/:id" element={<ProductDetail />} />
             <Route
               path="/cart"
@@ -106,8 +114,12 @@ function App() {
             />
             <Route path="/verify-email/:token" element={<VerifyEmail />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
-
+          <Box marginTop={"auto"}>
+          <Footer dark={dark}/>
+          </Box>
+                
           {/* Dark mode switch */}
           <MaterialUISwitch
             sx={{ position: "absolute", bottom: 0, right: 0, m: 1 }}

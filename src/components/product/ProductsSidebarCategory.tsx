@@ -9,6 +9,7 @@ import {
   selectCategoryLoading,
 } from "../../store/category/categorySlice";
 import { fetchCategories } from "../../store/category/categoryActions";
+import Loading from "../../pages/Loading";
 
 export default function CustomizedInputsStyled() {
   const loading = useSelector(selectCategoryLoading);
@@ -25,7 +26,7 @@ export default function CustomizedInputsStyled() {
   }, [dispatch]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (

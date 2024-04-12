@@ -1,42 +1,42 @@
-import { TextField } from "@mui/material";
-import React, { useState } from "react";
-import { NumericFormat, NumericFormatProps } from "react-number-format";
+import * as React from 'react';
+import { NumericFormat, NumericFormatProps } from 'react-number-format';
+import TextField from '@mui/material/TextField';
 
 interface CustomProps {
   onChange: (event: { target: { name: string; value: string } }) => void;
   name: string;
 }
 
-export default function ProductsSidebarPrice() {
-  const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
-    function NumericFormatCustom(props, ref) {
-      const { onChange, ...other } = props;
+const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
+  function NumericFormatCustom(props, ref) {
+    const { onChange, ...other } = props;
 
-      return (
-        <NumericFormat
-          {...other}
-          getInputRef={ref}
-          onValueChange={(values) => {
-            onChange({
-              target: {
-                name: props.name,
-                value: values.value,
-              },
-            });
-          }}
-          thousandSeparator
-          valueIsNumericString
-          prefix="$"
-        />
-      );
-    }
-  );
+    return (
+      <NumericFormat
+        {...other}
+        getInputRef={ref}
+        onValueChange={(values) => {
+          onChange({
+            target: {
+              name: props.name,
+              value: values.value,
+            },
+          });
+        }}
+        thousandSeparator
+        valueIsNumericString
+        prefix="$"
+      />
+    );
+  },
+);
 
-  const [minPrice, setMinPrice] = useState({
-    numberformat: "0",
+export default function FormattedInputs() {
+  const [minPrice, setMinPrice] = React.useState({
+    numberformat: undefined,
   });
-  const [maxPrice, setMaxPrice] = useState({
-    numberformat: "0",
+  const [maxPrice, setMaxPrice] = React.useState({
+    numberformat: undefined,
   });
 
   const handleMinPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +45,6 @@ export default function ProductsSidebarPrice() {
       [event.target.name]: event.target.value,
     });
   };
-
   const handleMaxPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMaxPrice({
       ...maxPrice,
@@ -60,7 +59,7 @@ export default function ProductsSidebarPrice() {
         value={minPrice.numberformat}
         onChange={handleMinPriceChange}
         name="numberformat"
-        id="formatted-numberformat-input"
+        id="minprice"
         InputProps={{
           inputComponent: NumericFormatCustom as any,
         }}
@@ -71,7 +70,7 @@ export default function ProductsSidebarPrice() {
         value={maxPrice.numberformat}
         onChange={handleMaxPriceChange}
         name="numberformat"
-        id="formatted-numberformat-input"
+        id="maxprice"
         InputProps={{
           inputComponent: NumericFormatCustom as any,
         }}
