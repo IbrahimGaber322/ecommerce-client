@@ -16,21 +16,28 @@ export default function Products() {
   const dispatch: Dispatch<any> = useDispatch();
   const selectedProducts = useSelector(selectProducts);
   const location = useLocation();
+  const categoryParams = ['electronics', 'fashion', 'books', 'toys'];
   const searchParams = useMemo(
     () => new URLSearchParams(location.search),
     [location.search]
   );
   useEffect(() => {
+    const currPath = location.pathname.slice(1);
     const paramsData = {
       name: searchParams.get("name") || undefined,
-      category: searchParams.get("category") || undefined,
+      category: 
+        categoryParams.find((category) => category === currPath) || 
+        searchParams.get("category") || 
+        undefined,
+
       minPrice: searchParams.get("min_price") || undefined,
       maxPrice: searchParams.get("max_price") || undefined,
       minRating: searchParams.get("min_rating") || undefined,
       maxRating: searchParams.get("max_rating") || undefined,
     };
+    console.log(paramsData)
     dispatch(searchProductsAction(paramsData));
-  }, [dispatch, searchParams]);
+  }, [dispatch, searchParams, location.pathname]);
 
   if (loading) {
     return <div>Loading...</div>;
