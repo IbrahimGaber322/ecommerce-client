@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import QueryString from "query-string";
+// import QueryString from "query-string";
 
 interface QueryParams {
   success?: string;
@@ -10,18 +10,17 @@ interface QueryParams {
 const Payment: React.FC = () => {
   const location = useLocation();
 
-  useEffect(() => {
-    // Check to see if this is a redirect back from Checkout
-    const values = QueryString.parse(location.search) as QueryParams;
+  // useEffect(() => {
+  //   const values = QueryString.parse(location.search) as QueryParams;
 
-    if (values.success) {
-      console.log("Order placed! You will receive an email confirmation.");
-    }
+  //   if (values.success) {
+  //     console.log("Order placed! You will receive an email confirmation.");
+  //   }
 
-    if (values.canceled) {
-      console.log("Order canceled -- continue to shop around and checkout when you're ready.");
-    }
-  }, [location.search]);
+  //   if (values.canceled) {
+  //     console.log("Order canceled -- continue to shop around and checkout when you're ready.");
+  //   }
+  // }, [location.search]);
 
   return (
     <section>
