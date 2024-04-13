@@ -30,7 +30,7 @@ import Checkout from "./pages/Checkout";
 import Orders from "./pages/orders";
 import Addresses from "./pages/Address";
 import Profile from "./pages/Profile";
-import  Payment  from "./components/Payment";
+
 /**
  * Main application component that handles routing and theme switching.
  */
@@ -141,7 +141,6 @@ function App() {
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/addresses" element={<Addresses />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="payment" element={<Payment />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Box marginTop={"auto"}>
