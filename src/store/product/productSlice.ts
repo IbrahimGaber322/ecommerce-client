@@ -7,6 +7,7 @@ import {
   addReviewToProductAction,
 } from "./productActions";
 import Product from "../../interfaces/Product";
+import { toast } from "react-toastify";
 
 interface ProductState {
   products: Product[];
@@ -88,6 +89,7 @@ const productSlice = createSlice({
       state.error = action.error.message || "Failed to search products";
     });
 
+    // Add review to product
     builder.addCase(addReviewToProductAction.pending, (state) => {
       state.loading = false;
       state.error = null;
@@ -98,10 +100,16 @@ const productSlice = createSlice({
       if (state.selectedProduct) {
         state?.selectedProduct?.reviews?.push(action.payload);
       }
+      toast.success("Review added", {
+        position: "bottom-left",
+      });
     });
     builder.addCase(addReviewToProductAction.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message || "Failed to add review to product";
+      toast.error("Error adding review", {
+        position: "bottom-left",
+      });
     });
   },
 });

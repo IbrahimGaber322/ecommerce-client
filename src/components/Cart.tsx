@@ -34,14 +34,19 @@ const Cart: React.FC = () => {
 
   const incrementCartItem = (cartItem: CartItem, inc: number) => {
     const quantity = cartItem.quantity + inc;
-    setCartItems((prev) => ({
-      ...prev,
-      [cartItem.product.id]: {
-        ...cartItem,
-        quantity,
-      },
-    }));
-    setCurrent(cartItem.product.id);
+
+    if (quantity <= 0) {
+      removeCartItem(cartItem);
+    } else {
+      setCartItems((prev) => ({
+        ...prev,
+        [cartItem.product.id]: {
+          ...cartItem,
+          quantity,
+        },
+      }));
+      setCurrent(cartItem.product.id);
+    }
   };
 
   const removeCartItem = (cartItem: CartItem) => {
@@ -66,7 +71,7 @@ const Cart: React.FC = () => {
       },
       1000
     );
-    debouncedUpdateCartItem(cartItems[current].id, cartItems[current].quantity);
+    debouncedUpdateCartItem(cartItems[current]?.id, cartItems[current]?.quantity);
 
     return () => {
       debouncedUpdateCartItem.cancel();
