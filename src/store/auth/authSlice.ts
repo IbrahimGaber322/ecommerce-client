@@ -4,6 +4,7 @@ import {
   refreshTokenAction,
   registerAction,
   userDataAction,
+  editUserAction,
 } from "./authActions";
 import User from "../../interfaces/user";
 import type { RootState } from "../index";
@@ -111,6 +112,20 @@ const authSlice = createSlice({
         state.refresh_token = "";
         state.user = null;
         localStorage.clear();
+      })
+      .addCase(editUserAction.pending, (state, action) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(editUserAction.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = false;
+        state.user = action.payload;
+        localStorage.setItem("user", JSON.stringify(action.payload));
+      })
+      .addCase(editUserAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = true;
       });
   },
 });

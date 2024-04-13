@@ -38,6 +38,7 @@ import NotFound from "./pages/NotFound";
 import Checkout from "./pages/Checkout";
 import  Payment  from "./components/Payment";
 import Addresses from "./pages/Address";
+import Profile from "./pages/Profile";
 /**
  * Main application component that handles routing and theme switching.
  */
@@ -144,6 +145,7 @@ function App() {
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="payment" element={<Payment />} />
             <Route path="/addresses" element={<Addresses />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Box marginTop={"auto"}>

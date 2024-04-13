@@ -6,7 +6,8 @@ import {
   resetPassword,
   sendResetPassword,
   sendVerificationEmail,
-  verifyEmail
+  verifyEmail,
+  editUser,
 } from "./authApi";
 import {
   LOGIN,
@@ -16,7 +17,8 @@ import {
   RESET_PASSWORD,
   SEND_RESET_PASSWORD,
   SEND_VERIFY_EMAIL,
-  VERIFY_EMAIL
+  VERIFY_EMAIL,
+  EDIT_USER,
 } from "../../constants/actionTypes";
 import { thunkWrapper } from "../thunkWrapper";
 
@@ -77,6 +79,14 @@ export const sendVerificationEmailAction = thunkWrapper(
   SEND_VERIFY_EMAIL,
   async () => {
     const response = await sendVerificationEmail();
+    return response.data;
+  }
+);
+
+export const editUserAction = thunkWrapper(
+  EDIT_USER,
+  async (payload: FormData) => {
+    const response = await editUser(payload);
     return response.data;
   }
 );

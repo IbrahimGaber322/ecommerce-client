@@ -15,3 +15,4 @@ export const sendResetPassword = (email: string) =>
 export const verifyEmail = (token: string) =>
   api.post("users/verify-email/", { token });
 export const sendVerificationEmail = () => api.post("users/send-verify-email/");
+export const editUser = (userData: FormData) => api.putForm("users/me/", userData);

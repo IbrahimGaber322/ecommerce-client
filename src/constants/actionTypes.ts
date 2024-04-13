@@ -8,6 +8,7 @@ export const RESET_PASSWORD = "auth/resetPassword";
 export const SEND_RESET_PASSWORD = "auth/sendResetPassword";
 export const VERIFY_EMAIL = "auth/verifyEmail";
 export const SEND_VERIFY_EMAIL = "auth/sendVerifyEmail";
+export const EDIT_USER = "auth/editUser";
 
 /* Product */
 export const FETCH_PRODUCTS = "/product";
