@@ -1,5 +1,5 @@
 import { Box, Rating } from '@mui/material'
-import React, { useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useAppDispatch } from '../../hooks/redux';
 import { addRatingToProductAction, fetchAllRatesAction, updateRatingForProductAction } from '../../store/rate/rateActions';
 import Product from '../../interfaces/Product';
@@ -7,9 +7,11 @@ import { useSelector } from 'react-redux';
 import { selectRateLoading, selectRates } from '../../store/rate/rateSlice';
 import { selectUser } from '../../store/auth/authSlice';
 import Loading from '../../pages/Loading';
+import { useNavigate } from 'react-router-dom';
 
 export default function ProductDetailRate({product} : {product: Product}) {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const allRates = useSelector(selectRates);
   const loading = useSelector(selectRateLoading)
   const currUser = useSelector(selectUser);
@@ -35,10 +37,9 @@ export default function ProductDetailRate({product} : {product: Product}) {
     <Box>
         <Rating name="half-rating" value={userRate?.rate || 0} 
         onChange={(event, value) => {
-          userRate?.rate ?
-          updateRate(value!):
-          addRate(value!)
-          
+          currUser ?
+          (userRate?.rate ? updateRate(value!) : addRate(value!)) :
+          navigate('/login')
         }}/>
     </Box>
   )

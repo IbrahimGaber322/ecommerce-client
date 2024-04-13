@@ -12,9 +12,7 @@ interface ProductState {
   products: Product[];
   popularProducts: Product[];
   selectedProduct: Product | null;
-  rates: any;
   loading: boolean;
-  rateLoading: boolean;
   error: string | null;
 }
 interface State {
@@ -24,10 +22,8 @@ interface State {
 const initialState: ProductState = {
   products: [],
   popularProducts: [],
-  rates: [],
   selectedProduct: null,
   loading: false,
-  rateLoading: false,
   error: null,
 };
 
