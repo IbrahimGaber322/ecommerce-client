@@ -28,5 +28,5 @@ export const updateCartItem = (
 };
 
 export const clearCart = () => {
-  return api.delete("/cart/clear  /");
+  return api.delete("/cart/clear/");
 };
