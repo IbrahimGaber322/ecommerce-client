@@ -19,23 +19,21 @@ import {
   Typography,
 } from "@mui/material";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import ShippingAddressForm from "../components/ShippingAddressForm";
-import { selectCartItems, selectCartTotalAmount } from "../store/cart/cartSlice";
 import api from "../api";
+import { clearCartAction } from "../store/cart/cartActions";
+import { addOrderAction } from "../store/order/orderActions";
 
 interface ShippingAddressForm {
   savedAddress: string;
 }
 
 export default function Checkout() {
-  const cartItems = useSelector(selectCartItems);
   const addresses: Address[] = useSelector(selectAddresses);
-  const totalAmount = useSelector(selectCartTotalAmount);
-  console.log(cartItems);
-  console.log(addresses);
+  // const history = useHistory();
   const dispatch = useAppDispatch();
-  
+
   useEffect(() => {
     dispatch(getAddresses());
   }, [dispatch]);
@@ -50,20 +48,21 @@ export default function Checkout() {
     },
   });
 
-  const onSubmit = async(data: any) => {
-    console.log(data);
-    console.log("form",addresses.find((address) => address.id == data.savedAddress));
-    const selectedAddress= addresses.find((address) => address.id == data.savedAddress);
+  const onSubmit = async (data: any) => {
+    const selectedAddress = addresses.find(
+      (address) => address.id == data.savedAddress
+    );
     const formData = {
       ...data,
       address: selectedAddress?.address,
       address_mobile: selectedAddress?.mobile_number,
       address_name: selectedAddress?.name,
-      total_price: totalAmount,
     };
-    await api.post("order/", formData);
-    }
-
+    dispatch(addOrderAction(formData));
+    dispatch(clearCartAction());
+    let res = await api.get("/checkout/");
+    window.location.href = res.data.redirect_url;
+  };
 
   return (
     <>

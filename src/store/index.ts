@@ -7,6 +7,7 @@ import addressSlice from "./address/addressSlice";
 
 import categorySlice from "./category/categorySlice";
 import wishListSlicer from "./wishList/wishListSlicer";
+import OrderSlicer from "./order/orderSlicer";
 import rateSlice from "./rate/rateSlice";
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     address: addressSlice,
     category: categorySlice,
     wishlist: wishListSlicer,
+    order: OrderSlicer,
     rate: rateSlice,
   },
 });

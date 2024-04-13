@@ -4,5 +4,4 @@ export default interface Address {
   address: string;
   mobile_number: string;
   desc: string;
-  user: number;
 }
