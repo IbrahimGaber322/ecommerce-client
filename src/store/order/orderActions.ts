@@ -18,6 +18,7 @@ import {
   CANCEL_ORDER,
   ADD_ORDER_ITEM,
   DELETE_ORDER_ITEM,
+  CHECKOUT_ORDER,
 } from "../../constants/actionTypes";
 import Order from "../../interfaces/Order";
 import OrderItem from "../../interfaces/OrderItem";
@@ -87,6 +88,14 @@ export const deleteOrderItemAction = thunkWrapper(
   DELETE_ORDER_ITEM, // Using the constant as the first argument
   async (orderItemId: number) => {
     const response = await deleteOrderItem(orderItemId);
+    return response.data;
+  }
+);
+
+export const checkoutOrderAction = thunkWrapper(
+  CHECKOUT_ORDER, // Using the constant as the first argument
+  async () => {
+    const response = await checkoutOrder();
     return response.data;
   }
 );
