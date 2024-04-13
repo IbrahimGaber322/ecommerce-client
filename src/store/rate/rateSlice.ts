@@ -4,6 +4,7 @@ import {
   addRatingToProductAction,
 	updateRatingForProductAction,
 } from "./rateActions";
+import { toast } from "react-toastify";
 
 interface RateState {
   rates: any | null;
@@ -34,10 +35,16 @@ const rateSlice = createSlice({
       state.loading = false;
       const newRating = action.payload;
       state.rates.push(newRating);
+      toast.success("Rated successfully", {
+        position: "bottom-left",
+      });
     });
     builder.addCase(addRatingToProductAction.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message || "Failed to add new rating";
+      toast.error("Failed to rate", {
+        position: "bottom-left",
+      });
     });
 
     // Fetch all rates
@@ -72,10 +79,16 @@ const rateSlice = createSlice({
         state.rates = updatedRates;
       }
 
+      toast.info("Rating updated", {
+        position: "bottom-left",
+      });
     });
     builder.addCase(updateRatingForProductAction.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message || "Failed to update rate for product";
+      toast.error("Failed to update rating", {
+        position: "bottom-left",
+      });
     });
   },
 });

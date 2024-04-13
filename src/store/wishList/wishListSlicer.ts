@@ -30,13 +30,16 @@ const cartSlice = createSlice({
       .addCase(addToWishListAction.fulfilled, (state, action) => {
         state.wishlistItems.push(action.payload);
         localStorage.setItem("wishlist_items", JSON.stringify(state.wishlistItems));
-        toast.success("Added to cart", {
+        toast.success("Added to wishlist", {
           position: "bottom-left",
         });
       })
       .addCase(addToWishListAction.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Failed to add to wishlist is already in wishlist";
+        toast.error("Failed to add to wishlist", {
+          position: "bottom-left",
+        });
         })
       .addCase(getWishListAction.pending, (state) => {
         state.error = null;
@@ -50,6 +53,9 @@ const cartSlice = createSlice({
         const removedItemId = action.payload;
         state.wishlistItems = state.wishlistItems.filter(item => item.id !== removedItemId);
         localStorage.setItem("wishlist_items", JSON.stringify(state.wishlistItems));
+        toast.success("Removed successfully", {
+          position: "bottom-left",
+        });
       })
   },
 });
