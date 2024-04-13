@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Address from "../../interfaces/Address";
 import { addAddress, getAddresses } from "./addressActions";
+import { toast } from "react-toastify";
 
 interface AddressState {
   address: {
@@ -45,11 +46,17 @@ const addressSlice = createSlice({
       .addCase(addAddress.fulfilled, (state, action) => {
         state.loading = false;
         state.error = false;
+        toast.info("Added successfully!", {
+          position: "bottom-left",
+        });
       })
       .addCase(addAddress.rejected, (state, action) => {
         state.loading = false;
         state.error = true;
         state.errorData = action.payload;
+        toast.info(`Error adding address`, {
+          position: "bottom-left",
+        });
       });
   },
 });
