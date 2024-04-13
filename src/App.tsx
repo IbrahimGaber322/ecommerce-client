@@ -1,6 +1,12 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import { Box, Container, CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import darkTheme from "./theme/darkTheme";
@@ -29,6 +35,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "./components/Footer";
 import NotFound from "./pages/NotFound";
+import Checkout from "./pages/Checkout";
 import Address from "./components/Address";
 /**
  * Main application component that handles routing and theme switching.
@@ -60,7 +67,13 @@ function App() {
     localStorage.setItem("dark", JSON.stringify(dark));
   }, [dark]);
 
-  const productsRoutes = ['products', 'electronics', 'fashion', 'books', 'toys']
+  const productsRoutes = [
+    "products",
+    "electronics",
+    "fashion",
+    "books",
+    "toys",
+  ];
 
   return (
     <BrowserRouter>
@@ -70,7 +83,12 @@ function App() {
         {/* Main container */}
         <Container
           component="main"
-          sx={{ minHeight: "100vh", position: "relative", display: "flex", flexDirection: "column"}}
+          sx={{
+            minHeight: "100vh",
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+          }}
           maxWidth={false}
           disableGutters
         >
@@ -78,9 +96,17 @@ function App() {
           {/* Routing configuration */}
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route
+              path="/checkout"
+              element={!user ? <Navigate to={"/"} /> : <Checkout />}
+            />
             {productsRoutes.map((routePath, index) => {
-              return(
-                <Route path={routePath} element={<Products/>} key={`page-${index}`}/>
+              return (
+                <Route
+                  path={routePath}
+                  element={<Products />}
+                  key={`page-${index}`}
+                />
               );
             })}
             <Route path="/products/:id" element={<ProductDetail />} />
@@ -119,9 +145,9 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Box marginTop={"auto"}>
-          <Footer dark={dark}/>
+            <Footer dark={dark} />
           </Box>
-                
+
           {/* Dark mode switch */}
           <MaterialUISwitch
             sx={{ position: "absolute", bottom: 0, right: 0, m: 1 }}
