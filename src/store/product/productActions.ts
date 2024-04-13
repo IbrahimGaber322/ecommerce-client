@@ -5,7 +5,6 @@ import {
   getProductById,
   searchProducts,
   addReviewToProduct,
-  addRatingToProduct,
 } from "./productApi";
 import {
   FETCH_PRODUCTS,
@@ -13,7 +12,6 @@ import {
   FETCH_PRODUCT_BY_ID,
   SEARCH_PRODUCTS,
   ADD_REVIEW_TO_PRODUCT,
-  ADD_RATING_TO_PRODUCT
 } from "../../constants/actionTypes";
 // import Product from "../../interfaces/Product";
 
@@ -59,10 +57,3 @@ export const addReviewToProductAction = thunkWrapper(
   }
 );
 
-export const addRatingToProductAction = thunkWrapper(
-  ADD_RATING_TO_PRODUCT,
-  async (productId: number, rating: number ) => {
-    const response = await addRatingToProduct(productId, rating);
-    return response.data;
-  }
-);

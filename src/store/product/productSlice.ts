@@ -5,7 +5,6 @@ import {
   fetchProductById,
   searchProductsAction,
   addReviewToProductAction,
-  addRatingToProductAction,
 } from "./productActions";
 import Product from "../../interfaces/Product";
 
@@ -13,7 +12,9 @@ interface ProductState {
   products: Product[];
   popularProducts: Product[];
   selectedProduct: Product | null;
+  rates: any;
   loading: boolean;
+  rateLoading: boolean;
   error: string | null;
 }
 interface State {
@@ -23,8 +24,10 @@ interface State {
 const initialState: ProductState = {
   products: [],
   popularProducts: [],
+  rates: [],
   selectedProduct: null,
   loading: false,
+  rateLoading: false,
   error: null,
 };
 
@@ -102,23 +105,6 @@ const productSlice = createSlice({
       }
     });
     builder.addCase(addReviewToProductAction.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message || "Failed to add review to product";
-    });
-
-    // Add rating to product
-    builder.addCase(addRatingToProductAction.pending, (state) => {
-      state.loading = false;
-      state.error = null;
-    });
-    builder.addCase(addRatingToProductAction.fulfilled, (state, action) => {
-      state.loading = false;
-
-      if (state.selectedProduct) {
-        state?.selectedProduct?.reviews?.push(action.payload);
-      }
-    });
-    builder.addCase(addRatingToProductAction.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message || "Failed to add review to product";
     });

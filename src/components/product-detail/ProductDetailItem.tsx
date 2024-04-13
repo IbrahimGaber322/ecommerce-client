@@ -21,7 +21,6 @@ const ProductDetailItem: React.FC<{ productId: number }> = ({ productId }) => {
   const productLoading = useSelector(selectProductLoading);
   const cartItems = useSelector(selectCartItems);
   const selectedProduct = useSelector(selectProduct);
-
   const cartItem = cartItems[productId];
   const cartItemId = cartItem?.id || 0;
   const cartItemQuantity = cartItem?.quantity || 0;

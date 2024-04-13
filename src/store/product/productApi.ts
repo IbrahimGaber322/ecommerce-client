@@ -31,9 +31,3 @@ export const addReviewToProduct = (productId: number, reviewData: any) => {
   return api.post(`/product/${productId}/review/`,  reviewData);
 };
 
-export const addRatingToProduct = (productId: number, rating: number) => {
-  return api.post(`/rate/`,  {
-    product: productId,
-    rate: rating
-  });
-};

@@ -11,9 +11,9 @@ import {
   removeCartItemAction,
 } from "../../store/cart/cartActions";
 import { addToWishListAction } from "../../store/wishList/wishListAction";
-import { Box, Button, IconButton, Rating } from "@mui/material";
+import { Box, Button, IconButton } from "@mui/material";
 import { Delete, ShoppingCart } from "@mui/icons-material";
-import { addRatingToProductAction } from "../../store/product/productActions";
+import ProductDetailRate from "./ProductDetailRate";
 
 
 interface DescriptionProps {
@@ -36,6 +36,8 @@ const Description: React.FC<DescriptionProps> = ({
   const cartItems = useSelector(selectCartItems);
   const cartItem = cartItems[product?.id || 0];
 
+  
+
   const addToWishlist = (id: number | null) => {
     dispatch(addToWishListAction(id));
   };
@@ -49,9 +51,9 @@ const Description: React.FC<DescriptionProps> = ({
     dispatch(removeCartItemAction(cartItem));
   };
 
-  const handleRate = (rate: number) => {
-    dispatch(addRatingToProductAction(product?.id, rate))
-  };
+  
+
+  
 
   return (
     <section className="description">
@@ -98,13 +100,7 @@ const Description: React.FC<DescriptionProps> = ({
           </IconButton>
         )}
       </Box>
-      <Box>
-        <Rating name="half-rating" value={0} precision={0.5} 
-        onChange={(event, value) => {
-          handleRate(value!)
-        }}/>
-        
-      </Box>
+      <ProductDetailRate product={product!}/>
       <div className="product-additional-info pt-25">
         <Button
           className="wishlist-btn"
