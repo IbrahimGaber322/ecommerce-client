@@ -96,7 +96,10 @@ function App() {
           {/* Routing configuration */}
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/checkout" element={<Checkout />} />
+            <Route
+              path="/checkout"
+              element={!user ? <Navigate to={"/"} /> : <Checkout />}
+            />
             {productsRoutes.map((routePath, index) => {
               return (
                 <Route
