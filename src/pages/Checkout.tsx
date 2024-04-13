@@ -5,6 +5,9 @@ import { useEffect } from "react";
 import { getAddresses } from "../store/address/addressActions";
 import { useAppDispatch } from "../hooks/redux";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Button,
   Container,
@@ -15,12 +18,14 @@ import {
   RadioGroup,
   Typography,
 } from "@mui/material";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ShippingAddressForm from "../components/ShippingAddressForm";
 
 interface ShippingAddressForm {
   savedAddress: string;
 }
+
 export default function Checkout() {
   const dispatch = useAppDispatch();
   const addresses: Address[] = useSelector(selectAddresses);
@@ -45,7 +50,10 @@ export default function Checkout() {
   return (
     <>
       <Container maxWidth="lg" sx={{ mt: "1rem" }}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          style={{ marginBottom: "1rem" }}
+        >
           <Box>
             <FormControl>
               <FormLabel>Choose Shipping Address</FormLabel>
@@ -73,7 +81,19 @@ export default function Checkout() {
             Pay
           </Button>
         </form>
-        <ShippingAddressForm />
+
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ArrowDownwardIcon />}
+            aria-controls="panel1-content"
+            id="panel1-header"
+          >
+            <Typography>Add Shipping Info</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <ShippingAddressForm />
+          </AccordionDetails>
+        </Accordion>
       </Container>
     </>
   );
