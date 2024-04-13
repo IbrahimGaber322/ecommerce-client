@@ -42,7 +42,7 @@ export default function ProductCard({ product }: { product: Product }) {
   };
   return (
     <Card sx={{ maxWidth: 300 }}>
-      <Link to={{ pathname: `${product.id}` }}>
+      <Link to={{ pathname: `/products/${product.id}` }}>
         <CardMedia
           component="img"
           height="140"

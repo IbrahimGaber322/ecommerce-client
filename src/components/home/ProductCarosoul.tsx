@@ -3,19 +3,24 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useAppDispatch } from '../../hooks/redux';
 import { useSelector } from 'react-redux';
-import { selectPopularProducts } from '../../store/product/productSlice';
+import { selectPopularProducts, selectProductLoading } from '../../store/product/productSlice';
 import { fetchPopularProducts } from '../../store/product/productActions';
 import ProductCard from '../product/ProductCard';
 import { Box } from '@mui/material';
+import Loading from '../../pages/Loading';
 
 
 export default function ProductCarosoul() {
     const dispatch = useAppDispatch()
     const popularProducts = useSelector(selectPopularProducts)
-
+    const loading = useSelector(selectProductLoading)
     useEffect(() => {
         dispatch(fetchPopularProducts())
     },[dispatch])
+
+    if(loading) {
+      return <Loading/>
+    }
     const responsive = {
         superLargeDesktop: {
           // the naming can be any, depends on you.
@@ -27,11 +32,11 @@ export default function ProductCarosoul() {
           items: 3
         },
         tablet: {
-          breakpoint: { max: 1024, min: 768 },
+          breakpoint: { max: 1024, min: 464 },
           items: 2
         },
         mobile: {
-          breakpoint: { max: 767, min: 0 },
+          breakpoint: { max: 464, min: 0 },
           items: 1
         }
       };
@@ -43,6 +48,7 @@ export default function ProductCarosoul() {
         }}>
             <Carousel
                 responsive={responsive}
+                infinite={true}
                 >
                 {popularProducts.map((product, index) => {
                     return(
