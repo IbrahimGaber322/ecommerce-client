@@ -18,9 +18,7 @@ import {
   CANCEL_ORDER,
   ADD_ORDER_ITEM,
   DELETE_ORDER_ITEM,
-  CHECKOUT_ORDER,
 } from "../../constants/actionTypes";
-import Order from "../../interfaces/Order";
 import OrderItem from "../../interfaces/OrderItem";
 // import Product from "../../interfaces/Product";
 
@@ -33,7 +31,12 @@ export const fetchOrders = thunkWrapper(FETCH_ORDERS, async () => {
 // Thunk to add order
 export const addOrderAction = thunkWrapper(
   ADD_ORDER,
-  async (order: Order) => {
+  async (order: {
+    address: string;
+    address_name: string;
+    address_mobile: string;
+    address_desc: string;
+  }) => {
     const response = await addOrder(order);
     return response.data;
   }

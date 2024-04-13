@@ -10,10 +10,9 @@ import {
   cancelOrderAction,
 } from "./orderActions";
 import Order from "../../interfaces/Order";
-import OrderItem from "../../interfaces/OrderItem";
 
 interface OrderState {
-  order: Order[]|null;
+  order: Order[] | null;
   selectedOrder: Order | null;
   loading: boolean;
   error: string | null;
@@ -23,7 +22,7 @@ interface State {
 }
 
 const initialState: OrderState = {
-  order:null,
+  order: null,
   selectedOrder: null,
   loading: false,
   error: null,
@@ -94,53 +93,47 @@ const orderSlice = createSlice({
     });
     builder.addCase(deleteOrderAction.fulfilled, (state, action) => {
       state.loading = false;
-
     });
     builder.addCase(deleteOrderAction.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message || "Failed to delete order";
     });
 
-
     builder.addCase(cancelOrderAction.pending, (state) => {
-        state.loading = false;
-        state.error = null;
+      state.loading = false;
+      state.error = null;
     });
     builder.addCase(cancelOrderAction.fulfilled, (state, action) => {
-        state.loading = false;
+      state.loading = false;
     });
     builder.addCase(cancelOrderAction.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || "Failed to cancel order";
+      state.loading = false;
+      state.error = action.error.message || "Failed to cancel order";
     });
-
 
     builder.addCase(addOrderItemAction.pending, (state) => {
-        state.loading = false;
-        state.error = null;
+      state.loading = false;
+      state.error = null;
     });
     builder.addCase(addOrderItemAction.fulfilled, (state, action) => {
-        state.loading = false;
+      state.loading = false;
     });
     builder.addCase(addOrderItemAction.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || "Failed to add order item";
+      state.loading = false;
+      state.error = action.error.message || "Failed to add order item";
     });
-
 
     builder.addCase(deleteOrderItemAction.pending, (state) => {
-        state.loading = false;
-        state.error = null;
+      state.loading = false;
+      state.error = null;
     });
     builder.addCase(deleteOrderItemAction.fulfilled, (state, action) => {
-        state.loading = false;
+      state.loading = false;
     });
     builder.addCase(deleteOrderItemAction.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || "Failed to delete order item";
+      state.loading = false;
+      state.error = action.error.message || "Failed to delete order item";
     });
-
-
   },
 });
 
