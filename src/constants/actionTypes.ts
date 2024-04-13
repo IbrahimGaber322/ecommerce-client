@@ -41,6 +41,9 @@ export const DELETE_ORDER = "/order/delete";
 export const CANCEL_ORDER = "/order/:id/cancel";
 export const UPDATE_ORDER = "/order/update";
 
-/* Order Item*/
+/* Order Item */
 export const ADD_ORDER_ITEM = "/order/item/orderitems/add";
 export const DELETE_ORDER_ITEM = "/order/item/orderitems/delete";
+
+/* Payment */
+export const CHECKOUT_ORDER = "order/checkout"

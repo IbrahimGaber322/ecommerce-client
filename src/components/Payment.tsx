@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useAppDispatch } from "../hooks/redux";
+import { checkoutOrderAction, fetchOrders } from "../store/order/orderActions";
 // import QueryString from "query-string";
 
 interface QueryParams {
@@ -9,7 +11,7 @@ interface QueryParams {
 
 const Payment: React.FC = () => {
   const location = useLocation();
-
+  const dispatch = useAppDispatch()
   // useEffect(() => {
   //   const values = QueryString.parse(location.search) as QueryParams;
 
@@ -21,7 +23,9 @@ const Payment: React.FC = () => {
   //     console.log("Order canceled -- continue to shop around and checkout when you're ready.");
   //   }
   // }, [location.search]);
-
+  const handleFormSubmit = () => {
+    dispatch(checkoutOrderAction())
+  }
   return (
     <section>
       <div className="product">
@@ -33,12 +37,10 @@ const Payment: React.FC = () => {
           <h3>Stubborn Attachments</h3>
           <h5>$20.00</h5>
         </div>
-      </div>
-      <form action="http://localhost:8000/order/checkout" method="POST">
-        <button className="checkout-button" type="submit">
+        <button className="checkout-button" onClick={() => handleFormSubmit()}>
           Checkout
         </button>
-      </form>
+      </div>
     </section>
   );
 };

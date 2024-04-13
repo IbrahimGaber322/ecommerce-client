@@ -33,3 +33,8 @@ export const addOrderItem = (orderItem: OrderItem) => {
 export const deleteOrderItem = (orderItemId: number) => {
     return api.delete(`/items/orderitems/${orderItemId}/`);
 };
+
+export const checkoutOrder = () => {
+    console.log("WE HERE")
+    return api.post(`/order/checkout/`);
+};

@@ -8,6 +8,7 @@ import {
   deleteOrderAction,
   deleteOrderItemAction,
   cancelOrderAction,
+  checkoutOrderAction,
 } from "./orderActions";
 import Order from "../../interfaces/Order";
 import OrderItem from "../../interfaces/OrderItem";
@@ -138,6 +139,18 @@ const orderSlice = createSlice({
     builder.addCase(deleteOrderItemAction.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Failed to delete order item";
+    });
+
+    builder.addCase(checkoutOrderAction.pending, (state) => {
+        state.loading = false;
+        state.error = null;
+    });
+    builder.addCase(checkoutOrderAction.fulfilled, (state, action) => {
+        state.loading = false;
+    });
+    builder.addCase(checkoutOrderAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Failed to checkout order";
     });
 
   },
