@@ -5,6 +5,7 @@ import {
   fetchProductById,
   searchProductsAction,
   addReviewToProductAction,
+  addRatingToProductAction,
 } from "./productActions";
 import Product from "../../interfaces/Product";
 
@@ -88,6 +89,7 @@ const productSlice = createSlice({
       state.error = action.error.message || "Failed to search products";
     });
 
+    // Add review to product
     builder.addCase(addReviewToProductAction.pending, (state) => {
       state.loading = false;
       state.error = null;
@@ -100,6 +102,23 @@ const productSlice = createSlice({
       }
     });
     builder.addCase(addReviewToProductAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "Failed to add review to product";
+    });
+
+    // Add rating to product
+    builder.addCase(addRatingToProductAction.pending, (state) => {
+      state.loading = false;
+      state.error = null;
+    });
+    builder.addCase(addRatingToProductAction.fulfilled, (state, action) => {
+      state.loading = false;
+
+      if (state.selectedProduct) {
+        state?.selectedProduct?.reviews?.push(action.payload);
+      }
+    });
+    builder.addCase(addRatingToProductAction.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message || "Failed to add review to product";
     });

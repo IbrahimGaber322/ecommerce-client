@@ -11,8 +11,9 @@ import {
   removeCartItemAction,
 } from "../../store/cart/cartActions";
 import { addToWishListAction } from "../../store/wishList/wishListAction";
-import { Box, Button, IconButton } from "@mui/material";
+import { Box, Button, IconButton, Rating } from "@mui/material";
 import { Delete, ShoppingCart } from "@mui/icons-material";
+import { addRatingToProductAction } from "../../store/product/productActions";
 
 
 interface DescriptionProps {
@@ -46,6 +47,10 @@ const Description: React.FC<DescriptionProps> = ({
 
   const handleDelete = () => {
     dispatch(removeCartItemAction(cartItem));
+  };
+
+  const handleRate = (rate: number) => {
+    dispatch(addRatingToProductAction(product?.id, rate))
   };
 
   return (
@@ -92,6 +97,13 @@ const Description: React.FC<DescriptionProps> = ({
             <Delete />
           </IconButton>
         )}
+      </Box>
+      <Box>
+        <Rating name="half-rating" value={0} precision={0.5} 
+        onChange={(event, value) => {
+          handleRate(value!)
+        }}/>
+        
       </Box>
       <div className="product-additional-info pt-25">
         <Button
