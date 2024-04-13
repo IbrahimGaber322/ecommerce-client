@@ -10,6 +10,7 @@ import {
   cancelOrderAction,
 } from "./orderActions";
 import Order from "../../interfaces/Order";
+import { toast } from "react-toastify";
 
 interface OrderState {
   order: Order[] | null;
@@ -54,6 +55,7 @@ const orderSlice = createSlice({
     });
     builder.addCase(addOrderAction.fulfilled, (state, action) => {
       state.loading = false;
+      toast.success("Order Created Successfully", { position: "bottom-left" });
     });
     builder.addCase(addOrderAction.rejected, (state, action) => {
       state.loading = false;
@@ -105,6 +107,7 @@ const orderSlice = createSlice({
     });
     builder.addCase(cancelOrderAction.fulfilled, (state, action) => {
       state.loading = false;
+      toast.info("Order Cancelled", { position: "bottom-left" });
     });
     builder.addCase(cancelOrderAction.rejected, (state, action) => {
       state.loading = false;
