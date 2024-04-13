@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Dispatch } from "@reduxjs/toolkit";
+import { useSelector, useDispatch } from 'react-redux';
+import { getAddresses, addAddress } from '../store/address/addressActions';
 import { TextField, Button, Box, Typography, Container } from '@mui/material';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import PhoneIcon from '@mui/icons-material/Phone';
 
 const Address: React.FC = () => {
     const [address, setAddress] = useState<string>('');
     const [mobileNumber, setMobileNumber] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [errors, setErrors] = useState<{ address: string; mobileNumber: string }>({ address: '', mobileNumber: '' });
+    const dispatch: Dispatch<any> = useDispatch();
 
     const validateInput = (): boolean => {
         let hasError = false;
@@ -20,8 +26,8 @@ const Address: React.FC = () => {
         if (!mobileNumber.trim()) {
             newErrors.mobileNumber = 'Mobile number is required';
             hasError = true;
-        } else if (!/^\d{10}$/.test(mobileNumber)) {
-            newErrors.mobileNumber = 'Invalid mobile number, must be 10 digits';
+        } else if (!/^\d{11}$/.test(mobileNumber)) {
+            newErrors.mobileNumber = 'Invalid mobile number, must be 11 digits';
             hasError = true;
         }
 
@@ -38,7 +44,13 @@ const Address: React.FC = () => {
 
         console.log("Validation successful, proceed with form submission");
 
-        alert('Address added successfully!');
+        const addressData = {
+            address: address,
+            mobile_number: mobileNumber,
+            desc: description 
+        };
+
+        dispatch(addAddress(addressData));
 
         setAddress('');
         setMobileNumber('');
@@ -71,8 +83,18 @@ const Address: React.FC = () => {
                             error={!!errors.address}
                             helperText={errors.address}
                             value={address}
-                            onChange={e => setAddress(e.target.value)}
+                            onChange={(e) => {
+                                setAddress(e.target.value);
+                                if (errors.address) {
+                                    setErrors({ ...errors, address: '' });
+                                }
+                            }}
                             variant="outlined"
+                            InputProps={{
+                                startAdornment: (
+                                    <LocationOnIcon color="action" />
+                                ),
+                            }}
                         />
                         <TextField
                             required
@@ -80,8 +102,18 @@ const Address: React.FC = () => {
                             error={!!errors.mobileNumber}
                             helperText={errors.mobileNumber}
                             value={mobileNumber}
-                            onChange={e => setMobileNumber(e.target.value)}
+                            onChange={(e) => {
+                                setMobileNumber(e.target.value);
+                                if (errors.mobileNumber) {
+                                    setErrors({ ...errors, mobileNumber: '' });
+                                }
+                            }}
                             variant="outlined"
+                            InputProps={{
+                                startAdornment: (
+                                    <PhoneIcon color="action" />
+                                ),
+                            }}
                         />
                         <TextField
                             label="Description (optional)"
