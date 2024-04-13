@@ -4,7 +4,7 @@ import { useAppDispatch } from "../hooks/redux";
 import { Dispatch, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Loading from "./Loading";
-import { selectOrders, selectProductLoading } from "../store/order/OrderSlicer";
+import { selectOrders, selectProductLoading } from "../store/order/orderSlicer";
 import { fetchOrders } from "../store/order/orderActions";
 import Order from "../interfaces/Order";
 

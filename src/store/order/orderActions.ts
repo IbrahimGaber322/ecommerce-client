@@ -8,7 +8,7 @@ import {
   cancelOrder,
   addOrderItem,
   deleteOrderItem,
-} from "./OrderApi";
+} from "./orderApi";
 import {
   FETCH_ORDERS,
   FETCH_ORDER_BY_ID,
@@ -88,14 +88,6 @@ export const deleteOrderItemAction = thunkWrapper(
   DELETE_ORDER_ITEM, // Using the constant as the first argument
   async (orderItemId: number) => {
     const response = await deleteOrderItem(orderItemId);
-    return response.data;
-  }
-);
-
-export const checkoutOrderAction = thunkWrapper(
-  CHECKOUT_ORDER, // Using the constant as the first argument
-  async () => {
-    const response = await checkoutOrder();
     return response.data;
   }
 );
