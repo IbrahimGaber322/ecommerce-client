@@ -88,6 +88,7 @@ const productSlice = createSlice({
       state.error = action.error.message || "Failed to search products";
     });
 
+    // Add review to product
     builder.addCase(addReviewToProductAction.pending, (state) => {
       state.loading = false;
       state.error = null;

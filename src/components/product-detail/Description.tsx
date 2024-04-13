@@ -13,6 +13,7 @@ import {
 import { addToWishListAction } from "../../store/wishList/wishListAction";
 import { Box, Button, IconButton } from "@mui/material";
 import { Delete, ShoppingCart } from "@mui/icons-material";
+import ProductDetailRate from "./ProductDetailRate";
 
 
 interface DescriptionProps {
@@ -35,6 +36,8 @@ const Description: React.FC<DescriptionProps> = ({
   const cartItems = useSelector(selectCartItems);
   const cartItem = cartItems[product?.id || 0];
 
+  
+
   const addToWishlist = (id: number | null) => {
     dispatch(addToWishListAction(id));
   };
@@ -47,6 +50,10 @@ const Description: React.FC<DescriptionProps> = ({
   const handleDelete = () => {
     dispatch(removeCartItemAction(cartItem));
   };
+
+  
+
+  
 
   return (
     <section className="description">
@@ -93,6 +100,7 @@ const Description: React.FC<DescriptionProps> = ({
           </IconButton>
         )}
       </Box>
+      <ProductDetailRate product={product!}/>
       <div className="product-additional-info pt-25">
         <Button
           className="wishlist-btn"

@@ -16,6 +16,10 @@ export const FETCH_POPULAR_PRODUCTS = "/product/popular_products";
 export const FETCH_PRODUCT_BY_ID = "/product/:id";
 export const SEARCH_PRODUCTS = "/product/search";
 export const ADD_REVIEW_TO_PRODUCT = "/product/:id/review";
+export const FETCH_ALL_RATES = "/rate"
+export const ADD_RATING_TO_PRODUCT = "/rate/add"
+export const UPDATE_RATING_FOR_PRODUCT = "/rate/patch"
+
 
 /* Cart */
 export const GET_CART = "cart/get";

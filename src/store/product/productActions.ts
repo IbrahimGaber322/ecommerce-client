@@ -13,7 +13,6 @@ import {
   SEARCH_PRODUCTS,
   ADD_REVIEW_TO_PRODUCT,
 } from "../../constants/actionTypes";
-// import Product from "../../interfaces/Product";
 
 // Thunk to fetch all products
 export const fetchProducts = thunkWrapper(FETCH_PRODUCTS, async () => {
@@ -56,3 +55,4 @@ export const addReviewToProductAction = thunkWrapper(
     return response.data;
   }
 );
+
