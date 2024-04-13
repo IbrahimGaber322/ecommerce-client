@@ -21,14 +21,21 @@ import {
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ShippingAddressForm from "../components/ShippingAddressForm";
+import { selectCartItems, selectCartTotalAmount } from "../store/cart/cartSlice";
+import api from "../api";
 
 interface ShippingAddressForm {
   savedAddress: string;
 }
 
 export default function Checkout() {
-  const dispatch = useAppDispatch();
+  const cartItems = useSelector(selectCartItems);
   const addresses: Address[] = useSelector(selectAddresses);
+  const totalAmount = useSelector(selectCartTotalAmount);
+  console.log(cartItems);
+  console.log(addresses);
+  const dispatch = useAppDispatch();
+  
   useEffect(() => {
     dispatch(getAddresses());
   }, [dispatch]);
@@ -43,9 +50,20 @@ export default function Checkout() {
     },
   });
 
-  const onSubmit: SubmitHandler<ShippingAddressForm> = (data: any) => {
+  const onSubmit = async(data: any) => {
     console.log(data);
-  };
+    console.log("form",addresses.find((address) => address.id == data.savedAddress));
+    const selectedAddress= addresses.find((address) => address.id == data.savedAddress);
+    const formData = {
+      ...data,
+      address: selectedAddress?.address,
+      address_mobile: selectedAddress?.mobile_number,
+      address_name: selectedAddress?.name,
+      total_price: totalAmount,
+    };
+    await api.post("order/", formData);
+    }
+
 
   return (
     <>

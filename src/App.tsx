@@ -37,6 +37,7 @@ import Footer from "./components/Footer";
 import NotFound from "./pages/NotFound";
 import Checkout from "./pages/Checkout";
 import Addresses from "./pages/Address";
+import Profile from "./pages/Profile";
 /**
  * Main application component that handles routing and theme switching.
  */
@@ -142,6 +143,7 @@ function App() {
             <Route path="/verify-email/:token" element={<VerifyEmail />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/addresses" element={<Addresses />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Box marginTop={"auto"}>
