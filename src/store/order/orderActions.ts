@@ -8,7 +8,7 @@ import {
   cancelOrder,
   addOrderItem,
   deleteOrderItem,
-} from "./orderApi";
+} from "./OrderApi";
 import {
   FETCH_ORDERS,
   FETCH_ORDER_BY_ID,

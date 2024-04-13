@@ -13,7 +13,7 @@ import Order from "../../interfaces/Order";
 import OrderItem from "../../interfaces/OrderItem";
 
 interface OrderState {
-  orderItems: OrderItem[];
+  order: Order[]|null;
   selectedOrder: Order | null;
   loading: boolean;
   error: string | null;
@@ -23,7 +23,7 @@ interface State {
 }
 
 const initialState: OrderState = {
-  orderItems: [],
+  order:null,
   selectedOrder: null,
   loading: false,
   error: null,
@@ -41,7 +41,7 @@ const orderSlice = createSlice({
     });
     builder.addCase(fetchOrders.fulfilled, (state, action) => {
       state.loading = false;
-      state.orderItems = action.payload;
+      state.order = action.payload;
     });
     builder.addCase(fetchOrders.rejected, (state, action) => {
       state.loading = false;
@@ -146,7 +146,7 @@ const orderSlice = createSlice({
 export default orderSlice.reducer;
 
 // Selectors
-export const selectOrders = (state: State) => state.order.orderItems;
+export const selectOrders = (state: State) => state.order.order;
 export const selectOrder = (state: State) => state.order.selectedOrder;
 export const selectProductLoading = (state: State) => state.order.loading;
 export const selectProductError = (state: State) => state.order.error;

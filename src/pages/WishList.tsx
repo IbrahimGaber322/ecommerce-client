@@ -30,6 +30,7 @@ const WishListComponent: React.FC = () => {
   React.useEffect(() => {
     dispatch(getWishListAction());
   }, [dispatch]);
+  
   const handleClearRemove = (id: number) => {
     dispatch(removeWishListItemAction(id));
   };
