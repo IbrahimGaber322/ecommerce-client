@@ -29,6 +29,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "./components/Footer";
 import NotFound from "./pages/NotFound";
+import Address from "./components/Address";
 /**
  * Main application component that handles routing and theme switching.
  */
@@ -114,6 +115,7 @@ function App() {
             />
             <Route path="/verify-email/:token" element={<VerifyEmail />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="/address" element={<Address />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Box marginTop={"auto"}>
