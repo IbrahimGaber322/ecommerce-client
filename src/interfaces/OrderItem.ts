@@ -1,5 +1,5 @@
 import Product from './Product'
-interface CartItem {
+interface OrderItem {
     id:number;
     order: number;
     quantity:number;
@@ -7,4 +7,4 @@ interface CartItem {
     name:string;     
   }
 
-export default CartItem;
+export default OrderItem;

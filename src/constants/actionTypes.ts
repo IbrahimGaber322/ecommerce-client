@@ -34,7 +34,8 @@ export const ADD_WISHLIST_ITEM = "/wish_list/add";
 export const DELETE_WISHLIST_ITEM = "/wish_list/delete";
 
 /* Order */
-export const GET_ORDERS = "/order";
+export const FETCH_ORDERS = "/order";
+export const FETCH_ORDER_BY_ID = "/order/:id";
 export const ADD_ORDER = "/order/add";
 export const DELETE_ORDER = "/order/delete";
 export const CANCEL_ORDER = "/order/:id/cancel";
