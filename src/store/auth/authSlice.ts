@@ -21,7 +21,7 @@ const initialState: AuthState = {
   refresh_token: localStorage.getItem("refresh_token") || "",
   loading: false,
   error: false,
-  user: null,
+  user: JSON.parse(localStorage.getItem("user") || "null"),
   errorData: null,
 };
 
@@ -102,6 +102,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = false;
         state.user = action.payload;
+        localStorage.setItem("user", JSON.stringify(action.payload));
       })
       .addCase(userDataAction.rejected, (state, action) => {
         state.loading = false;
