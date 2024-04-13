@@ -43,7 +43,7 @@ export default function Checkout() {
     },
   });
 
-  const onSubmit: SubmitHandler<ShippingAddressForm> = (data) => {
+  const onSubmit: SubmitHandler<ShippingAddressForm> = (data: any) => {
     console.log(data);
   };
 
