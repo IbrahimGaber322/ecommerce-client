@@ -13,4 +13,5 @@ export default interface User {
   profile_image: string | undefined;
   cover_image: string | null;
   is_verified: boolean;
+  about: string | null;
 }

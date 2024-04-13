@@ -44,7 +44,7 @@ export default function Footer({dark}:{dark:boolean}) {
             justifyContent: 'center',
             alignItems: 'center',
         }}>
-            <h1>Contact Us</h1>
+            Copyrights @Bazaar
         </Grid>
         <Grid item xs={12} md={4} sx={{
             display: 'flex',
