@@ -30,7 +30,7 @@ import { selectWishList } from "../store/wishList/wishListSlicer";
 
 const pages = ["electronics", "fashion", "books", "toys", "products"];
 
-const settings = ["profile", "account", "orders", "addresses", "wishlist"];
+const settings = ["profile", "orders", "addresses", "wishlist"];
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
