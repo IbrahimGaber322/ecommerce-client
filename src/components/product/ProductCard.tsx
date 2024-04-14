@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { addToCartAction } from "../../store/cart/cartActions";
 import { addToWishListAction } from "../../store/wishList/wishListAction";
 import { useAppDispatch } from "../../hooks/redux";
@@ -19,11 +19,14 @@ import { useSelector } from "react-redux";
 import { selectCartItems } from "../../store/cart/cartSlice";
 import { useMemo } from "react";
 import { selectWishList } from "../../store/wishList/wishListSlicer";
+import { selectUser } from "../../store/auth/authSlice";
 export default function ProductCard({ product }: { product: Product }) {
   const dispatch = useAppDispatch();
 
   const cartItems = useSelector(selectCartItems);
   const wishList = useSelector(selectWishList);
+  const currUser = useSelector(selectUser);
+  const navigate = useNavigate();
 
   const productInWishList: boolean = useMemo(
     () => wishList.some((item) => item.product.id === product.id),
@@ -89,7 +92,13 @@ export default function ProductCard({ product }: { product: Product }) {
             size="small"
             variant={"contained"}
             startIcon={<ShoppingCartIcon />}
-            onClick={() => addProductToCart(product.id)}
+            onClick={() => {
+              if (currUser) {
+                addProductToCart(product.id);
+              } else {
+                navigate('/login');
+              }
+            }}
           >
             Add to Cart
           </Button>
@@ -98,7 +107,13 @@ export default function ProductCard({ product }: { product: Product }) {
           <Button
             size="large"
             startIcon={<FavoriteBorderIcon />}
-            onClick={() => addProductToWishList(product.id)}
+            onClick={() => {
+              if (currUser) {
+                addProductToWishList(product.id);
+              } else {
+                navigate('/login');
+              }
+            }}
           ></Button>
         )}
       </CardActions>
