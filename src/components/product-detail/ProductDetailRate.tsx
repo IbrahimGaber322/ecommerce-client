@@ -21,7 +21,7 @@ export default function ProductDetailRate({product} : {product: Product}) {
   }, [dispatch])
 
   const userRate = useMemo(() => {
-    return allRates?.find((rate: any) => rate.user === currUser?.id)
+    return allRates?.find((rate: any) => rate.user === currUser?.id && product.id === rate.product)
   }, [allRates])
 
   const addRate = (rate: number) => {
@@ -30,6 +30,7 @@ export default function ProductDetailRate({product} : {product: Product}) {
   const updateRate = (rate: number) => {
     dispatch(updateRatingForProductAction({rateId: userRate?.id, rating: rate}))
   };
+  console.log(userRate)
   if (loading) {
     return <Loading/>
   }
