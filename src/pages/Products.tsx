@@ -118,10 +118,10 @@ export default function Products() {
           ))}
           <Grid item xs={12}>
             <Pagination
-              pages={Math.ceil(count / 5)}
+              pages={Math.ceil(count / 8)}
               page={page}
               setPage={setPage}
-              eventsPerPage={5}
+              eventsPerPage={8}
               eventsNumber={count}
             />
           </Grid>
