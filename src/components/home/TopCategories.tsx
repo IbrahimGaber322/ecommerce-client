@@ -22,7 +22,7 @@ const TopCategories = () => {
           return (
             <Box
               component={Link}
-              to={`/${category.name}`}
+              to={`/${category.name.toLowerCase()}`}
               key={index}
               sx={{
                 display: "flex",
