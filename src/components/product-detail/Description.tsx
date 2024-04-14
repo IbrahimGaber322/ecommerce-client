@@ -14,7 +14,9 @@ import { addToWishListAction } from "../../store/wishList/wishListAction";
 import { Box, Button, IconButton } from "@mui/material";
 import { Delete, ShoppingCart } from "@mui/icons-material";
 import ProductDetailRate from "./ProductDetailRate";
-
+import Rating from '@mui/material/Rating';
+import Typography from '@mui/material/Typography';
+import StarIcon from '@mui/icons-material/Star';
 
 interface DescriptionProps {
   quant: number;
@@ -66,7 +68,10 @@ const Description: React.FC<DescriptionProps> = ({
         style={{ display: "flex", justifyContent: "center" }}
       >
         <div className="main-tag">
-          <p>{product?.price} $</p>
+        <p>{(product?.price)?.toLocaleString('en-EG', { style: 'currency', currency: 'EGP' })}</p>
+        </div>
+        <div className="main-tag">
+           <p style={{ fontSize: '1.2rem' }}>Only {product?.stock} left in stock</p>
         </div>
       </div>
       <Box
@@ -77,6 +82,25 @@ const Description: React.FC<DescriptionProps> = ({
           alignItems: "center",
         }}
       >
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',  
+            gap: 1  
+          }}
+         >avg: 
+            <Rating
+              name="read-only"
+              value={product?.average_rate}
+              precision={0.5}
+              readOnly
+              emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+            />
+            <Typography variant="body2" component="span">
+              {product?.total_rates}
+            </Typography>
+       </Box>
+
         {cartItems[product?.id || 0] && (
           <QuantityButton
             onQuant={quant}
