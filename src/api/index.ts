@@ -4,7 +4,7 @@ import {
   selectAccessToken,
   selectRefreshToken,
   logOut,
-} from "../store/auth/authSlice"; 
+} from "../store/auth/authSlice";
 import moment from "moment";
 import { jwtDecode } from "jwt-decode";
 import { refreshTokenAction } from "../store/auth/authActions";
@@ -22,6 +22,7 @@ export const refreshApi = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 
 // Function to decode token and check if it is expired
