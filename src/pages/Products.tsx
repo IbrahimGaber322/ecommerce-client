@@ -5,15 +5,12 @@ import {
   selectProducts,
   selectProductLoading,
   selectProductCount,
-  selectProductNext,
-  selectProductPrevious,
 } from "../store/product/productSlice";
 import { useSelector } from "react-redux";
 import { searchProductsAction } from "../store/product/productActions";
 import ProductsSidebar from "../components/product/ProductsSidebar";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loading from "./Loading";
-import api from "../api";
 import { useAppDispatch } from "../hooks/redux";
 import Pagination from "../components/Pagination";
 
@@ -33,8 +30,6 @@ export default function Products() {
   const loading = useSelector(selectProductLoading);
   const selectedProducts = useSelector(selectProducts);
   const count = useSelector(selectProductCount);
-  const next = useSelector(selectProductNext);
-  const previous = useSelector(selectProductPrevious);
 
   const [page, setPage] = useState(1);
 
@@ -69,13 +64,11 @@ export default function Products() {
   });
 
   useEffect(() => {
-    currPath !== "/products" && setQuery({ ...query, category: "" });
-  }, [currPath]);
-
-  useEffect(() => {
+    const selectedCategory =
+      currPath === "/products" ? searchParams.get("category") : category;
     const paramsData = {
       name: searchParams.get("name") || undefined,
-      category: searchParams.get("category") || undefined,
+      category: selectedCategory || undefined,
       minPrice: searchParams.get("min_price") || undefined,
       maxPrice: searchParams.get("max_price") || undefined,
       minRating: searchParams.get("min_rating") || undefined,
@@ -83,7 +76,7 @@ export default function Products() {
       page: searchParams.get("page") || "1",
     };
     dispatch(searchProductsAction(paramsData));
-  }, [dispatch, searchParams, location.pathname, category]);
+  }, [dispatch, searchParams, location.pathname, category, currPath]);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
