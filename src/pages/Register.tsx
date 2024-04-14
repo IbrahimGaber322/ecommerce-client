@@ -24,6 +24,7 @@ import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import { selectAuthErrData, selectUser } from "../store/auth/authSlice";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Link as LinkR } from "react-router-dom";
 
 // Initial state for the form
 const initialState = {
@@ -332,7 +333,7 @@ export default function Register() {
           {/* Link to Sign In */}
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="/login" variant="body2">
+              <Link component={LinkR} to="/login" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
