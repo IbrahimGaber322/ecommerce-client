@@ -41,6 +41,7 @@ export const fetchProductById = thunkWrapper(
 export const searchProductsAction = thunkWrapper(
   SEARCH_PRODUCTS,
   async (searchData: any) => {
+    console.log("Search data Action", searchData)
     const response = await searchProducts(searchData);
     return response.data;
   }
