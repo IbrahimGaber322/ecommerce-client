@@ -94,11 +94,11 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route
               path="/checkout"
-              element={!user ? <Navigate to={"/"} /> : <Checkout />}
+              element={!user ? <Navigate to={"/login"} /> : <Checkout />}
             />
             <Route
               path="/orders"
-              element={!user ? <Navigate to={"/"} /> : <Orders />}
+              element={!user ? <Navigate to={"/login"} /> : <Orders />}
             />
             {productsRoutes.map((routePath, index) => {
               return (
@@ -112,11 +112,11 @@ function App() {
             <Route path="/products/:id" element={<ProductDetail />} />
             <Route
               path="/cart"
-              element={!user ? <Navigate to={"/"} /> : <Cart />}
+              element={!user ? <Navigate to={"/login"} /> : <Cart />}
             />
             <Route
               path="/wishlist"
-              element={!user ? <Navigate to={"/"} /> : <WishList />}
+              element={!user ? <Navigate to={"/login"} /> : <WishList />}
             />
 
             <Route

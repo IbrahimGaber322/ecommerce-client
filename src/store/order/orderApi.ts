@@ -1,8 +1,8 @@
 import api from "../../api";
 import OrderItem from "../../interfaces/OrderItem";
 
-export const getOrders = () => {
-  return api.get("/order/");
+export const getOrders = (page:string) => {
+  return api.get(`/order/?page=${page}`);
 };
 
 export const getOrderById = (orderId: number) => {

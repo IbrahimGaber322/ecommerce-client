@@ -22,6 +22,7 @@ import { addOrderAction } from "../store/order/orderActions";
 import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import PaymentIcon from "@mui/icons-material/Payment";
+import { toast } from "react-toastify";
 interface ShippingAddressForm {
   savedAddress: string;
 }
@@ -55,10 +56,15 @@ export default function Checkout() {
       address_mobile: selectedAddress?.mobile_number,
       address_name: selectedAddress?.name,
     };
-    dispatch(addOrderAction(formData));
-    dispatch(clearCartAction());
-    let res = await api.get("/checkout/");
-    window.location.href = res.data.redirect_url;
+
+    try {
+      let res = await api.get("/checkout/");
+      await dispatch(addOrderAction(formData));
+      await dispatch(clearCartAction());
+      window.location.href = res.data.redirect_url;
+    } catch (error) {
+      toast.error("Error processing payment", { position: "bottom-left" });
+    }
   };
 
   return (
