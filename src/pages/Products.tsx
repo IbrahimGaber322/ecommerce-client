@@ -75,7 +75,7 @@ export default function Products() {
   useEffect(() => {
     const paramsData = {
       name: searchParams.get("name") || undefined,
-      category,
+      category: searchParams.get("category") || undefined,
       minPrice: searchParams.get("min_price") || undefined,
       maxPrice: searchParams.get("max_price") || undefined,
       minRating: searchParams.get("min_rating") || undefined,
