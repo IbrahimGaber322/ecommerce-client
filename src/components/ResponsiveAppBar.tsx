@@ -229,7 +229,7 @@ function ResponsiveAppBar() {
           <Search
             onChange={handleChange}
             onKeyUp={handleSearch}
-            sx={{ mr: 1, flexGrow: 0 }}
+            sx={{ mr: 1, flexGrow: -1 }}
           >
             <SearchIconWrapper>
               <SearchIcon />
