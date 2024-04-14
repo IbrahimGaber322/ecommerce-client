@@ -119,7 +119,6 @@ const authSlice = createSlice({
         state.access_token = "";
         state.refresh_token = "";
         state.user = null;
-        console.log("user rejected");
         localStorage.clear();
       })
       .addCase(editUserAction.pending, (state, action) => {

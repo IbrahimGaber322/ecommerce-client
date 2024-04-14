@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import plus from "../../Pictures/icon-plus.svg";
-import minus from "../..//Pictures/icon-minus.svg";
+import plus from "../../assets/icons/icon-plus.svg";
+import minus from "../../assets/icons/icon-minus.svg";
 import { Box, IconButton } from "@mui/material";
 
 interface QuantityButtonProps {

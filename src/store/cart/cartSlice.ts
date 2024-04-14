@@ -81,7 +81,6 @@ const cartSlice = createSlice({
           position: "bottom-left",
         });
         state.cartItems[productId] = updatedCartItem;
-        console.log("update cartiems redux", state.cartItems);
         localStorage.setItem("cart_items", JSON.stringify(state.cartItems));
         state.loading = false;
         state.error = false;
@@ -130,10 +129,9 @@ export const selectCartTotalQuantity = (state: RootState) =>
     0
   );
 export const selectCartTotalAmount = (state: RootState) =>
-  Object.values(state.cart.cartItems).reduce(
-    (acc, item) => acc + item.quantity * item.product.price,
-    0
-  ).toFixed(2);
+  Object.values(state.cart.cartItems)
+    .reduce((acc, item) => acc + item.quantity * item.product.price, 0)
+    .toFixed(2);
 export const selectCartItemQuantity = (state: RootState, productId: number) => {
   return state.cart.cartItems[productId]?.quantity || 0;
 };
