@@ -17,6 +17,7 @@ interface OrderState {
   selectedOrder: Order | null;
   loading: boolean;
   error: string | null;
+  count: number;
 }
 interface State {
   order: OrderState;
@@ -27,6 +28,7 @@ const initialState: OrderState = {
   selectedOrder: null,
   loading: false,
   error: null,
+  count: 0,
 };
 
 const orderSlice = createSlice({
@@ -41,7 +43,8 @@ const orderSlice = createSlice({
     });
     builder.addCase(fetchOrders.fulfilled, (state, action) => {
       state.loading = false;
-      state.order = action.payload;
+      state.order = action.payload.results;
+      state.count = action.payload.count;
     });
     builder.addCase(fetchOrders.rejected, (state, action) => {
       state.loading = false;
@@ -147,3 +150,4 @@ export const selectOrders = (state: State) => state.order.order;
 export const selectOrder = (state: State) => state.order.selectedOrder;
 export const selectProductLoading = (state: State) => state.order.loading;
 export const selectProductError = (state: State) => state.order.error;
+export const selectOrderCount = (state: State) => state.order.count;

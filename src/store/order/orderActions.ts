@@ -23,8 +23,8 @@ import OrderItem from "../../interfaces/OrderItem";
 // import Product from "../../interfaces/Product";
 
 // Thunk to fetch all orders
-export const fetchOrders = thunkWrapper(FETCH_ORDERS, async () => {
-  const response = await getOrders();
+export const fetchOrders = thunkWrapper(FETCH_ORDERS, async (page:string) => {
+  const response = await getOrders(page);
   return response.data;
 });
 
