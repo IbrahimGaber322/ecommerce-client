@@ -44,9 +44,12 @@ export default function Orders() {
 
   return (
     <Container maxWidth="lg" sx={{ mt: "1rem", mb: "4rem" }}>
-      {orders?.map((order) => (
-        <StyledOrderCard key={order.id} order={order} />
-      ))}
+      {orders
+        ?.slice()
+        .reverse()
+        .map((order) => (
+          <StyledOrderCard key={order.id} order={order} />
+        ))}
     </Container>
   );
 }
