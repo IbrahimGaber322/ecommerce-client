@@ -16,7 +16,6 @@ export const addAddress = thunkWrapper(
     mobile_number: string;
     desc: string;
   }) => {
-    console.log(addressData);
     const response = await api.post("address/", addressData);
     return response.data;
   }

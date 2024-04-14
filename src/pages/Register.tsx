@@ -118,7 +118,6 @@ export default function Register() {
       if (formData.profile_image) {
         formDataCopy.append("profile_image", formData.profile_image);
       }
-      console.log(formData.profile_image);
       // Dispatches sign-up action if form data is valid
       dispatch(registerAction(formDataCopy));
       /*   navigate("/"); */

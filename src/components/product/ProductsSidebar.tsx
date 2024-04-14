@@ -15,7 +15,7 @@ export default function ProductsSidebar({
 }) {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log("location", location);
+
   const filter = () => {
     const searchParams = new URLSearchParams(location.search);
     query.minPrice
@@ -30,17 +30,18 @@ export default function ProductsSidebar({
     query.maxRating
       ? searchParams.set("max_rating", query.maxRating)
       : searchParams.delete("max_rating");
-    query.category 
+    query.category
       ? searchParams.set("category", query.category)
       : searchParams.delete("category");
     navigate(`?${searchParams.toString()}`);
   };
+
   return (
     <Box
       sx={{
-        width: "250px",
-        height: "100vh",
-        borderRight: "1px solid rgba(0,0,0,0.2)",
+        width: "100%",
+        height: "auto",
+        borderRight: { xs: "0", md: "1px solid rgba(0,0,0,0.2)" },
         display: "flex",
         flexDirection: "column",
         padding: "20px",
@@ -55,7 +56,7 @@ export default function ProductsSidebar({
         onClick={filter}
         variant="contained"
         color="primary"
-        sx={{ mt: 2 }}
+        sx={{ mt: 2, width: "100%" }}
       >
         Filter
       </Button>

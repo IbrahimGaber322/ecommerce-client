@@ -67,11 +67,8 @@ const Addresses: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!validateInput()) {
-      console.log("Validation failed");
       return;
     }
-
-    console.log("Validation successful, proceed with form submission");
 
     const addressData = {
       name: name,
@@ -83,7 +80,7 @@ const Addresses: React.FC = () => {
     if (editIndex !== null) {
       // If editIndex is not null, update existing address
       // Dispatch an action to update the address in the store
-      dispatch(updateAddress({...addressData, id:addresses[editIndex].id}));
+      dispatch(updateAddress({ ...addressData, id: addresses[editIndex].id }));
     } else {
       // If editIndex is null, add new address
       dispatch(addAddress(addressData));

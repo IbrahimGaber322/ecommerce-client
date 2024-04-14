@@ -1,7 +1,7 @@
 import api from "../../api";
 import OrderItem from "../../interfaces/OrderItem";
 
-export const getOrders = (page:string) => {
+export const getOrders = (page: string) => {
   return api.get(`/order/?page=${page}`);
 };
 
@@ -39,6 +39,5 @@ export const deleteOrderItem = (orderItemId: number) => {
 };
 
 export const checkoutOrder = () => {
-  console.log("WE HERE");
   return api.post(`/order/checkout/`);
 };

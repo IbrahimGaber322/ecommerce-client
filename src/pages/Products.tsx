@@ -60,14 +60,12 @@ export default function Products() {
     [currPath, categoryParams, searchParams]
   );
 
-  console.log("Category", category);
-
   const [query, setQuery] = useState<Query>({
     minPrice: searchParams.get("min_price") || "",
     maxPrice: searchParams.get("max_price") || "",
     minRating: searchParams.get("min_rating") || "",
     maxRating: searchParams.get("max_rating") || "",
-    category: searchParams.get("category") || ""
+    category: searchParams.get("category") || "",
   });
 
   useEffect(() => {
@@ -90,39 +88,45 @@ export default function Products() {
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     searchParams.set("page", page.toString());
-    
+
     navigate(`?${searchParams.toString()}`);
   }, [page]);
-
 
   if (loading) {
     return <Loading />;
   }
   return (
-    <div
-      style={{
-        display: "flex",
-      }}
-    >
-      <ProductsSidebar query={query} setQuery={setQuery} />
-      <Grid container spacing={3} sx={{ padding: "30px" }}>
-        {selectedProducts.map((product, index) => {
-          return (
-            <Grid key={product.id} item xs={12} sm={6} md={3}>
+    <Grid container>
+      <Grid item xs={12} md={3}>
+        <ProductsSidebar query={query} setQuery={setQuery} />
+      </Grid>
+      <Grid item xs={12} md={9}>
+        <Grid container spacing={3} sx={{ padding: "30px" }}>
+          {selectedProducts.map((product, index) => (
+            <Grid
+              key={product.id}
+              item
+              display="flex"
+              justifyContent="center"
+              xs={12}
+              sm={6}
+              md={4}
+              lg={3}
+            >
               <ProductCard key={index} product={product} />
             </Grid>
-          );
-        })}
-        <Grid item xs={12}>
-          <Pagination
-            pages={Math.ceil(count / 5)}
-            page={page}
-            setPage={setPage}
-            eventsPerPage={5}
-            eventsNumber={count}
-          />
+          ))}
+          <Grid item xs={12}>
+            <Pagination
+              pages={Math.ceil(count / 5)}
+              page={page}
+              setPage={setPage}
+              eventsPerPage={5}
+              eventsNumber={count}
+            />
+          </Grid>
         </Grid>
       </Grid>
-    </div>
+    </Grid>
   );
 }

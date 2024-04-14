@@ -31,9 +31,6 @@ export default function CustomizedInputsStyled({
     return String(index);
   }, [query, selectedCategories]);
 
-  console.log("categoryIndex", categoryQueryIndex);
-  console.log(query);
-
   const handleChange = (event: SelectChangeEvent) => {
     const index = Number(event.target.value);
     setQuery({

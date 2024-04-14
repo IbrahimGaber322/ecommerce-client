@@ -28,7 +28,7 @@ import ShoppingCart from "@mui/icons-material/ShoppingCart";
 import { selectCartTotalQuantity } from "../store/cart/cartSlice";
 import { selectWishList } from "../store/wishList/wishListSlicer";
 
-const pages = ["electronics", "fashion", "books", "toys", "products",];
+const pages = ["electronics", "fashion", "books", "toys", "products"];
 
 const settings = ["profile", "account", "orders", "addresses", "wishlist"];
 
@@ -128,8 +128,6 @@ function ResponsiveAppBar() {
   const handleChange = (e: any) => {
     setSearch(e.target.value);
   };
-  console.log("currpatch", currPath);
-  console.log("searchparams string", searchParams.toString());
   const handleSearch = (e: any) => {
     if (e.keyCode === 13) {
       searchParams.set("name", search);
@@ -242,7 +240,7 @@ function ResponsiveAppBar() {
             />
           </Search>
           {user && (
-            <Box sx={{  width:"200px" }}>
+            <Box sx={{ width: "200px" }}>
               <Badge
                 anchorOrigin={{ horizontal: "left", vertical: "top" }}
                 badgeContent={cartQuantity}

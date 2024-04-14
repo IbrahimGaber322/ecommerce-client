@@ -41,7 +41,6 @@ export const fetchProductById = thunkWrapper(
 export const searchProductsAction = thunkWrapper(
   SEARCH_PRODUCTS,
   async (searchData: any) => {
-    console.log("Search data Action", searchData)
     const response = await searchProducts(searchData);
     return response.data;
   }
@@ -52,8 +51,7 @@ export const addReviewToProductAction = thunkWrapper(
   ADD_REVIEW_TO_PRODUCT,
   async (payload: { productId: number; reviewData: any }) => {
     const { productId, reviewData } = payload;
-    const response = await addReviewToProduct( productId, reviewData);
+    const response = await addReviewToProduct(productId, reviewData);
     return response.data;
   }
 );
-
