@@ -23,7 +23,7 @@ export const searchProducts = (data: any) => {
     page = "1",
   } = data;
   return api.get(
-    `/product/?name=${name}&category=${category}&price_gt=${minPrice}&price_lt=${maxPrice}&rate_gt=${minRating}&rate_lte=${maxRating}&page=${page}`
+    `/product/?name=${name}&category=${category}&price_gt=${minPrice}&price_lt=${maxPrice}&rate_gt=${minRating}&rate_lt=${maxRating}&page=${page}`
   );
 };
 // Add review
