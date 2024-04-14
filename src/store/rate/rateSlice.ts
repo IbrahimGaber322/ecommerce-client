@@ -2,17 +2,15 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchAllRatesAction,
   addRatingToProductAction,
-	updateRatingForProductAction,
+  updateRatingForProductAction,
 } from "./rateActions";
 import { toast } from "react-toastify";
+import { RootState } from "..";
 
 interface RateState {
   rates: any | null;
   loading: boolean;
   error: string | null;
-}
-interface State {
-  rate: RateState;
 }
 
 const initialState: RateState = {
@@ -61,15 +59,17 @@ const rateSlice = createSlice({
       state.error = action.error.message || "Failed to fetch rates";
     });
 
-		// Update rating for product
-		builder.addCase(updateRatingForProductAction.pending, (state) => {
+    // Update rating for product
+    builder.addCase(updateRatingForProductAction.pending, (state) => {
       state.loading = false;
       state.error = null;
     });
     builder.addCase(updateRatingForProductAction.fulfilled, (state, action) => {
       state.loading = false;
 
-      const index = state.rates.findIndex((rate: any) => rate.id === action.payload.id);
+      const index = state.rates.findIndex(
+        (rate: any) => rate.id === action.payload.id
+      );
 
       if (index !== -1) {
         const updatedRates = [...state.rates];
@@ -96,6 +96,6 @@ const rateSlice = createSlice({
 export default rateSlice.reducer;
 
 // Selectors
-export const selectRates = (state: State) => state.rate.rates;
-export const selectRateLoading = (state: State) => state.rate.loading;
-export const selectRateError = (state: State) => state.rate.error;
+export const selectRates = (state: RootState) => state.rate.rates;
+export const selectRateLoading = (state: RootState) => state.rate.loading;
+export const selectRateError = (state: RootState) => state.rate.error;

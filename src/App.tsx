@@ -1,12 +1,6 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Box, Container, CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import darkTheme from "./theme/darkTheme";
@@ -14,10 +8,7 @@ import lightTheme from "./theme/lightTheme";
 import MaterialUISwitch from "./components/ui/MaterialUISwitch";
 import { useAppDispatch } from "./hooks/redux";
 import { selectUser, selectAccessToken } from "./store/auth/authSlice";
-import {
-  sendVerificationEmailAction,
-  userDataAction,
-} from "./store/auth/authActions";
+import { userDataAction } from "./store/auth/authActions";
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
@@ -31,14 +22,16 @@ import WishList from "./pages/WishList";
 import ResetPassword from "./pages/ResetPassword";
 import ForgotPassword from "./pages/ForgotPassword";
 import VerifyEmail from "./pages/VerifyEmail";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "./components/Footer";
 import NotFound from "./pages/NotFound";
 import Checkout from "./pages/Checkout";
+import Orders from "./pages/orders";
 import Addresses from "./pages/Address";
 import Profile from "./pages/Profile";
 import { isTokenExpired } from "./api";
+
 /**
  * Main application component that handles routing and theme switching.
  */
@@ -102,6 +95,10 @@ function App() {
             <Route
               path="/checkout"
               element={!user ? <Navigate to={"/"} /> : <Checkout />}
+            />
+            <Route
+              path="/orders"
+              element={!user ? <Navigate to={"/"} /> : <Orders />}
             />
             {productsRoutes.map((routePath, index) => {
               return (

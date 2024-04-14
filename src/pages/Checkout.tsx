@@ -5,9 +5,6 @@ import { useEffect } from "react";
 import { getAddresses } from "../store/address/addressActions";
 import { useAppDispatch } from "../hooks/redux";
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Box,
   Button,
   Container,
@@ -18,24 +15,22 @@ import {
   RadioGroup,
   Typography,
 } from "@mui/material";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import { useForm, SubmitHandler } from "react-hook-form";
-import ShippingAddressForm from "../components/ShippingAddressForm";
-import { selectCartItems, selectCartTotalAmount } from "../store/cart/cartSlice";
+import { useForm } from "react-hook-form";
 import api from "../api";
-
+import { clearCartAction } from "../store/cart/cartActions";
+import { addOrderAction } from "../store/order/orderActions";
+import { Link } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
+import PaymentIcon from "@mui/icons-material/Payment";
 interface ShippingAddressForm {
   savedAddress: string;
 }
 
 export default function Checkout() {
-  const cartItems = useSelector(selectCartItems);
   const addresses: Address[] = useSelector(selectAddresses);
-  const totalAmount = useSelector(selectCartTotalAmount);
-  console.log(cartItems);
-  console.log(addresses);
+  // const history = useHistory();
   const dispatch = useAppDispatch();
-  
+
   useEffect(() => {
     dispatch(getAddresses());
   }, [dispatch]);
@@ -50,20 +45,21 @@ export default function Checkout() {
     },
   });
 
-  const onSubmit = async(data: any) => {
-    console.log(data);
-    console.log("form",addresses.find((address) => address.id == data.savedAddress));
-    const selectedAddress= addresses.find((address) => address.id == data.savedAddress);
+  const onSubmit = async (data: any) => {
+    const selectedAddress = addresses.find(
+      (address) => address.id == data.savedAddress
+    );
     const formData = {
       ...data,
       address: selectedAddress?.address,
       address_mobile: selectedAddress?.mobile_number,
       address_name: selectedAddress?.name,
-      total_price: totalAmount,
     };
-    await api.post("order/", formData);
-    }
-
+    dispatch(addOrderAction(formData));
+    dispatch(clearCartAction());
+    let res = await api.get("/checkout/");
+    window.location.href = res.data.redirect_url;
+  };
 
   return (
     <>
@@ -95,23 +91,17 @@ export default function Checkout() {
               )}
             </FormControl>
           </Box>
+          <Box marginTop="1rem" marginBottom="1rem">
+            <Link to="/addresses">
+              <Typography>
+                <AddIcon /> Address
+              </Typography>
+            </Link>
+          </Box>
           <Button type="submit" variant="contained">
-            Pay
+            <PaymentIcon /> Pay
           </Button>
         </form>
-
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ArrowDownwardIcon />}
-            aria-controls="panel1-content"
-            id="panel1-header"
-          >
-            <Typography>Add Shipping Info</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <ShippingAddressForm />
-          </AccordionDetails>
-        </Accordion>
       </Container>
     </>
   );

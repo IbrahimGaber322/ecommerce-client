@@ -28,7 +28,7 @@ import ShoppingCart from "@mui/icons-material/ShoppingCart";
 import { selectCartTotalQuantity } from "../store/cart/cartSlice";
 import { selectWishList } from "../store/wishList/wishListSlicer";
 
-const pages = ["electronics", "fashion", "books", "toys", "products"];
+const pages = ["electronics", "fashion", "books", "toys", "products",];
 
 const settings = ["profile", "account", "orders", "addresses", "wishlist"];
 

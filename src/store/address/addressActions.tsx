@@ -1,5 +1,6 @@
 import exp from "constants";
 import api from "../../api";
+import Address from "../../interfaces/Address";
 import { thunkWrapper } from "../thunkWrapper";
 
 export const getAddresses = thunkWrapper("addresses/get", async () => {
