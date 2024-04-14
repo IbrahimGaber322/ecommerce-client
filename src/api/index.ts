@@ -25,7 +25,7 @@ export const refreshApi = axios.create({
 });
 
 // Function to decode token and check if it is expired
-const isTokenExpired = (token: string) => {
+export const isTokenExpired = (token: string) => {
   try {
     const decodedToken = jwtDecode(token);
     const expiryTime = decodedToken.exp || 0;

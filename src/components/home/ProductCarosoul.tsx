@@ -18,6 +18,8 @@ export default function ProductCarosoul() {
         dispatch(fetchPopularProducts())
     },[dispatch])
 
+    console.log("Popular products",popularProducts);
+
     if(loading) {
       return <Loading/>
     }
@@ -50,7 +52,7 @@ export default function ProductCarosoul() {
                 responsive={responsive}
                 infinite={true}
                 >
-                {popularProducts.map((product, index) => {
+                {popularProducts?.map((product, index) => {
                     return(
                         <ProductCard product={product} key={index}/>
                     );

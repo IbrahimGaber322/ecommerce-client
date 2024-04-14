@@ -5,9 +5,14 @@ import {
   registerAction,
   userDataAction,
   editUserAction,
+  sendResetPasswordAction,
+  resetPasswordAction,
+  verifyEmailAction,
+  sendVerificationEmailAction,
 } from "./authActions";
 import User from "../../interfaces/user";
 import type { RootState } from "../index";
+import { toast } from "react-toastify";
 interface AuthState {
   access_token: string;
   refresh_token: string;
@@ -62,6 +67,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = true;
         state.errorData = action.payload;
+        toast.error("Invalid credentials", { position: "bottom-left" });
       })
       .addCase(registerAction.pending, (state, action) => {
         state.loading = true;
@@ -75,11 +81,13 @@ const authSlice = createSlice({
         state.refresh_token = action.payload.refresh_token;
         localStorage.setItem("access_token", action.payload.access_token);
         localStorage.setItem("refresh_token", action.payload.refresh_token);
+        toast.success("Registration successful", { position: "bottom-left" });
       })
       .addCase(registerAction.rejected, (state, action) => {
         state.errorData = action.payload;
         state.loading = false;
         state.error = true;
+        toast.error("Error registering", { position: "bottom-left" });
       })
       .addCase(refreshTokenAction.pending, (state, action) => {
         state.loading = true;
@@ -111,6 +119,7 @@ const authSlice = createSlice({
         state.access_token = "";
         state.refresh_token = "";
         state.user = null;
+        console.log("user rejected");
         localStorage.clear();
       })
       .addCase(editUserAction.pending, (state, action) => {
@@ -126,6 +135,68 @@ const authSlice = createSlice({
       .addCase(editUserAction.rejected, (state, action) => {
         state.loading = false;
         state.error = true;
+      })
+      .addCase(sendResetPasswordAction.pending, (state, action) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(sendResetPasswordAction.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = false;
+        toast.success("Password reset link sent to your email", {
+          position: "bottom-left",
+        });
+      })
+      .addCase(sendResetPasswordAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = true;
+        toast.error("Error sending reset password link", {
+          position: "bottom-left",
+        });
+      })
+      .addCase(resetPasswordAction.pending, (state, action) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(resetPasswordAction.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = false;
+        toast.success("Password reset successful", { position: "bottom-left" });
+      })
+      .addCase(resetPasswordAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = true;
+        toast.error("Error resetting password", { position: "bottom-left" });
+      })
+      .addCase(verifyEmailAction.pending, (state, action) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(verifyEmailAction.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = false;
+        toast.success("Email verified", { position: "bottom-left" });
+      })
+      .addCase(verifyEmailAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = true;
+        toast.error("Error verifying email", { position: "bottom-left" });
+      })
+      .addCase(sendVerificationEmailAction.pending, (state, action) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(sendVerificationEmailAction.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = false;
+        toast.success("Verification email sent", { position: "bottom-left" });
+      })
+      .addCase(sendVerificationEmailAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = true;
+        toast.error("Error sending verification email", {
+          position: "bottom-left",
+        });
       });
   },
 });

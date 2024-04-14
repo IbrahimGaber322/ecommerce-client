@@ -38,6 +38,7 @@ import NotFound from "./pages/NotFound";
 import Checkout from "./pages/Checkout";
 import Addresses from "./pages/Address";
 import Profile from "./pages/Profile";
+import { isTokenExpired } from "./api";
 /**
  * Main application component that handles routing and theme switching.
  */
@@ -46,9 +47,10 @@ function App() {
   const user = useSelector(selectUser);
   const accessToken = useSelector(selectAccessToken);
   useEffect(() => {
-    if (!user) {
+    if (!user || isTokenExpired(accessToken)) {
       dispatch(userDataAction());
     }
+
     if (user) {
       dispatch(getCartAction());
     }

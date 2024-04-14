@@ -15,6 +15,9 @@ interface ProductState {
   selectedProduct: Product | null;
   loading: boolean;
   error: string | null;
+  next: string | null;
+  previous: string | null;
+  count: number;
 }
 interface State {
   product: ProductState;
@@ -26,6 +29,9 @@ const initialState: ProductState = {
   selectedProduct: null,
   loading: false,
   error: null,
+  next: null,
+  previous: null,
+  count: 0,
 };
 
 const productSlice = createSlice({
@@ -39,8 +45,12 @@ const productSlice = createSlice({
       state.error = null;
     });
     builder.addCase(fetchProducts.fulfilled, (state, action) => {
+      const { count, next, previous, results } = action.payload;
       state.loading = false;
-      state.products = action.payload;
+      state.products = results;
+      state.next = next;
+      state.previous = previous;
+      state.count = count;
     });
     builder.addCase(fetchProducts.rejected, (state, action) => {
       state.loading = false;
@@ -81,8 +91,12 @@ const productSlice = createSlice({
       state.error = null;
     });
     builder.addCase(searchProductsAction.fulfilled, (state, action) => {
+      const { count, next, previous, results } = action.payload;
       state.loading = false;
-      state.products = action.payload;
+      state.products = results;
+      state.next = next;
+      state.previous = previous;
+      state.count = count;
     });
     builder.addCase(searchProductsAction.rejected, (state, action) => {
       state.loading = false;
@@ -123,3 +137,6 @@ export const selectPopularProducts = (state: State) =>
 export const selectProduct = (state: State) => state.product.selectedProduct;
 export const selectProductLoading = (state: State) => state.product.loading;
 export const selectProductError = (state: State) => state.product.error;
+export const selectProductNext = (state: State) => state.product.next;
+export const selectProductPrevious = (state: State) => state.product.previous;
+export const selectProductCount = (state: State) => state.product.count;

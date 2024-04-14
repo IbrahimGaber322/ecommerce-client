@@ -3,8 +3,6 @@ import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -26,6 +24,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { UseSelector } from "react-redux";
 import { selectAuthErrData, selectAuthError, selectUser } from "../store/auth/authSlice";
+import { Link as LinkR } from "react-router-dom";
 
 // Initial state for the form fields
 const initialState = { username: "", password: "" };
@@ -143,12 +142,12 @@ export default function Login() {
           {/* Links to other pages */}
           <Grid container>
             <Grid item xs>
-              <Link href="/forget" variant="body2">
+              <Link component={LinkR} to="/forgot-password" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link href="/register" variant="body2">
+              <Link component={LinkR} to="/register" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
