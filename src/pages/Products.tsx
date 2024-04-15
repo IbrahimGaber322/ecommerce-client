@@ -65,7 +65,7 @@ export default function Products() {
 
   useEffect(() => {
     const selectedCategory =
-      currPath === "/products" ? searchParams.get("category") : category;
+      currPath === "products" ? searchParams.get("category") : category;
     const paramsData = {
       name: searchParams.get("name") || undefined,
       category: selectedCategory || undefined,
